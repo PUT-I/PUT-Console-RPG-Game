@@ -1,0 +1,90 @@
+{
+"tab" : [
+	{"key" : "Action1-1_1",
+	"text" : [
+		"Po pewnym czasie zdajesz sobie sprawę, że krążysz",
+		"w kółko."
+	]
+	},
+	{"key" : "Action1-1_2",
+	"text" : [
+		"Dym jest coraz bliżej. Słyszysz wilki, ale na",
+		"szczęście znajdujesz &4Zardzewiały Nóż&0."
+	]
+	},
+	{"key" : "Action1-2_1",
+	"text" : [
+		"Uciekasz, ale wilki Cię doganiają."
+	]
+	},
+	{"key" : "Action1-2_2",
+	"text" : [
+		"Robisz chałas, aby zwrócić uwagę wilków."
+	]
+	},
+	{"key" : "Action1-2_3",
+	"text" : [
+		"Ku Twojemu zaskoczeniu, zamiast wilków jest tylko",
+		"jeden ranny wilk."
+	]
+	},
+	{"key" : "Action1-2_4",
+	"text" : [
+		"Po pokonaniu wilka widzisz króli. Zostawił Ci",
+		"&4Marchewki&0. Na pewno są przepyszne."
+	]
+	},
+	{"key" : "Action2-2_1",
+	"text" : [
+		"Kobieta wskazuje Ci jak dojść do drogi. Proponuje",
+		"Ci też abyś zabrał &4Miksturę życia I&0 i &4Miksturę",
+		"Many I&0 jej domowej roboty. Dziękujesz jej i",
+		"kierujesz się w stronę drogi."
+	]
+	},
+	{"key" : "Action3-2_1",
+	"text" : [
+		"Zaczerpujesz trochę &4Wody&0 ze studni."
+	]
+	},
+	{"key" : "Action4-1_1",
+	"text" : [
+		"Przed Tobą stoi wielki robak. Wygląda jak jakaś",
+		"odmiana chrząszcza. Nim spróbowałeś się wycofać",
+		"chrząszcz zauważył Cię."
+	]
+	},
+	{"key" : "Action4-1_2",
+	"text" : [
+		"Chrząszcz jest martwy. Przeszukałeś jaskinię i",
+		"mieszek pełen złota leżący przy martwym. Zawierał",
+		"on&4 100 monet&0. Znajdujesz też &4Zardzewiały krótki",
+		"Miecz&0."
+	]
+	},
+	{"key" : "Action5-1_1",
+	"text" : [
+		"Niestey tawerna jest zamknięta. Jest tam karteczka",
+		"z napisem: \"Zamknięte do końca bety!\". Cokolwiek to",
+		"ma znaczyć."
+	]
+	},
+	{"key" : "Action5-1_2",
+	"text" : [
+		"Zauważyłeś jakąś kobietę myjącą okna. Spytana o",
+		"niedawne wydarzenia, powiedziała Ci, że królestwo",
+		"zmierza się z inwazją złowrogich humanoidów, które",
+		"chcą spalić cały kraj. Oprócz tego, powiedziała Ci",
+		"żebyś poczęstował się &4Jabłkami&0 z koszyka. Są świeżo",
+		"zerwane."
+	]
+	},
+	{"key" : "Action5-2_1",
+	"text" : [
+		"Bandyta pada martwy. Przeszukujesz jego ciało i",
+		"znajdujesz mieszek pełen złota, zapewne zrabowany.",
+		"Zawierał&4 100 monet&0."
+	]
+	}
+]
+}

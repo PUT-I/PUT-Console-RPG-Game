@@ -1,0 +1,124 @@
+{
+	"sLine" : {"tab" : []},
+	
+	"mLine" : {"tab" : [
+	{
+	"key" : "Location1-1",
+	"text" : [
+		"You find yourself in a forest. You don't remember",
+		"anything but your name. You can see smoke in the",
+		"distance.",
+		"",
+		"What will you do?"
+	]
+	},
+	{
+	"key" : "Location1-2",
+	"text" : [
+		"The wolves are getting closer. You'd better equip",
+		"your new weapon.",
+		"",
+		"What will you do?"
+	]
+	},
+	{
+	"key" : "Location2-1",
+	"text" : [
+		"The wolf is dead. You see that the smoke comes from",
+		"a small wooden hut.",
+		"",
+		"What will you do?"
+	]
+	},
+	{
+	"key" : "Location2-2",
+	"text" : [
+		"In front of the hut stands an old woman. She looks",
+		"harmless. Maybe she knows how to get to the road?",
+		"",
+		"What will you do?"
+	]
+	},
+	{
+	"key" : "Location3-1",
+	"text" : [
+		"Finally you found a road. Surely it must be not far",
+		"from some human settlement.",
+		"",
+		"What will you do?"
+	]
+	},
+	{
+	"key" : "Location3-2",
+	"text" : [
+		"After some time you stop for a little rest. There",
+		"is a well nearby. You could take some water for",
+		"the road ahead or you can just continue.",
+		"",
+		"What will you do?"
+	]
+	},
+	{
+	"key" : "Location3-2A",
+	"text" : [
+		"After some time you stop for a little rest. You",
+		"should continue your journey.",
+		"",
+		"What will you do?"
+	]
+	},
+	{
+	"key" : "Location3-3",
+	"text" : [
+		"The landscape is changing. Apparently you left the",
+		"forest. There are no trees anymore. You stumble",
+		"upon a cave near the road. It could be worth",
+		"checking out. Also torches appeared to show up on",
+		"sides of the road. There should be humans nearby.",
+		"",
+		"What will you do?"
+	]
+	},
+	{
+	"key" : "Location3-3A",
+	"text" : [
+		"The landscape is changing. Apparently you left the",
+		"forest. There are no trees anymore. You stumble",
+		"upon a cave near the road. You arleady searched the",
+		"cave so there is nothing of value there.",
+		"",
+		"What will you do?"
+	]
+	},
+	{
+	"key" : "Location4-1",
+	"text" : [
+		"You're in a cave. Your surroundings show nothing",
+		"of any importance. You hear troubling sounds in the",
+		"deeper parts of the cave.",
+		"",
+		"What will you do?"
+	]
+	},
+	{
+	"key" : "Location5-1",
+	"text" : [
+		"Finally a village. You see people harvesting their",
+		"fields and processing what they gathered. There are",
+		"a lot people you can talk to.",
+		"",
+		"What will you do?"
+	]
+	},
+	{
+	"key" : "Location5-2",
+	"text" : [
+		"The farm is under attack! Bandits are stealing all",
+		"they can from these poor peasants.",
+		"",
+		"What will you do?"
+	]
+	}
+	]
+	}
+}

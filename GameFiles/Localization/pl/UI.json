@@ -1,0 +1,338 @@
+{
+"sLine" : {"tab" : [
+{
+	"key" : "Continue",
+	"text" : "Kontynuuj . . ."
+},
+{
+	"key" : "No",
+	"text" : "Nie"
+},
+{
+	"key" : "Return",
+	"text" : "Powrót"
+},
+{
+	"key" : "Yes",
+	"text" : "Tak"
+},
+{
+	"key" : "SpacePause",
+	"text" : "Naciśnij spację . . ."
+},
+{
+	"key" : "MsgDead",
+	"text" : "ZGINĄŁEŚ!"
+},
+{
+	"key" : "MsgHaveSpell",
+	"text" : "Już Masz To Zaklęcie!"
+},
+{
+	"key" : "MsgHpFull",
+	"text" : "Twoje Życie Jest Pełne!"
+},
+{
+	"key" : "MsgLevelUp",
+	"text" : "Awans!"
+},
+{
+	"key" : "MsgMoney",
+	"text" : "Nie Masz Tyle Pieniędzy!"
+},
+{
+	"key" : "MsgMpEmpty",
+	"text" : "Twoja Mana Jest Pusta!"
+},
+{
+	"key" : "MsgMpFull",
+	"text" : "Twoja Mana Jest Pełna!"
+},
+{
+	"key" : "MsgReq",
+	"text" : "Nie Spełniasz Wymagań!"
+},
+{
+	"key" : "MsgSpFull",
+	"text" : "Twoja Stamina Jest Pełna!"
+},
+{
+	"key" : "MsgWin",
+	"text" : "WYGRAŁEŚ!"
+},
+{
+	"key" : "InventoryArmorsTitle",
+	"text" : "--- Pancerze ---"
+},
+{
+	"key" : "InventoryConsumablesTitle",
+	"text" : "--- Mikstury i Jedzenie ---"
+},
+{
+	"key" : "InventorySpellsTitle",
+	"text" : "--- Zaklęcia ---"
+},
+{
+	"key" : "InventoryWeaponsTitle",
+	"text" : "--- Bronie ---"
+},
+{
+	"key" : "InventoryTitle",
+	"text" : "--- Ekwipunek ---"
+},
+{
+	"key" : "LoadMenuTitle",
+	"text" : "--- MENU WCZYTYWANIA ---"
+},
+{
+	"key" : "DeleteSavesMenuTitle",
+	"text" : "--- USUWANIE ZAPISÓW ---"
+},
+{
+	"key" : "ScenariosMenuTitle",
+	"text" : "--- Scenariusze ---"
+},
+{
+	"key" : "ScenariosActive",
+	"text" : "aktywny"
+},
+{
+	"key" : "PauseMenuTitle",
+	"text" : "--- MENU PAUZY ---"
+},
+{
+	"key" : "SettingsTitle",
+	"text" : "--- MENU USTAWIEŃ ---"
+},
+{
+	"key" : "ShoppingBuyTitle",
+	"text" : "--- Kupowanie ---"
+},
+{
+	"key" : "ShoppingSellTitle",
+	"text" : "--- Sprzedawanie ---"
+},
+{
+	"key" : "ShoppingTitle",
+	"text" : "--- Handlarz ---"
+},
+{
+	"key" : "ShoppingYourMoney",
+	"text" : "Twoje Pieniądze: "
+},
+{
+	"key" : "MainMenuQuestion",
+	"text" : "Jesteś pewien?"
+},
+{
+	"key" : "MainMenuReset",
+	"text" : "WSZYSTKIE ZAPISY USUNIĘTE!"
+},
+{
+	"key" : "PauseMenuSave",
+	"text" : "GRA ZAPISANA"
+},
+{
+	"key" : "End_1",
+	"text" : "Dotarłeś do końca wersji demo!"
+},
+{
+	"key" : "End_2",
+	"text" : "Dziękuję za zagranie!"
+},
+{
+	"key" : "MsgSaves",
+	"text" : "Osiągnięto limit ilości bohaterów!"
+},
+{
+	"key" : "AvailablePoints",
+	"text" : "Dostępne Punkty: "
+},
+{
+	"key" : "Initialize1",
+	"text" : "Wpisz nazwę dla swojego bohatera: "
+},
+{
+	"key" : "Initialize2",
+	"text" : "Ta nazwa jest już zajęta, spróbuj inną!"
+},
+{
+	"key" : "Initialize3-1",
+	"text" : "Jesteś pewien, czy "
+},
+{
+	"key" : "Initialize3-2",
+	"text" : " to dobra nazwa?"
+},
+{
+	"key" : "SheetTitle",
+	"text" : "--- Karta Bohatera ---"
+},
+{
+	"key" : "StatsTitle",
+	"text" : "--- STATYSTYKI ---"
+},
+{
+	"key" : "SpendAllPoints",
+	"text" : "Musisz wydać wszystkie swoje punkty!"
+}
+]
+},
+
+"mLine" : {"tab" : [
+{
+	"key" : "MainMenu",
+	"text" : [
+		"Nowa Gra",
+		"Wczytaj Zapis",
+		"Usuwanie Zapisów",
+		"Scenariusze",
+		"Ustawienia",
+		"Wyjdź"
+	]
+},
+{
+	"key" : "PauseMenu",
+	"text" : [
+		"Kontynuuj",
+		"Ekwipunek",
+		"Karta Bohatera",
+		"Zapisz Grę",
+		"Menu Główne",
+		"Wyjdź"
+	]
+},
+{
+	"key" : "Settings",
+	"text" : [
+		"Język   : ",
+		"Rozmiar : ",
+		"Szarość : ",
+		"Dźwięk  : "
+	]
+},
+{
+	"key" : "Shopping",
+	"text" : [
+		"Powrót",
+		"Kupuj",
+		"Sprzedawaj"
+	]
+},
+{
+	"key" : "Fight",
+	"text" : [
+		"Atak",
+		"Obrona",
+		"Unik",
+		"Rzuć Zaklęcie",
+		"Użyj Przedmiotu"
+	]
+},
+{
+	"key" : "FightStats",
+	"text" : [
+		"Życie   : ",
+		"Stamina : ",
+		"Mana    : ",
+		"Obrona  : ",
+		"Unik    : "
+	]
+},
+{
+	"key" : "MsgGain",
+	"text" : [
+		" zdobył ",
+		" dośw"
+	]
+},
+{
+	"key" : "Inventory",
+	"text" : [
+		"Powrót",
+		"Bronie",
+		"Pancerze",
+		"Mikstury i Jedzenie",
+		"Zaklęcia"
+	]
+},
+{
+	"key" : "InventoryArmors",
+	"text" : [
+		"Cena    : ",
+		"Obrona  : ",
+		"Siła    : "
+	]
+},
+{
+	"key" : "InventoryConsumables",
+	"text" : [
+		"Cena  : ",
+		"Efekt : "
+	]
+},
+{
+	"key" : "InventorySpells",
+	"text" : [
+		"Cena      : ",
+		"Efekt     : ",
+		"Koszt     : ",
+		"Czas      : ",
+		"Siła Woli : "
+	]
+},
+{
+	"key" : "InventoryWeapons",
+	"text" : [
+		"Cena       : ",
+		"Min Obraż. : ",
+		"Max Obraż. : ",
+		"Siła       : "
+	]
+},
+{
+	"key" : "SheetEquipement",
+	"text" : [
+		"Broń    : ",
+		"Pancerz : "
+	]
+},
+{
+	"key" : "SheetNandL",
+	"text" : [
+		"Nazwa     : ",
+		"Poziom    : ",
+		"Dośw.     : ",
+		"Pieniądze : "
+	]
+},
+{
+	"key" : "Stats1Names",
+	"text" : [
+		"Życie   : ",
+		"Stamina : ",
+		"Mana    : "
+	]
+},
+{
+	"key" : "Stats2Names",
+	"text" : [
+		"Siła         : ",
+		"Wytrzymałość : ",
+		"Siła Woli    : ",
+		"Zręczność    : "
+	]
+},
+{
+	"key" : "StatsDepNames",
+	"text" : [
+		"Min Obraż. : ",
+		"Max Obraż. : ",
+		"Obrona     : ",
+		"Celność    : ",
+		"Unik       : "
+	]
+}
+]
+}
+}

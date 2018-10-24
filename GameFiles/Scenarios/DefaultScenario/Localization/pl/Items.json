@@ -1,0 +1,102 @@
+{
+	"weapons" : {"tab" : [
+	{
+	"key" : "WepNONE",
+	"name" : "Pięści"
+},
+{
+	"key" : "WepRustyKnife",
+	"name" : "Zardzewiały Nóż"
+},
+{
+	"key" : "WepIronKnife",
+	"name" : "Żelazny Nóż"
+},
+{
+	"key" : "WepRustyShort",
+	"name" : "Zardzewiały Krótki Miecz"
+},
+{
+	"key" : "WepIronShort",
+	"name" : "Żelazny Krótki Miecz"
+},
+{
+	"key" : "WepIronSword",
+	"name" : "Żelazny Miecz"
+},
+{
+	"key" : "WepBattleAxe",
+	"name" : "Topór Bojowy"
+}
+]
+},
+	"armors" : {"tab" : [
+{
+	"key" : "ArmorNONE",
+	"name" : "Majtki"
+},
+{
+	"key" : "ArmorClothes",
+	"name" : "Ubranie"
+},
+{
+	"key" : "ArmorFarmer",
+	"name" : "Ubranie Farmera"
+},
+{
+	"key" : "ArmorLeather",
+	"name" : "Skórzany Pancerz"
+},
+{
+	"key" : "ArmorChainmail",
+	"name" : "Kolczuga"
+}
+]
+},
+	"consumables" : {"tab" : [
+{
+	"key" : "ConsumApple",
+	"name" : "Jabłko"
+},
+{
+	"key" : "ConsumCarrot",
+	"name" : "Marchewka"
+},
+{
+	"key" : "ConsumBread",
+	"name" : "Chleb"
+},
+{
+	"key" : "ConsumHealI",
+	"name" : "Mikstura Lecznicza I"
+},
+{
+	"key" : "ConsumManaI",
+	"name" : "Mikstura Many I"
+},
+{
+	"key" : "ConsumWater",
+	"name" : "Woda"
+}
+]
+},
+	"spells" : {"tab" : [
+{
+	"key" : "SpellFireI",
+	"name" : "Ogień I"
+},
+{
+	"key" : "SpellFireII",
+	"name" : "Ogień II"
+},
+{
+	"key" : "SpellHealI",
+	"name" : "Leczenie I"
+},
+{
+	"key" : "SpellHealII",
+	"name" : "Leczenie II"
+}
+]
+}
+}

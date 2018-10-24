@@ -1,0 +1,283 @@
+{
+	"languages" : ["en","pl"],
+	"enName" : "Test Scenario I",
+	"plName" : "Scenariusz Testowy I",
+	"location1" : [
+		{
+			"ambience" : ["ForestAmbience1", true],
+			"description" : "Location1-1",
+			"preOptions" : [],
+			"options" : "Options1-1",
+			"graphics" : "Location1-1",
+			"save" : true,
+			"preChoice" : [
+				"audio", "enviroment", "Leaves2",
+				"sleep", "2500"
+			],
+			"choice" : [
+				{"action" : [
+					"actionText", "Action1-1_1"
+					]
+				},
+				{"action" : [
+					"audio", "creature", "Wolf", "Howls1",
+					"actionText", "Action1-1_2",
+					"add", "item", "weapon", "Rusty Knife",
+					"break"
+					]
+				}
+			],
+			"afterChoice" : ["setSubLocation", "2"]
+		},
+		{
+			"ambience" : ["ForestAmbience1", true],
+			"description" : "Location1-2",
+			"preOptions" : [],
+			"options" : "Options1-2",
+			"graphics" : "Location1-2",
+			"save" : false,
+			"preChoice" : [],
+			"choice" : [
+				{"action" : [
+					"actionText", "Action1-2_1",
+					"break"
+					]
+				},
+				{"action" : [
+					"actionText", "Action1-2_2",
+					"break"
+					]
+				}
+			],
+			"afterChoice" : [
+				"audio", "creature", "Wolf", "Wounded1",
+				"actionText", "Action1-2_3",
+				"fight", "Wolf1",
+				"printMenuGfx", "Location2-1",
+				"actionText", "Action1-2_4",
+				"add", "item", "consumable", "Carrot", "3",
+				"setLocation", "2",
+				"setSubLocation", "1"	
+			]
+		}
+	],
+	"location2" : [
+		{
+			"ambience" : ["ForestAmbience1", true],
+			"description" : "Location2-1",
+			"preOptions" : [],
+			"options" : "Options2-1",
+			"graphics" : "Location2-1",
+			"save" : true,
+			"preChoice" : [
+				"audio", "enviroment", "Leaves2",
+				"sleep", "2500"
+			],
+			"choice" : [{"action" : ["break"]}],
+			"afterChoice" : ["setSubLocation", "2"]
+		},
+		{
+			"ambience" : ["ForestAmbience1", true],
+			"description" : "Location2-2",
+			"preOptions" : [],
+			"options" : "Options2-2",
+			"graphics" : "Location2-2",
+			"save" : false,
+			"preChoice" : [],
+			"choice" : [{"action" : [
+				"audio", "character", "Woman1",
+				"actionText", "Action2-2_1",
+				"add", "item", "consumable", "Heal I", "1",
+				"add", "item", "consumable", "Mana I", "1",
+				"break"
+			]}],
+			"afterChoice" : [
+			"audio", "enviroment", "Leaves2",
+			"setLocation", "3",
+			"setSubLocation", "1"
+			]
+		}	
+	],
+	"location3" : [
+		{
+			"ambience" : ["ForestAmbience1", true],
+			"description" : "Location3-1",
+			"preOptions" : [],
+			"options" : "Options3-1",
+			"graphics" : "Location3-1",
+			"save" : true,
+			"preChoice" : [
+				"audio", "enviroment", "Leaves2",
+				"sleep", "2500"
+			],
+			"choice" : [{"action" : ["break"]}],
+			"afterChoice" : ["setSubLocation", "2"]
+		},
+		{
+			"ambience" : ["ForestAmbience1", true],
+			"description" : "Location3-2",
+			"preOptions" : [],
+			"options" : "Options3-2",
+			"graphics" : "Location3-2",
+			"save" : false,
+			"preChoice" : [],
+			"choice" : [
+				{"action" : [
+					"audio", "enviroment", "Leaves2",
+					"sleep", "2500",
+					"setSubLocation", "3",
+					"break"
+				]
+				},
+				{"action" : [
+					"audio", "enviroment", "Water1",
+					"sleep", "1500",
+					"actionText", "Action3-2_1",
+					"add", "item", "consumable", "Water", "3",
+					"optionsPopBack",
+					"description", "Location3-2A"
+				]
+				}
+			],
+			"afterChoice" : []
+		},	
+		{
+			"ambience" : ["NONE", false],
+			"description" : "NONE",
+			"preOptions" : [
+				"if", "plotSwitch", "0",
+				"6", "description", "Location3-3A", "plotSwitch", "0", "false", "endTrue",
+				"4", "description", "Location3-3" , "plotSwitch", "0", "false"
+			],
+			"options" : "Options3-3",
+			"graphics" : "Location3-3",
+			"save" : false,
+			"preChoice" : [],
+			"choice" : [
+				{"action" : [
+					"audio", "enviroment", "Leaves2",
+					"sleep", "2500",
+					"setLocation", "5",
+					"setSubLocation", "1",
+					"break"
+				]
+				},
+				{"action" : [
+					"audio", "enviroment", "Stone1",
+					"sleep", "1000",
+					"setLocation", "4",
+					"setSubLocation", "1",
+					"break"
+				]
+				}
+			],
+			"afterChoice" : []
+		}	
+	],
+	"location4" : [
+		{
+			"ambience" : ["NONE", false],
+			"description" : "Location4-1",
+			"preOptions" : [],
+			"options" : "Options4-1",
+			"graphics" : "Location4-1",
+			"save" : false,
+			"preChoice" : [],
+			"choice" : [
+				{
+					"action" : [
+					"audio", "creature", "Beetle", "Movement1",
+					"sleep", "2500",
+					"actionText", "Action4-1_1",
+					"fight", "Beetle1",
+					"printMenuGfx", "Location4-1",
+					"actionText", "Action4-1_2",
+					"add", "money", "100",
+					"add", "item", "weapon", "Rusty Short",
+					"plotSwitch", "0", "true",
+					"break"
+					]
+				},
+				{
+					"action" : [
+					"audio", "enviroment", "Stone1",
+					"sleep", "1000",
+					"break"
+					]
+				}
+			],
+			"afterChoice" : [
+				"setLocation", "3",
+				"setSubLocation", "3"
+			]
+		}
+	],
+	"location5" : [
+		{
+			"ambience" : ["VillageAmbience1", true],
+			"description" : "Location5-1",
+			"preOptions" : [],
+			"options" : "Options5-1",
+			"graphics" : "Location5-1",
+			"save" : true,
+			"preChoice" : [],
+			"choice" : [
+				{"action" : [
+					"actionText", "Action5-1_1"
+				]},
+				{"action" : [
+					"audio", "character", "Woman1",
+					"actionText", "Action5-1_2",
+					"add", "item", "consumable", "Apple", "4"
+				]},
+				{"action" : [
+					"audio", "character", "Hello1",
+					"merchant", "merchant1"
+				]},
+				{"action" : [
+					"setSubLocation", "2",
+					"audio", "enviroment", "Leaves2",
+					"sleep", "2500",
+					"break"
+				]},
+				{"action" : [
+					"clear",
+					"frame", "small",
+					"text", "8", "4", "End_1",
+					"text", "8", "5", "End_2",
+					"audio", "ambience", "NONE", "false",
+					"audio", "misc", "Fanfare1",
+					"pause", "8", "7",
+					"clear",
+					"sessionEnd"
+				]}
+			],
+			"afterChoice" : []
+		},
+		{
+			"ambience" : ["FarmAmbience1", true],
+			"description" : "Location5-2",
+			"preOptions" : [],
+			"options" : "Options5-2",
+			"graphics" : "Location5-2",
+			"save" : false,
+			"preChoice" : [],
+			"choice" : [
+				{"action" : [
+					"fight", "Bandit1",
+					"printMenuGfx", "Location5-2",
+					"actionText", "Action5-2_1",
+					"add", "money", "100",
+					"break"
+				]},
+				{"action" : [
+					"audio", "enviroment", "Leaves2",
+					"setSubLocation", "1",
+					"sleep", "2500",
+					"break"
+				]}
+			],
+			"afterChoice" : []
+		}
+	]
+}

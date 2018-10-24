@@ -1,0 +1,77 @@
+{
+"sLine" : {"tab" : []},
+
+"mLine" : {"tab" : [
+	{
+	"key" : "Options1-1",
+	"text" : [
+		"Spróbuj znaleźć drogę wyjścia z lasu.",
+		"Sprawdź dokąd prowadzi dym."
+	]
+	},
+	{
+	"key" : "Options1-2",
+	"text" : [
+		"Spróbuj uciec.",
+		"Walcz z wilkami."
+	]
+	},
+	{
+	"key" : "Options2-1",
+	"text" : [
+		"Idź do chatki."
+	]
+	},
+	{
+	"key" : "Options2-2",
+	"text" : [
+		"Spytaj ją o drogę."
+	]
+	},
+	{
+	"key" : "Options3-1",
+	"text" : [
+		"Idź naprzód."
+	]
+	},
+	{
+	"key" : "Options3-2",
+	"text" : [
+		"Idź naprzód.",
+		"Pobierz trochę wody ze studni."
+	]
+	},
+	{
+	"key" : "Options3-3",
+	"text" : [
+		"Idź naprzód.",
+		"Wejdź do jaskini."
+	]
+	},
+	{
+	"key" : "Options4-1",
+	"text" : [
+		"Idź naprzód.",
+		"Opuść jaskinię."
+	]
+	},
+	{
+	"key" : "Options5-1",
+	"text" : [
+		"Idź do wioskowej tawerny.",
+		"Spytaj jakąś panią o niedawne wydarzenia.",
+		"Handluj z wędrownym kupcem.",
+		"Idź na farmę.",
+		"Zakończ grę."
+	]
+	},
+	{
+	"key" : "Options5-2",
+	"text" : [
+		"Walcz z bandytą.",
+		"Wróć do wioski."
+	]
+	}
+]
+}
+}

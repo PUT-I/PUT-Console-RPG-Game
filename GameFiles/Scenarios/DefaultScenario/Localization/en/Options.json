@@ -1,0 +1,77 @@
+{
+"sLine" : {"tab" : []},
+
+"mLine" : {"tab" : [
+	{
+	"key" : "Options1-1",
+	"text" : [
+		"Try to find a way out of the forest.",
+		"Find out where the smoke leads."
+	]
+	},
+	{
+	"key" : "Options1-2",
+	"text" : [
+		"Try to run away.",
+		"Fight the wolves."
+	]
+	},
+	{
+	"key" : "Options2-1",
+	"text" : [
+		"Go to the hut."
+	]
+	},
+	{
+	"key" : "Options2-2",
+	"text" : [
+		"Ask her about the road."
+	]
+	},
+	{
+	"key" : "Options3-1",
+	"text" : [
+		"Go forward."
+	]
+	},
+	{
+	"key" : "Options3-2",
+	"text" : [
+		"Go forward.",
+		"Take some water from the well."
+	]
+	},
+	{
+	"key" : "Options3-3",
+	"text" : [
+		"Go forward.",
+		"Enter the cave."
+	]
+	},
+	{
+	"key" : "Options4-1",
+	"text" : [
+		"Go forward.",
+		"Leave the cave."
+	]
+	},
+	{
+	"key" : "Options5-1",
+	"text" : [
+		"Go to village tavern.",
+		"Ask some lady about recent events.",
+		"Shop with the travelling merchant.",
+		"Go to the farm.",
+		"Finish the game."
+	]
+	},
+	{
+	"key" : "Options5-2",
+	"text" : [
+		"Fight a bandit.",
+		"Go back to the village."
+	]
+	}
+]
+}
+}

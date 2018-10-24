@@ -1,0 +1,17 @@
+{
+	"merchants" : [
+		{
+			"key" : "merchant1",
+			"inventory" : [
+				"consumables",
+				"Bread", "Water", "Mana I", "Heal I",
+				"weapons",
+				"Iron Knife", "Iron Short", "Iron Sword", "Battle Axe",
+				"armors",
+				"Farmer", "Leather", "Chainmail",
+				"spells",
+				"Fire II", "Heal II"
+			]
+		}
+	]
+}

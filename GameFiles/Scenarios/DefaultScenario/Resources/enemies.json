@@ -1,0 +1,48 @@
+{ "tab" : [
+{
+	"key" : "Wolf1",
+	"enemyInfo": {
+		"name": "Wolf1",
+		"hpMax": 30,
+		"baseDmgMin": 6,
+		"baseDmgMax": 20,
+		"baseDefence": 2,
+		"baseEvasionChance": 10,
+		"baseHitChance": 50,
+		"exp": 100,
+		"gfxDir": "Wolf1",
+		"sfxDir": "WolfBite1"
+	}
+},
+{
+	"key" : "Beetle1",
+	"enemyInfo": {
+		"name": "Beetle1",
+		"hpMax": 40,
+		"baseDmgMin": 20,
+		"baseDmgMax": 30,
+		"baseDefence": 6,
+		"baseEvasionChance": 0,
+		"baseHitChance": 40,
+		"exp": 140,
+		"gfxDir": "Beetle1",
+		"sfxDir": "BeetleBite1"
+	}
+},
+{
+	"key" : "Bandit1",
+	"enemyInfo": {
+		"name": "Bandit1",
+		"hpMax": 50,
+		"baseDmgMin": 10,
+		"baseDmgMax": 30,
+		"baseDefence": 4,
+		"baseEvasionChance": 5,
+		"baseHitChance": 50,
+		"exp": 200,
+		"gfxDir": "Bandit1",
+		"sfxDir": "BanditHit1"
+	}
+}
+]
+}

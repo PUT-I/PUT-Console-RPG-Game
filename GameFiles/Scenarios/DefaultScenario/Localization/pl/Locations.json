@@ -1,0 +1,124 @@
+{
+	"sLine" : {"tab" : []},
+	
+	"mLine" : {"tab" : [
+	{
+	"key" : "Location1-1",
+	"text" : [
+		"Znajdujesz się w lesie, nie pamiętasz niczego prócz",
+		"swojego imienia. W oddali widzisz dym",
+		"",
+		"Co chcesz zrobić?"
+	]
+	},
+	{
+	"key" : "Location1-2",
+	"text" : [
+		"Wilki są coraz bliżej. Lepiej wyposaż się w swoją",
+		"nową broń.",
+		"",
+		"Co chcesz zrobić?"
+	]
+	},
+	{
+	"key" : "Location2-1",
+	"text" : [
+		"Wilk jest martwy. Zauważasz, że dym dochodzi z",
+		"małej drewnianej chatki.",
+		"",
+		"Co chcesz zrobić?"
+	]
+	},
+	{
+	"key" : "Location2-2",
+	"text" : [
+		"Przed chatką stoi starsza kobieta. Wygląda",
+		"niegroźnie. Może wie jak dostać się do drogi?",
+		"",
+		"Co chcesz zrobić?"
+	]
+	},
+	{
+	"key" : "Location3-1",
+	"text" : [
+		"W końcu znalazłeś drogę. Zapewne nie może być ",
+		"daleko od jakiejś ludzkiej osady.",
+		"",
+		"Co chcesz zrobić?"
+	]
+	},
+	{
+	"key" : "Location3-2",
+	"text" : [
+		"Po jakimś czasie zatrzymujesz się na chwilę",
+		"odpoczynku. W pobliżu znajduje się studnia. Mógłbyś",
+		"naczerpać z niej trochę wody albo możesz po prostu",
+		"iść dalej.",
+		"",
+		"Co chcesz zrobić?"
+	]
+	},
+	{
+	"key" : "Location3-2A",
+	"text" : [
+		"Po jakimś czasie zatrzymujesz się na chwilę.",
+		"Powinieneś kontinuować swoją podróż.",
+		"",
+		"Co chcesz zrobić?"
+	]
+	},
+	{
+	"key" : "Location3-3",
+	"text" : [
+		"Krajobraz się zmienia. Najwidoczniej opuściłeś",
+		"las. Wokół nie ma już drzew. Natknąłeś się na",
+		"jaskinię blisko drogi. Może być warta sprawdzenia.",
+		"Także pochodnie zaczęły pojawiać się na poboczach",
+		"drogi. Niedaleko powinni znajdować się ludzie.",
+		"",
+		"Co chcesz zrobić?"
+	]
+	},
+	{
+	"key" : "Location3-3A",
+	"text" : [
+		"Krajobraz się zmienia. Najwidoczniej opuściłeś",
+		"las. Wokół nie ma już drzew. Natknąłem się na",
+		"jaskinię blisko drogi. Już sprawdziłeś tą jaskinię,",
+		"więc nie ma tam już nic cennego.",
+		"",
+		"Co chcesz zrobić?"
+	]
+	},
+	{
+	"key" : "Location4-1",
+	"text" : [
+		"Jesteś w jaskini. Twoje otoczenie nie wykazuje",
+		"niczego wartego uwagi. Słyszysz niepokojące dźwięki",
+		"w głębszej części jaskini.",
+		"",
+		"Co chcesz zrobić?"
+	]
+	},
+	{
+	"key" : "Location5-1",
+	"text" : [
+		"W końcu wioska. Widzisz ludzi zbierających żniwa z",
+		"pól i przetwarzających to co zebrali. Jest tu dużo",
+		"ludzi z którymi można porozmawiać.",
+		"",
+		"Co chcesz zrobić?"
+	]
+	},
+	{
+	"key" : "Location5-2",
+	"text" : [
+		"Farma jest atakowana! Bandyci kradną co tylko mogą",
+		"od tych biednych chłopów.",
+		"",
+		"Co chcesz zrobić?"
+	]
+	}
+	]
+	}
+}

@@ -1,0 +1,319 @@
+{
+	"weapons" : {"tab" : [
+{
+	"key" : "NONE",
+	"itemInfo" : {
+		"dmgMax": 0,
+		"dmgMin": 0,
+		"gfxDir": "NONE",
+		"sfxDir": "Fists1",
+		"name": "WepNONE",
+		"number": 0,
+		"price": 0,
+		"requirements": 1,
+		"type": "weapon"
+		}
+},
+{
+	"key" : "Rusty Knife",
+	"itemInfo" : {
+		"dmgMax": 4,
+		"dmgMin": 2,
+		"gfxDir": "Knife",
+		"sfxDir": "Dagger1",
+		"name": "WepRustyKnife",
+		"number": 1,
+		"price": 5,
+		"requirements": 1,
+		"type": "weapon"
+		}
+},
+{
+	"key" : "Iron Knife",
+	"itemInfo" : {
+		"dmgMax": 8,
+		"dmgMin": 3,
+		"gfxDir": "Dagger",
+		"sfxDir": "Dagger1",
+		"name": "WepIronKnife",
+		"number": 1,
+		"price": 12,
+		"requirements": 1,
+		"type": "weapon"
+		}
+},
+{
+	"key" : "Rusty Short",
+	"itemInfo" : {
+		"dmgMax": 6,
+		"dmgMin": 4,
+		"gfxDir": "ShortSword",
+		"sfxDir": "Sword1",
+		"name": "WepRustyShort",
+		"number": 1,
+		"price": 9,
+		"requirements": 3,
+		"type": "weapon"
+		}
+},
+{
+	"key" : "Iron Short",
+	"itemInfo" : {
+		"dmgMax": 10,
+		"dmgMin": 5,
+		"gfxDir": "ShortSword",
+		"sfxDir": "Sword1",
+		"name": "WepIronShort",
+		"number": 1,
+		"price": 18,
+		"requirements": 4,
+		"type": "weapon"
+		}
+},
+{
+	"key" : "Iron Sword",
+	"itemInfo" : {
+		"dmgMax": 18,
+		"dmgMin": 8,
+		"gfxDir": "Sword",
+		"sfxDir": "Sword1",
+		"name": "WepIronSword",
+		"number": 1,
+		"price": 100,
+		"requirements": 5,
+		"type": "weapon"
+		}
+},
+{
+	"key" : "Battle Axe",
+	"itemInfo" : {
+		"dmgMax": 30,
+		"dmgMin": 10,
+		"gfxDir": "Axe",
+		"sfxDir": "Axe1",
+		"name": "WepBattleAxe",
+		"number": 1,
+		"price": 150,
+		"requirements": 6,
+		"type": "weapon"
+		}
+}
+	]
+},
+	"armors" : {"tab" : [
+{
+	"key" : "NONE",
+	"itemInfo" : {
+		"dmgProtection": 0,
+		"gfxDir": "NONE",
+		"sfxDir": "NONE",
+		"name": "ArmorNONE",
+		"number": 0,
+		"price": 0,
+		"requirements": 1,
+		"type": "armor"
+	}
+},
+{
+	"key" : "Clothes",
+	"itemInfo" : {
+		"dmgProtection": 1,
+		"gfxDir": "Clothes",
+		"sfxDir": "Clothes",
+		"name": "ArmorClothes",
+		"number": 1,
+		"price": 3,
+		"requirements": 1,
+		"type": "armor"
+	}
+},
+{
+	"key" : "Farmer",
+	"itemInfo" : {
+		"dmgProtection": 6,
+		"gfxDir": "Farmer",
+		"sfxDir": "Clothes",
+		"name": "ArmorFarmer",
+		"number": 1,
+		"price": 11,
+		"requirements": 3,
+		"type": "armor"
+	}
+},
+{
+	"key" : "Leather",
+	"itemInfo" : {
+		"dmgProtection": 10,
+		"gfxDir": "Leather",
+		"sfxDir": "Clothes",
+		"name": "ArmorLeather",
+		"number": 1,
+		"price": 24,
+		"requirements": 5,
+		"type": "armor"
+	}
+},
+{
+	"key" : "Chainmail",
+	"itemInfo" : {
+		"dmgProtection": 24,
+		"gfxDir": "Chainmail",
+		"sfxDir": "Chainmail",
+		"name": "ArmorChainmail",
+		"number": 1,
+		"price": 70,
+		"requirements": 8,
+		"type": "armor"
+	}
+}
+	]
+},
+	"consumables" : {"tab" : [
+{
+	"key" : "Heal I",
+	"itemInfo" : {
+		"effect": "heal",
+		"gfxDir": "Heal",
+		"sfxDir": "Drinking1",
+		"name": "ConsumHealI",
+		"number": 1,
+		"power": 50,
+		"price": 20,
+		"type": "consumable"
+	}
+},
+{
+	"key" : "Mana I",
+	"itemInfo" : {
+		"effect": "mana",
+		"gfxDir": "Mana",
+		"sfxDir": "Drinking1",
+		"name": "ConsumManaI",
+		"number": 1,
+		"power": 50,
+		"price": 20,
+		"type": "consumable"
+	}
+},
+{
+	"key" : "Water",
+	"itemInfo" : {
+		"effect": "stamina",
+		"gfxDir": "Water",
+		"sfxDir": "Drinking1",
+		"name": "ConsumWater",
+		"number": 1,
+		"power": 50,
+		"price": 15,
+		"type": "consumable"
+	}
+},
+{
+	"key" : "Bread",
+	"itemInfo" : {
+		"effect": "heal",
+		"gfxDir": "Bread",
+		"sfxDir": "Bread1",
+		"name": "ConsumBread",
+		"number": 1,
+		"power": 20,
+		"price": 9,
+		"type": "consumable"
+	}
+},
+{
+	"key" : "Carrot",
+	"itemInfo" : {
+		"effect": "heal",
+		"gfxDir": "Carrot",
+		"sfxDir": "Carrot1",
+		"name": "ConsumCarrot",
+		"number": 1,
+		"power": 10,
+		"price": 5,
+		"type": "consumable"
+	}
+},
+{
+	"key" : "Apple",
+	"itemInfo" : {
+		"effect": "heal",
+		"gfxDir": "Apple",
+		"sfxDir": "Apple1",
+		"name": "ConsumApple",
+		"number": 1,
+		"power": 7,
+		"price": 3,
+		"type": "consumable"
+	}
+}
+	]
+},
+	"spells" : {"tab" : [
+{
+	"key" : "Fire I",
+	"itemInfo" : {
+		"effect": "fire",
+		"gfxDir": "fire1",
+		"sfxDir": "FireSpell1",
+		"mana": 25,
+		"name": "SpellFireI",
+		"number": 1,
+		"power": 10,
+		"price": 0,
+		"requirements": 1,
+		"span": 1,
+		"type": "spell"
+	}
+},
+{
+	"key" : "Fire II",
+	"itemInfo" : {
+		"effect": "fire",
+		"gfxDir": "fire2",
+		"sfxDir": "FireSpell1",
+		"mana": 50,
+		"name": "SpellFireII",
+		"number": 1,
+		"power": 15,
+		"price": 80,
+		"requirements": 3,
+		"span": 4,
+		"type": "spell"
+	}
+},
+{
+	"key" : "Heal I",
+	"itemInfo" : {
+		"effect": "heal",
+		"gfxDir": "heal1",
+		"sfxDir": "HealSpell1",
+		"mana": 25,
+		"name": "SpellHealI",
+		"number": 1,
+		"power": 25,
+		"price": 0,
+		"requirements": 1,
+		"span": 1,
+		"type": "spell"
+	}
+},
+{
+	"key" : "Heal II",
+	"itemInfo" : {
+		"effect": "heal",
+		"gfxDir": "heal2",
+		"sfxDir": "HealSpell1",
+		"mana": 50,
+		"name": "SpellHealII",
+		"number": 1,
+		"power": 100,
+		"price": 100,
+		"requirements": 4,
+		"span": 1,
+		"type": "spell"
+	}
+}
+]
+}
+}

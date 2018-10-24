@@ -1,0 +1,102 @@
+{
+	"weapons" : {"tab" : [
+	{
+	"key" : "WepNONE",
+	"name" : "Fists"
+},
+{
+	"key" : "WepRustyKnife",
+	"name" : "Rusty Knife"
+},
+{
+	"key" : "WepIronKnife",
+	"name" : "Iron Knife"
+},
+{
+	"key" : "WepRustyShort",
+	"name" : "Rusty Short Sword"
+},
+{
+	"key" : "WepIronShort",
+	"name" : "Iron Short Sword"
+},
+{
+	"key" : "WepIronSword",
+	"name" : "Iron Sword"
+},
+{
+	"key" : "WepBattleAxe",
+	"name" : "Battle Axe"
+}
+]
+},
+	"armors" : {"tab" : [
+{
+	"key" : "ArmorNONE",
+	"name" : "Underpants"
+},
+{
+	"key" : "ArmorClothes",
+	"name" : "Clothes"
+},
+{
+	"key" : "ArmorFarmer",
+	"name" : "Farmer Clothes"
+},
+{
+	"key" : "ArmorLeather",
+	"name" : "Leather Armor"
+},
+{
+	"key" : "ArmorChainmail",
+	"name" : "Chainmail"
+}
+]
+},
+	"consumables" : {"tab" : [
+{
+	"key" : "ConsumApple",
+	"name" : "Apple"
+},
+{
+	"key" : "ConsumCarrot",
+	"name" : "Carrot"
+},
+{
+	"key" : "ConsumBread",
+	"name" : "Bread"
+},
+{
+	"key" : "ConsumHealI",
+	"name" : "Heal Potion I"
+},
+{
+	"key" : "ConsumManaI",
+	"name" : "Mana Potion I"
+},
+{
+	"key" : "ConsumWater",
+	"name" : "Water"
+}
+]
+},
+	"spells" : {"tab" : [
+{
+	"key" : "SpellFireI",
+	"name" : "Fire I"
+},
+{
+	"key" : "SpellFireII",
+	"name" : "Fire II"
+},
+{
+	"key" : "SpellHealI",
+	"name" : "Heal I"
+},
+{
+	"key" : "SpellHealII",
+	"name" : "Heal II"
+}
+]
+}
+}

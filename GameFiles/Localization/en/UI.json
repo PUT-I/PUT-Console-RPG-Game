@@ -1,0 +1,337 @@
+{
+"sLine" : {"tab" : [
+{
+	"key" : "Continue",
+	"text" : "Continue . . ."
+},
+{
+	"key" : "No",
+	"text" : "No"
+},
+{
+	"key" : "Return",
+	"text" : "Return"
+},
+{
+	"key" : "Yes",
+	"text" : "Yes"
+},
+{
+	"key" : "SpacePause",
+	"text" : "Press space . . ."
+},
+{
+	"key" : "MsgDead",
+	"text" : "YOU DIED!"
+},
+{
+	"key" : "MsgHaveSpell",
+	"text" : "You Already Have That Spell!"
+},
+{
+	"key" : "MsgHpFull",
+	"text" : "Your Health Is Full!"
+},
+{
+	"key" : "MsgLevelUp",
+	"text" : "Level Up!"
+},
+{
+	"key" : "MsgMoney",
+	"text" : "You Don't Have That Much Money!"
+},
+{
+	"key" : "MsgMpEmpty",
+	"text" : "Your Mana Is Empty!"
+},
+{
+	"key" : "MsgMpFull",
+	"text" : "Your Mana Is Full!"
+},
+{
+	"key" : "MsgReq",
+	"text" : "You Don't Meet The Requirements!"
+},
+{
+	"key" : "MsgSpFull",
+	"text" : "Your Stamina Is Full!"
+},
+{
+	"key" : "MsgWin",
+	"text" : "YOU WON!"
+},
+{
+	"key" : "InventoryArmorsTitle",
+	"text" : "--- Armors ---"
+},
+{
+	"key" : "InventoryConsumablesTitle",
+	"text" : "--- Potions and Food ---"
+},
+{
+	"key" : "InventorySpellsTitle",
+	"text" : "--- Spells ---"
+},
+{
+	"key" : "InventoryWeaponsTitle",
+	"text" : "--- Weapons ---"
+},
+{
+	"key" : "InventoryTitle",
+	"text" : "--- Inventory ---"
+},
+{
+	"key" : "LoadMenuTitle",
+	"text" : "--- LOAD MENU ---"
+},
+{
+	"key" : "DeleteSavesMenuTitle",
+	"text" : "--- SAVE DELETING ---"
+},
+{
+	"key" : "ScenariosMenuTitle",
+	"text" : "--- Scenarios ---"
+},
+{
+	"key" : "ScenariosActive",
+	"text" : "active"
+},
+{
+	"key" : "PauseMenuTitle",
+	"text" : "--- PAUSE MENU ---"
+},
+{
+	"key" : "SettingsTitle",
+	"text" : "--- SETTINGS MENU ---"
+},
+{
+	"key" : "ShoppingBuyTitle",
+	"text" : "--- Buying ---"
+},
+{
+	"key" : "ShoppingSellTitle",
+	"text" : "--- Selling ---"
+},
+{
+	"key" : "ShoppingTitle",
+	"text" : "--- Merchant ---"
+},
+{
+	"key" : "ShoppingYourMoney",
+	"text" : "Your Money: "
+},
+{
+	"key" : "MainMenuQuestion",
+	"text" : "Are you certain?"
+},
+{
+	"key" : "MainMenuReset",
+	"text" : "ALL SAVES REMOVED!"
+},
+{
+	"key" : "PauseMenuSave",
+	"text" : "GAME SAVED"
+},
+{
+	"key" : "End_1",
+	"text" : "&1You reached the end of this demo!&0&"
+},
+{
+	"key" : "End_2",
+	"text" : "&3Thank you for playing!&0&"
+},
+{
+	"key" : "MsgSaves",
+	"text" : "Hero number limit reached!"
+},
+{
+	"key" : "AvailablePoints",
+	"text" : "Available Points: "
+},
+{
+	"key" : "Initialize1",
+	"text" : "Enter name for your hero: "
+},
+{
+	"key" : "Initialize2",
+	"text" : "This name is used, try another one!"
+},
+{
+	"key" : "Initialize3-1",
+	"text" : "Are you certain "
+},
+{
+	"key" : "Initialize3-2",
+	"text" : " is a right name?"
+},
+{
+	"key" : "SheetTitle",
+	"text" : "--- Character Sheet ---"
+},
+{
+	"key" : "StatsTitle",
+	"text" : "--- STATS ---"
+},
+{
+	"key" : "SpendAllPoints",
+	"text" : "You have to spend all your points!"
+}
+]},
+
+"mLine" : {"tab" : [
+{
+	"key" : "MainMenu",
+	"text" : [
+		"New Game",
+		"Load Save",
+		"Delete Saves",
+		"Scenarios",
+		"Settings",
+		"Quit"
+	]
+},
+{
+	"key" : "PauseMenu",
+	"text" : [
+		"Continue",
+		"Inventory",
+		"Character Sheet",
+		"Save Game",
+		"Main Menu",
+		"Quit"
+	]
+},
+{
+	"key" : "Settings",
+	"text" : [
+		"Language  : ",
+		"Font Size : ",
+		"Greyscale : ",
+		"Sound     : "
+	]
+},
+{
+	"key" : "Shopping",
+	"text" : [
+		"Return",
+		"Buy",
+		"Sell"
+	]
+},
+{
+	"key" : "Fight",
+	"text" : [
+		"Hit",
+		"Defend",
+		"Evase",
+		"Cast Spell",
+		"Use Consumable"
+	]
+},
+{
+	"key" : "FightStats",
+	"text" : [
+		"Health  : ",
+		"Stamina : ",
+		"Mana    : ",
+		"Defence : ",
+		"Evasion : "
+	]
+},
+{
+	"key" : "MsgGain",
+	"text" : [
+		" gained ",
+		" exp"
+	]
+},
+{
+	"key" : "Inventory",
+	"text" : [
+		"Return",
+		"Weapons",
+		"Armors",
+		"Potions and Food",
+		"Spells"
+	]
+},
+{
+	"key" : "InventoryArmors",
+	"text" : [
+		"Price    : ",
+		"Defence  : ",
+		"Strength : "
+	]
+},
+{
+	"key" : "InventoryConsumables",
+	"text" : [
+		"Price  : ",
+		"Effect : "
+	]
+},
+{
+	"key" : "InventorySpells",
+	"text" : [
+		"Price     : ",
+		"Effect    : ",
+		"Cost      : ",
+		"Timespan  : ",
+		"Willpower : "
+	]
+},
+{
+	"key" : "InventoryWeapons",
+	"text" : [
+		"Price    : ",
+		"Min dmg  : ",
+		"Max dmg  : ",
+		"Strength : "
+	]
+},
+{
+	"key" : "SheetEquipement",
+	"text" : [
+		"Weapon : ",
+		"Armor  : "
+	]
+},
+{
+	"key" : "SheetNandL",
+	"text" : [
+		"Name  : ",
+		"Level : ",
+		"Exp   : ",
+		"Money : "
+	]
+},
+{
+	"key" : "Stats1Names",
+	"text" : [
+		"Health  : ",
+		"Stamina : ",
+		"Mana    : "
+	]
+},
+{
+	"key" : "Stats2Names",
+	"text" : [
+		"Strength  : ",
+		"Endurance : ",
+		"Willpower : ",
+		"Agility   : "
+	]
+},
+{
+	"key" : "StatsDepNames",
+	"text" : [
+		"Min Damage : ",
+		"Max Damage : ",
+		"Defence    : ",
+		"Hit Chance : ",
+		"Evasion    : "
+	]
+}
+]
+}
+}

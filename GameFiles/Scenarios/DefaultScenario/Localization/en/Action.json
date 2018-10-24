@@ -1,0 +1,90 @@
+{
+"tab" : [
+	{"key" : "Action1-1_1",
+	"text" : [
+		"After some time you realise that you are going in",
+		"circles."
+	]
+	},
+	{"key" : "Action1-1_2",
+	"text" : [
+		"The smoke is getting closer. You hear wolves but",
+		"fortunately you find a &4Rusty Knife&0."
+	]
+	},
+	{"key" : "Action1-2_1",
+	"text" : [
+		"You run, but the wolves catch up."
+	]
+	},
+	{"key" : "Action1-2_2",
+	"text" : [
+		"You make noise to draw attention of these wolves."
+	]
+	},
+	{"key" : "Action1-2_3",
+	"text" : [
+		"To your suprise, instead of wolves there is only",
+		"one wounded wolf."
+	]
+	},
+	{"key" : "Action1-2_4",
+	"text" : [
+		"After defeating the wolf you see a rabbit. He left",
+		"you &4Carrots&0. They're for sure tasty."
+	]
+	},
+	{"key" : "Action2-2_1",
+	"text" : [
+		"The women shows you the way to the road. She also",
+		"proposes you to take her homemade &4Heal Potion I&0 and",
+		"&4Mana Potion I&0. You thank her and head toward the",
+		"road."
+	]
+	},
+	{"key" : "Action3-2_1",
+	"text" : [
+		"You take some &4Water&0 from the well."
+	]
+	},
+	{"key" : "Action4-1_1",
+	"text" : [
+		"In front of you stand a giant insect. It looks like",
+		"a beetle of some sort. Before you tried to back off",
+		"the beetle spotted you."
+	]
+	},
+	{"key" : "Action4-1_2",
+	"text" : [
+		"The beetle is dead. You search the cave and find",
+		"a pouch full of gold lying next to a dead body. It",
+		"contains&4 100 coins&0. You also find a &4Rusty Short",
+		"Sword&0."
+	]
+	},
+	{"key" : "Action5-1_1",
+	"text" : [
+		"Unfortunately the tavern is closed. There's a piece",
+		"of paper with text on it: \"Closed 'till beta ends!\"",
+		"Whatever that means."
+	]
+	},
+	{"key" : "Action5-1_2",
+	"text" : [
+		"You spotted some woman cleaning windows. When asked",
+		"about recent events she told you that the kindgom",
+		"is facing a invasion of evil humanoids that want to",
+		"burn the whole country. Apart from that she told",
+		"you to have yourself some &4Apples&0 from the basket.",
+		"They are fresh from the harvest."
+	]
+	},
+	{"key" : "Action5-2_1",
+	"text" : [
+		"The bandit drops dead. You search his body and find",
+		"a pouch full of gold, surely robbed from someone.",
+		"It contains&4 100 coins&0."
+	]
+	}
+]
+}
