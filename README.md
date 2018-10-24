@@ -4,12 +4,19 @@ thought it would be worth sharing it for public review.
 Basicaly it is a primitive text-based rpg-like game
 where you can write your own scenarios if you like.
 
+The main goal of this project was to create a fully functional
+game with options, saves and editable scenarios.
+
 I used SFML to manage audio and json files for saving
 settings, items, npcs, scenarios, save, etc.
 
+It is recommended to use this project with visual studio
+because it is already configured to copy gamefiles and
+sfml dll's to output exe location.
+
 # Credits	
 Many thanks to everyone who created these and published without demanding any money for it.
-These sources were sometimes modified or used to create a new media
+These sources were sometimes modified or used to create new media.
 
 Copyright/Attribution Notices:
 
