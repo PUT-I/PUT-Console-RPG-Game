@@ -47,4 +47,4 @@ b) ASCII ART:
  
  c) Libraries:
  - [JSON for Modern C++](https://github.com/nlohmann/json) by nlohmann (Niels Lohmann)
- - [Simple and Fast Multimedia Library (SFML)](https://www.sfml-dev.org/)
+ - [Simple and Fast Multimedia Library (SFML)](https://github.com/SFML/SFML)
