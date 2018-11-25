@@ -25,7 +25,7 @@ vector<shared_ptr<Item>> itemTypeFind(const vector<shared_ptr<Item>>& items, con
 //Saving and loading collections ---------m
 namespace files {
 	void save(ofstream &out, const vector <shared_ptr<Item>> &inv) {
-		json size{
+		const json size{
 			{"inventorySize", inv.size()}
 		};
 		out << "\n\n" << size;
@@ -85,7 +85,7 @@ namespace files {
 
 		for (const json &j : fileInv["merchants"]) {
 			if (j["key"] == which) {
-				for (const string &s : j["inventory"]) {
+				for (const string& s : j["inventory"]) {
 					if (s == "consumables" || s == "weapons" || s == "armors" || s == "spells") {
 						category = s;
 					}

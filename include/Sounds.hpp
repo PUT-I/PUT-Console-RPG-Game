@@ -1,10 +1,7 @@
 #pragma once
 
 #include "FrequentHeaders.h"
-#include "SFML\Audio.hpp"
-#include "Global.hpp"
-#include <Windows.h>
-#include <random>
+#include "SFML/Audio.hpp"
 
 int randInt(const int &min, const int &max);
 
@@ -13,19 +10,19 @@ private:
 	bool enabled = true;
 
 	//UI Sounds  -----------------------------
-	std::queue<sf::SoundBuffer> uiBuffers;
-	std::queue<sf::Sound> ui_;
+	std::queue<sf::SoundBuffer> uiBuffers{};
+	std::queue<sf::Sound> ui_{};
 
 	//Characters, Creatures and Fight --------
-	std::queue<sf::SoundBuffer> otherBuffers;
-	std::queue<sf::Sound> other_;
+	std::queue<sf::SoundBuffer> otherBuffers{};
+	std::queue<sf::Sound> other_{};
 
 	//Inventory ------------------------------
-	std::queue<sf::SoundBuffer> inventoryBuffers;
-	std::queue<sf::Sound> inventory_;
+	std::queue<sf::SoundBuffer> inventoryBuffers{};
+	std::queue<sf::Sound> inventory_{};
 
 	//Music ----------------------------------
-	std::string currentAmbience;
+	std::string currentAmbience{};
 	sf::Music ambience_;
 	sf::Music mainMenu_;
 
@@ -35,7 +32,7 @@ private:
 public:
 	//Constructor and a Destructor -----------
 	Audio();
-	~Audio(){}
+	~Audio() = default;
 
 	//Functions ------------------------------
 private:

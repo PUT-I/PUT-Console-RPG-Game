@@ -2,16 +2,17 @@
 
 #include "FrequentHeaders.h"
 #include "Files.hpp"
+#include "Global.hpp"
 
 static const int zero = 0;
 static const std::string emptyString{};
 
 class Item {
 protected:
-	std::string type;
-	std::string name;
-	std::string gfxDir;
-	std::string sfxDir;
+	std::string type{};
+	std::string name{};
+	std::string gfxDir{};
+	std::string sfxDir{};
 	int price = 0;
 	int number = 1;
 	int requirements;
@@ -23,7 +24,7 @@ public:
 		name = "NONE";
 		requirements = 0;
 	}
-	virtual ~Item() {}
+	virtual ~Item() = default;
 
 	//Functions ------------------------------
 	virtual void save(std::ofstream &out) const {}
@@ -76,7 +77,7 @@ public:
 		dmgMax = 0;
 		requirements = 1;
 	}
-	~Weapon(){}
+	~Weapon() = default;
 
 	//Functions ------------------------------
 	void save(std::ofstream &out) const override {
@@ -129,7 +130,7 @@ public:
 		name = "NONE";
 		dmgProtection = 0;
 	}
-	~Armor(){}
+	~Armor() = default;
 
 	//Functions ------------------------------
 	void save(std::ofstream &out) const override {
@@ -171,7 +172,7 @@ public:
 
 class Consumable : public Item {
 private:
-	std::string effect;
+	std::string effect{};
 	int power;
 
 	//Construnctors and a destructor ---------
@@ -182,7 +183,7 @@ public:
 		power = 0;
 		requirements = 1;
 	}
-	~Consumable(){}
+	~Consumable() = default;
 
 	//Functions ------------------------------
 	void save(std::ofstream &out) const override {
@@ -224,7 +225,7 @@ public:
 
 class Spell : public Item {
 private:
-	std::string effect;
+	std::string effect{};
 	int power;
 	int mana;
 	int span;
@@ -239,7 +240,7 @@ public:
 		span = 0;
 		mana = 0;
 	}
-	~Spell() {}
+	~Spell() = default;
 
 	//Functions ------------------------------
 	void save(std::ofstream &out) const override {

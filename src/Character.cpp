@@ -1,4 +1,7 @@
 #include "Character.hpp"
+#include "Global.hpp"
+#include "CManip.hpp"
+#include "Sounds.hpp"
 
 using namespace std;
 
@@ -8,26 +11,24 @@ namespace files {
 	void loadGraphics() {
 		graphics.clear();
 
-		string temp;
-
-		for (auto it = enemies.begin(); it != enemies.end(); it++) {
+		for (auto it = enemies.begin(); it != enemies.end(); ++it) {
 			graphics[it->second.getGfxDir()] = it->second.loadGfx();
 		}
-		for (auto it = itms::weapons.begin(); it != itms::weapons.end(); it++) {
+		for (auto it = itms::weapons.begin(); it != itms::weapons.end(); ++it) {
 			graphics[it->second.getGfxDir()] = it->second.loadGfx();
 		}
-		for (auto it = itms::armors.begin(); it != itms::armors.end(); it++) {
+		for (auto it = itms::armors.begin(); it != itms::armors.end(); ++it) {
 			graphics[it->second.getGfxDir()] = it->second.loadGfx();
 		}
-		for (auto it = itms::spells.begin(); it != itms::spells.end(); it++) {
+		for (auto it = itms::spells.begin(); it != itms::spells.end(); ++it) {
 			graphics[it->second.getGfxDir()] = it->second.loadGfx();
 		}
-		for (auto it = itms::consumables.begin(); it != itms::consumables.end(); it++) {
+		for (auto it = itms::consumables.begin(); it != itms::consumables.end(); ++it) {
 			graphics[it->second.getGfxDir()] = it->second.loadGfx();
 		}
 		for (auto &p : filesystem::directory_iterator("GameFiles\\Scenarios\\" + currentScenario + "\\Resources\\Graphics\\Locations")) {
 			std::ifstream in(p);
-			temp = p.path().filename().string();
+			string temp = p.path().filename().string();
 			temp.erase(temp.size() - 4, 4);
 			graphics[temp] = loadGfx("GameFiles\\Scenarios\\" + currentScenario + "\\Resources\\Graphics\\Locations\\" + p.path().filename().string());
 			in.close();
@@ -39,7 +40,7 @@ Character::Character() noexcept {
 	type = "character";
 
 	//Location -------------------------------
-	this->location    = 0;
+	this->location = 0;
 	this->subLocation = 0;
 
 	//Levelling ------------------------------
@@ -88,6 +89,189 @@ Character::Character() noexcept {
 	this->armor;
 }
 
+Character::~Character()
+= default;
+
+void Character::setLocation(const int& var) noexcept
+{
+	this->location = var;
+}
+
+void Character::setSubLocation(const int& var) noexcept
+{
+	this->subLocation = var;
+}
+
+const std::string& Character::getType() const noexcept
+{
+	return type;
+}
+
+const int& Character::getLocation() const noexcept
+{
+	return this->location;
+}
+
+const int& Character::getSubLocation() const noexcept
+{
+	return this->subLocation;
+}
+
+const std::string& Character::getName() const noexcept
+{
+	return this->name;
+}
+
+const int& Character::getLevel() const noexcept
+{
+	return this->level;
+}
+
+const int& Character::getExp() const noexcept
+{
+	return this->exp;
+}
+
+const int& Character::getExpNext() const noexcept
+{
+	return this->expNext;
+}
+
+const int& Character::getHp() const noexcept
+{
+	return this->hp;
+}
+
+const int& Character::getHpMax() const noexcept
+{
+	return this->hpMax;
+}
+
+const int& Character::getSp() const noexcept
+{
+	return this->sp;
+}
+
+const int& Character::getSpMax() const noexcept
+{
+	return this->spMax;
+}
+
+const int& Character::getMp() const noexcept
+{
+	return this->mp;
+}
+
+const int& Character::getMpMax() const noexcept
+{
+	return this->mpMax;
+}
+
+const int& Character::getBaseDmgMin() const noexcept
+{
+	return this->baseDmgMin;
+}
+
+const int& Character::getBaseDmgMax() const noexcept
+{
+	return this->baseDmgMax;
+}
+
+const int& Character::getDmgMin() const noexcept
+{
+	return this->dmgMin;
+}
+
+const int& Character::getDmgMax() const noexcept
+{
+	return this->dmgMax;
+}
+
+const int& Character::getDefence() const noexcept
+{
+	return this->defence;
+}
+
+const int& Character::getHitC() const noexcept
+{
+	return this->hitChance;
+}
+
+const int& Character::getEvasionC() const noexcept
+{
+	return this->evasionChance;
+}
+
+const int& Character::getStrength() const noexcept
+{
+	return this->strength;
+}
+
+const int& Character::getEndurance() const noexcept
+{
+	return this->endurance;
+}
+
+const int& Character::getWillpower() const noexcept
+{
+	return this->willpower;
+}
+
+const int& Character::getAgility() const noexcept
+{
+	return this->agility;
+}
+
+const int& Character::getStat1Points() const noexcept
+{
+	return this->stat1Points;
+}
+
+const int& Character::getStat2Points() const noexcept
+{
+	return this->stat2Points;
+}
+
+const std::vector<std::shared_ptr<Item>>& Character::getInventory() const noexcept
+{
+	return this->inventory;
+}
+
+std::vector<std::shared_ptr<Item>>& Character::getInventory() noexcept
+{
+	return this->inventory;
+}
+
+const Weapon& Character::getWeapon() const noexcept
+{
+	return this->weapon;
+}
+
+const Armor& Character::getArmor() const noexcept
+{
+	return this->armor;
+}
+
+Armor& Character::getArmor() noexcept
+{
+	return this->armor;
+}
+
+const int& Character::getMoney() const noexcept
+{
+	return money;
+}
+
+void Character::replaceInventory(const std::vector<std::shared_ptr<Item>>& items)
+{
+	inventory = items;
+}
+
+const std::vector<Spell>& Character::getActiveSpells() const noexcept
+{
+	return activeSpells;
+}
+
 //Functions ------------------------------
 void Character::clear() {
 	inventory.clear();
@@ -114,7 +298,7 @@ void Character::stats1Setup() {
 	const int stat1PointsPrev = stat1Points;
 	int result;
 
-	vector<int*> stats{ &hpMax, &spMax, &mpMax };
+	const vector<int*> stats{ &hpMax, &spMax, &mpMax };
 	const vector<int> statsPrev{ hpMax, spMax, mpMax };	//Used to prevent decreasing stat below its prev number
 
 	//Stat Names and Setting Colors -----------
@@ -124,9 +308,9 @@ void Character::stats1Setup() {
 
 	//Adding Option Names ---------------------
 	{
-		Health	+= mLineTexts["Stats1Names"][0];
+		Health += mLineTexts["Stats1Names"][0];
 		Stamina += mLineTexts["Stats1Names"][1];
-		Mana	+= mLineTexts["Stats1Names"][2];
+		Mana += mLineTexts["Stats1Names"][2];
 	}
 
 	const vector<string> options{ Health, Stamina, Mana, sLineTexts["Continue"] };
@@ -138,7 +322,7 @@ void Character::stats1Setup() {
 	do {
 		if (choice >= 0 && choice < options.size()) {
 			refreshStatDependent();
-			
+
 			CursorPos(8, 2);
 			cout << sLineTexts["AvailablePoints"] << stat1Points << "    ";
 			CursorPos(0, 4);
@@ -169,7 +353,7 @@ void Character::stats2Setup() {
 	unsigned int choice = 0;
 	int result;
 	const int stat2PointsPrev = stat2Points;
-	vector<int*> stats{ &strength, &endurance, &willpower, &agility };
+	const vector<int*> stats{ &strength, &endurance, &willpower, &agility };
 	const vector<int> statsPrev{ strength, endurance, willpower, agility };	//Used to prevent decreasing stat below its prev number
 
 	vector<string> options = mLineTexts["Stats2Names"];
@@ -206,7 +390,7 @@ void Character::stats2Setup() {
 		}
 	} while (result != 1);
 }
-void Character::initialize(const string &name_){
+void Character::initialize(const string &name_) {
 	type = "character";
 
 	//Location -------------------------------
@@ -243,7 +427,7 @@ void Character::initialize(const string &name_){
 	stats2Setup();
 
 	this->weapon = itms::weapons["NONE"];
-	this->armor  = itms::armors["Clothes"];
+	this->armor = itms::armors["Clothes"];
 	this->armor.decreaseNumber();
 
 	//Refreshing -----------------------------
@@ -259,7 +443,7 @@ void Character::display() const {
 	const unsigned int x2 = 31;
 
 	const vector<unsigned int> y{
-		y1+6, y1+3, y1+11, y1+6, y1+12
+		y1 + 6, y1 + 3, y1 + 11, y1 + 6, y1 + 12
 	};
 
 	//Name and Levelling ---------------------
@@ -273,7 +457,7 @@ void Character::display() const {
 		CursorPos(x1, y[0] + 3);
 		cout << color.get("yellow") << mLineTexts["SheetNandL"][3] << money << color.get("normal");
 
-		PrintBox(x1 - 1, y[0]-1, 29, 4);
+		PrintBox(x1 - 1, y[0] - 1, 29, 4);
 	}
 
 	//Equipment ------------------------------
@@ -282,18 +466,18 @@ void Character::display() const {
 		cout << mLineTexts["SheetEquipement"][0] << weapon.getName();
 		CursorPos(x1, y[1] + 1);
 		cout << mLineTexts["SheetEquipement"][1] << armor.getName();
-		
+
 		PrintBox(x1 - 1, y[1] - 1, 59, 2);
 	}
 
 	//Stats1 ---------------------------------
 	{
 		CursorPos(x1, y[2]);
-		cout << color.get("red")   << mLineTexts["Stats1Names"][0] << hp << "/" << hpMax << color.get("normal");
+		cout << color.get("red") << mLineTexts["Stats1Names"][0] << hp << "/" << hpMax << color.get("normal");
 		CursorPos(x1, y[2] + 1);
 		cout << color.get("green") << mLineTexts["Stats1Names"][1] << sp << "/" << spMax << color.get("normal");
 		CursorPos(x1, y[2] + 2);
-		cout << color.get("blue")  << mLineTexts["Stats1Names"][2] << mp << "/" << mpMax << color.get("normal");
+		cout << color.get("blue") << mLineTexts["Stats1Names"][2] << mp << "/" << mpMax << color.get("normal");
 
 		PrintBox(x1 - 1, y[2] - 1, 29, 3);
 	}
@@ -330,7 +514,7 @@ void Character::display() const {
 
 	//Title ----------------------------------
 	{
-		PrintText(30 - sLineTexts["SheetTitle"].size() / 2, y[1]-1, sLineTexts["SheetTitle"]);
+		PrintText(30 - sLineTexts["SheetTitle"].size() / 2, y[1] - 1, sLineTexts["SheetTitle"]);
 	}
 
 	//Space Pause Position -------------------
@@ -340,13 +524,13 @@ void Character::displayDependent() const {
 	const int cursorPrevY = GetCursorPos().Y;
 
 	CursorPos(8, cursorPrevY);
-	cout << mLineTexts["StatsDepNames"][0] << baseDmgMin    << "  ";
+	cout << mLineTexts["StatsDepNames"][0] << baseDmgMin << "  ";
 	CursorPos(8, cursorPrevY + 1);
-	cout << mLineTexts["StatsDepNames"][1] << baseDmgMax    << "  ";
+	cout << mLineTexts["StatsDepNames"][1] << baseDmgMax << "  ";
 	CursorPos(8, cursorPrevY + 2);
-	cout << mLineTexts["StatsDepNames"][2] << baseDefence   << "  ";
+	cout << mLineTexts["StatsDepNames"][2] << baseDefence << "  ";
 	CursorPos(8, cursorPrevY + 3);
-	cout << mLineTexts["StatsDepNames"][3] << hitChance     << "  ";
+	cout << mLineTexts["StatsDepNames"][3] << hitChance << "  ";
 	CursorPos(8, cursorPrevY + 4);
 	cout << mLineTexts["StatsDepNames"][4] << evasionChance << "  ";
 }
@@ -369,7 +553,7 @@ void Character::addExp(const int& exp_) {
 	}
 	ClearConsole();
 }
-void Character::levelUp(){
+void Character::levelUp() {
 	//Text -----------------------------------
 	{
 		CursorPos(8, 6);
@@ -405,9 +589,9 @@ void Character::levelUp(){
 }
 
 //Modifiers ------------------------------
-void Character::addToInventory(const shared_ptr<Item> &item){
+void Character::addToInventory(const shared_ptr<Item> &item) {
 	if (!item) return;
-	
+
 	if (inventory.size() != 0) {
 		for (const shared_ptr<Item> &e : inventory) {
 			if (e->getName() == item->getName()) {
@@ -482,7 +666,7 @@ void Character::removeFromInventory() {
 		bool erased;
 		do {
 			erased = false;
-			for (auto it = inventory.begin(); it != inventory.end(); it++) {
+			for (auto it = inventory.begin(); it != inventory.end(); ++it) {
 				if (it->get()->getNumber() == 0) {
 					inventory.erase(it);
 					erased = true;
@@ -534,7 +718,7 @@ void Character::equip(const Armor &item) {
 	removeFromInventory();
 }
 
-void Character::consume(const shared_ptr<Item> &item){
+void Character::consume(const shared_ptr<Item> &item) {
 	if (!item) return;
 
 	if (item->getType() == "consumable") {
@@ -542,7 +726,7 @@ void Character::consume(const shared_ptr<Item> &item){
 		this->consume(*dynamic_pointer_cast<Consumable>(item));
 	}
 }
-void Character::consume(const Consumable &item){
+void Character::consume(const Consumable &item) {
 	audio.consumable(item.getSfxDir());
 	if (item.getEffect() == "heal") {
 		hp += item.getPower();
@@ -562,7 +746,7 @@ void Character::consume(const Consumable &item){
 void Character::sortInventory() {
 	struct less_than_name
 	{
-		inline bool operator() (const shared_ptr<Item> &item1, const shared_ptr<Item> &item2)
+		inline bool operator() (const shared_ptr<Item> &item1, const shared_ptr<Item> &item2) const
 		{
 			return (item1->getName() < item2->getName());
 		}
@@ -571,14 +755,14 @@ void Character::sortInventory() {
 	sort(inventory.begin(), inventory.end(), less_than_name());
 }
 
-void Character::addToActiveSpells(Spell spell) {
+void Character::addToActiveSpells(const Spell& spell) {
 	for (Spell& e : activeSpells) {
 		if (e.getName() == spell.getName()) {
 			e = spell;
 			return;
 		}
 	}
-	
+
 	activeSpells.push_back(spell);
 }
 void Character::activeSpellsRefresh() {
@@ -597,7 +781,7 @@ void Character::castSpell(const Spell &spell, const shared_ptr<Character> &enemy
 		enemy->addToActiveSpells(spell);
 	}
 
-	int cost = int( spell.getMana() * ((100.0f + spell.getRequirements() - willpower) / 100.0f) );
+	int cost = int(spell.getMana() * ((100.0f + spell.getRequirements() - willpower) / 100.0f));
 
 	if (cost > spell.getMana()) cost = spell.getMana();
 	if (cost < spell.getRequirements()) cost = spell.getRequirements();
@@ -618,7 +802,7 @@ void Character::castSpell(const Spell &spell) {
 		sp += spell.getPower();
 		if (sp > spMax) sp = spMax;
 	}
-	else if(spell.getEffect() == "fire") {
+	else if (spell.getEffect() == "fire") {
 		hp -= spell.getPower();
 		if (hp < 0) hp = 0;
 	}
@@ -638,7 +822,7 @@ void Character::save() const {
 	ofstream out("Saves\\" + currentScenario + "\\" + name + ".json");
 
 	//Character info -------------------------
-	json characterInfo{
+	const json characterInfo{
 		{"location", location},
 		{"subLocation", subLocation},
 		{"level", level},
@@ -652,7 +836,7 @@ void Character::save() const {
 			{ "hpMax", hpMax },
 			{ "spMax", spMax },
 			{ "mpMax", mpMax },
-		}},		
+		}},
 		{ "stats2", {
 			{ "strength", strength },
 			{ "endurance", endurance },
@@ -660,8 +844,8 @@ void Character::save() const {
 			{ "agility", agility }
 		}},
 		{"money", money}
-		};
-		out << setw(2) << characterInfo;
+	};
+	out << setw(2) << characterInfo;
 
 	//Inventory info -------------------------
 	{
@@ -674,7 +858,7 @@ void Character::save() const {
 
 	out.close();
 }
-void Character::load(const string &name_){
+void Character::load(const string &name_) {
 	ifstream in("Saves\\" + name_ + ".json");
 
 	//Character info -------------------------
@@ -693,7 +877,7 @@ void Character::load(const string &name_){
 		hpMax = characterInfo["stats1"]["hpMax"];
 		spMax = characterInfo["stats1"]["spMax"];
 		mpMax = characterInfo["stats1"]["mpMax"];
-		strength  = characterInfo["stats2"]["strength"];
+		strength = characterInfo["stats2"]["strength"];
 		endurance = characterInfo["stats2"]["endurance"];
 		willpower = characterInfo["stats2"]["willpower"];
 		agility = characterInfo["stats2"]["agility"];
@@ -751,7 +935,7 @@ void Character::decreaseMoney(const int & dec) noexcept {
 	}
 }
 void Character::increaseDef(const int & inc) noexcept {
-	if(inc > 0) defence += inc;
+	if (inc > 0) defence += inc;
 }
 void Character::increaseEv(const int & inc) noexcept {
 	if (inc > 0) {
@@ -764,8 +948,37 @@ void Character::addMoney(const int & inc) noexcept {
 	}
 }
 
-/*-------------------------------- Enemy --------------------------------*/
-//Functions ------------------------------
+Enemy::Enemy() noexcept
+{
+	baseEvasionChance = 0;
+	baseHitChance = 0;
+	name = "NONE";
+	type = "enemy";
+	gfxDir = "NONE";
+} /*-------------------------------- Enemy --------------------------------*/
+Enemy::~Enemy()
+= default; //Functions ------------------------------
+const std::vector<std::string> Enemy::loadGfx() const
+{
+	return files::loadGfx(
+		"GameFiles\\Scenarios\\" + currentScenario + "\\Resources\\Graphics\\Creatures\\" + gfxDir + ".txt");
+}
+
+const std::string& Enemy::getGfxDir() const noexcept
+{
+	return gfxDir;
+}
+
+const std::string& Enemy::getSfxDir() const noexcept
+{
+	return sfxDir;
+}
+
+const std::string Enemy::loadName() const
+{
+	return enemyNames[name];
+}
+
 void Enemy::refreshStatDependent() noexcept {
 	this->dmgMin = baseDmgMin;
 	this->dmgMax = baseDmgMax;
@@ -774,19 +987,19 @@ void Enemy::refreshStatDependent() noexcept {
 	this->evasionChance = baseEvasionChance;
 }
 void Enemy::load(const json &enemyInfo) {
-		type = "enemy";
+	type = "enemy";
 
-		name = enemyInfo["name"].get<string>();
-		hpMax = enemyInfo["hpMax"];
-		baseDmgMin = enemyInfo["baseDmgMin"];
-		baseDmgMax = enemyInfo["baseDmgMax"];
-		baseDefence = enemyInfo["baseDefence"];
-		baseEvasionChance = enemyInfo["baseEvasionChance"];
-		baseHitChance = enemyInfo["baseHitChance"];
-		exp = enemyInfo["exp"];
-		gfxDir = enemyInfo["gfxDir"].get<string>();
-		sfxDir = enemyInfo["sfxDir"].get<string>();
+	name = enemyInfo["name"].get<string>();
+	hpMax = enemyInfo["hpMax"];
+	baseDmgMin = enemyInfo["baseDmgMin"];
+	baseDmgMax = enemyInfo["baseDmgMax"];
+	baseDefence = enemyInfo["baseDefence"];
+	baseEvasionChance = enemyInfo["baseEvasionChance"];
+	baseHitChance = enemyInfo["baseHitChance"];
+	exp = enemyInfo["exp"];
+	gfxDir = enemyInfo["gfxDir"].get<string>();
+	sfxDir = enemyInfo["sfxDir"].get<string>();
 
-		hp = hpMax;
-		refreshStatDependent();
+	hp = hpMax;
+	refreshStatDependent();
 }

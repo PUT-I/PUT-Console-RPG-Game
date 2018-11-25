@@ -1,8 +1,6 @@
 #pragma once
 
 #include "FrequentHeaders.h"
-#include "Global.hpp"
-#include "Sounds.hpp"
 #include <Windows.h>
 
 extern int globalFontSize, storyFontInc;
@@ -21,8 +19,8 @@ private:
 
 	//Construnctors and a destructor ---------
 public:
-	Color() noexcept {}
-	~Color() {}
+	Color() noexcept = default;
+	~Color() = default;
 
 	//Modifiers ------------------------------
 	void setGreyscale(const bool &yesNo) noexcept { greyscale = yesNo; }

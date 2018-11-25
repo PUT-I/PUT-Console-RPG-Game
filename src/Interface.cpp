@@ -1,4 +1,6 @@
 #include "Interface.hpp"
+#include "CManip.hpp"
+#include "Sounds.hpp"
 
 using namespace std;
 
@@ -197,7 +199,7 @@ void displayOptionsNoNum(unsigned const int &choice, const string &option, const
 
 	//Displaying variables -------------------
 	for (unsigned int i = 0; i < variables.size(); i++) {
-		CursorPos(PrevCursorX, GetCursorPos().Y + i / i);
+		CursorPos(PrevCursorX, GetCursorPos().Y + 1);
 		cout << ((choice == i + 1) ? "> " : "  ") << variables[i]->getName();
 		if (quantity) {
 			cout << " x" << variables[i]->getNumber();
@@ -242,7 +244,7 @@ void displayOptionsMenu (unsigned const int &choice, const vector<string> &optio
 
 //Displaying with controls----------------
 void optionsMenu(unsigned int &choice, const string &title, const string &option, const vector<string>&list, const bool &escEnabled) {
-	int action = NULL;
+	int action;
 
 	do {
 		if (choice >= 0 && choice <= list.size()) {
@@ -272,7 +274,7 @@ void optionsMenu(unsigned int &choice, const string &title, const string &option
 	}
 }
 void optionsMenu(unsigned int &choice, const string &title, const vector<string> &options, const bool &escEnabled) {
-	int action = 0;
+	int action;
 
 	do {
 		if (choice >= 0 && choice < options.size()) {
@@ -315,7 +317,7 @@ const bool confirmationMenu(const string &question) {
 		cout << (yesNo == true ? "| " : "  ") << sLineTexts["Yes"] << (yesNo == true ? " |" : "  ");
 		
 
-	} while (leftRightControls(yesNo) == false);
+	} while (!leftRightControls(yesNo));
 
 	return yesNo;
 }

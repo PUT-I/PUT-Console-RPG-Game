@@ -1,9 +1,6 @@
 #pragma once
 
 #include "FrequentHeaders.h"
-#include "CManip.hpp"
-#include "Sounds.hpp"
-#include <direct.h>
 
 std::string utf8_to_ansi(const std::string &str_, const std::vector<std::string> &vUtf, const std::vector<std::string> &vAnsi);
 std::vector<std::string> utf8_to_ansi(const std::vector<std::string> &vStr_, const std::vector<std::string> &vUtf, const std::vector<std::string> &vAnsi);

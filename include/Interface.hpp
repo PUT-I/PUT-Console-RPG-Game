@@ -1,10 +1,7 @@
 #pragma once
 
 #include "FrequentHeaders.h"
-#include "Sounds.hpp"
-#include "CManip.hpp"
 #include "Items.hpp"
-#include <Windows.h>
 
 extern const std::vector<std::string> lines;
 extern const std::vector<std::string> locationTextBlank;

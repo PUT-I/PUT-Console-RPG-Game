@@ -1,4 +1,6 @@
 #include "Game.hpp"
+#include "CManip.hpp"
+#include "Sounds.hpp"
 
 using namespace std;
 
@@ -7,7 +9,7 @@ shared_ptr<Character> noneEnemyPtr = make_shared<Enemy>(noneEnemy);
 
 //Inventory ------------------------------
 const bool Game::inventoryMenusExecution(const unsigned int &choice, const shared_ptr<Item> &item) {
-	bool result = NULL;
+	bool result;
 
 	if (hero.getMp() < item->getMana()) {
 		result = false;
@@ -98,7 +100,7 @@ void Game::displayInvGfx(const shared_ptr<Item> &item) {
 		}
 		else if (item->getType() == "spell") {
 			string effect;
-			int cost = NULL;
+			int cost;
 
 			PrintBox(34, 2, 20, 6);
 			PrintBox(34, 9, 20, 5);
@@ -141,7 +143,7 @@ void Game::displayInvGfx(const shared_ptr<Item> &item) {
 
 void Game::armorsMenu() {
 	unsigned int choice = 0;
-	bool actionExe = false;
+	bool actionExe;
 	int action = 0;
 
 	vector<shared_ptr<Item>> armors = itemTypeFind(hero.getInventory(), "armor");
@@ -203,7 +205,7 @@ void Game::armorsMenu() {
 }
 void Game::weaponsMenu() {
 	unsigned int choice = 0;
-	bool actionExe = false;
+	bool actionExe;
 	int action = 0;
 
 	vector<shared_ptr<Item>> weapons = itemTypeFind(hero.getInventory(), "weapon");
@@ -264,7 +266,7 @@ void Game::weaponsMenu() {
 }
 void Game::consumablesMenu() {
 	unsigned int choice = 0;
-	bool actionExe = true;
+	bool actionExe;
 	int action = 0;
 
 	vector<shared_ptr<Item>> consumables = itemTypeFind(hero.getInventory(), "consumable");
@@ -352,7 +354,7 @@ void Game::consumablesMenu() {
 const bool Game::spellsMenu(Enemy &enemy) {
 	unsigned int choice = 0;
 	int cost = NULL;
-	bool actionExe = true;
+	bool actionExe;
 	int action = 0;
 
 	vector<shared_ptr<Item>> spells = itemTypeFind(hero.getInventory(), "spell");
@@ -505,12 +507,11 @@ void Game::inventoryMenu() {
 			choice = 0;
 		}
 
-	} while (inventoryMenuExecution(choice) == false);
+	} while (!inventoryMenuExecution(choice));
 }
 
 void Game::shoppingBuyMenu(vector<shared_ptr<Item>> items) {
 	unsigned int choice = 0;
-	bool actionExe = false;
 	int action = 0;
 
 	vector<string> blank(15, string(21, ' '));
@@ -523,7 +524,7 @@ void Game::shoppingBuyMenu(vector<shared_ptr<Item>> items) {
 	//Removing Spells Hero Already Has -------
 	{
 		for (const shared_ptr<Item> &item : hero.getInventory()) {
-			for (auto it = items.begin(); it != items.end(); it++) {
+			for (auto it = items.begin(); it != items.end(); ++it) {
 				if ((*it)->getType() == "spell" && (*it)->getNameRaw() == item->getNameRaw()) {
 					items.erase(it);
 					break;
@@ -595,7 +596,7 @@ void Game::shoppingSellMenu() {
 	bool removed;
 	do {
 		removed = false;
-		for (auto item = items.begin(); item != items.end(); item++) {
+		for (auto item = items.begin(); item != items.end(); ++item) {
 			if ((*item)->getType() == "spell") {
 				spells.push_back(*item);
 				items.erase(item);

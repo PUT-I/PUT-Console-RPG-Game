@@ -1,4 +1,6 @@
 #include "Game.hpp"
+#include "CManip.hpp"
+#include "Sounds.hpp"
 
 using namespace std;
 
@@ -65,7 +67,7 @@ void Game::pauseMenu() {
 		ClearConsole();
 		PrintBox(0, 0, 54, 17);
 		optionsMenu(choice, sLineTexts["PauseMenuTitle"], mLineTexts["PauseMenu"], true);
-	} while (pauseMenuExecution(choice) == false);
+	} while (!pauseMenuExecution(choice));
 	setFontSize(globalFontSize + storyFontInc);
 }
 
@@ -109,7 +111,7 @@ void Game::settingsMenu() {
 	ClearConsole();
 
 	unsigned int choice = 0;
-	int action = 0;
+	int action;
 
 	vector<string> languages, codePages;
 	{
@@ -128,13 +130,13 @@ void Game::settingsMenu() {
 	}
 
 	int choiceLang = NULL;
-	int yesNo1 = NULL;	//Greyscale
-	int yesNo2 = NULL;	//Sound
+	int yesNo1;	//Greyscale
+	int yesNo2;	//Sound
 
-	if (color.getGreyscale() == false) yesNo1 = 0;
+	if (!color.getGreyscale()) yesNo1 = 0;
 	else yesNo1 = 1;
 
-	if (audio.getEnabled() == false) yesNo2 = 0;
+	if (!audio.getEnabled()) yesNo2 = 0;
 	else yesNo2 = 1;
 
 	for (unsigned int i = 0; i < languages.size(); i++) {
@@ -187,20 +189,20 @@ void Game::settingsMenu() {
 			setFontSize(globalFontSize + 32);
 		}
 		else if (choice == 3) {
-			int compareValue = NULL;
-			if (color.getGreyscale() == true) compareValue = 1;
-			else compareValue = 0;
+			int compareValue;
+			if (color.getGreyscale()) { compareValue = 1; }
+			else { compareValue = 0; }
 
 			if (yesNo1 != compareValue) {
-				if (yesNo1 == 0) color.setGreyscale(false);
-				else if (yesNo1 == 1) color.setGreyscale(true);
+				if (yesNo1 == 0) { color.setGreyscale(false); }
+				else if (yesNo1 == 1) { color.setGreyscale(true); }
 				files::loadGraphics();
 				printFrame(sLineTexts["SettingsTitle"]);
 			}
 		}
 		else if (choice == 4) {
-			if (yesNo2 == 0) audio.setEnabled(false);
-			else if (yesNo2 == 1) audio.setEnabled(true);
+			if (yesNo2 == 0) { audio.setEnabled(false); }
+			else if (yesNo2 == 1) { audio.setEnabled(true); }
 			audio.mainMenu(true);
 		}
 
@@ -325,7 +327,7 @@ void Game::mainMenuExecution(unsigned int &choice) {
 			audio.mainMenu(false);
 
 			jsonToStory();
-			if (playing == false) return;
+			if (!playing) return;
 			hero.clear();
 			choice = 0;
 		}
@@ -336,7 +338,7 @@ void Game::mainMenuExecution(unsigned int &choice) {
 
 		loadMenu();
 
-		if (inSession == false) break;
+		if (!inSession) break;
 		else {
 			jsonToStory();
 			choice = 0;
@@ -344,7 +346,7 @@ void Game::mainMenuExecution(unsigned int &choice) {
 
 		hero.clear();
 
-		if (playing == false) return;
+		if (!playing) return;
 		break;
 	}
 	case 2: {

@@ -1,4 +1,6 @@
 #include "Files.hpp"
+#include "CManip.hpp"
+#include "Character.hpp"
 
 using namespace std;
 
@@ -71,7 +73,7 @@ namespace files {
 		string temp;
 		char cTemp;
 		vector<string> result;
-		
+
 		for (const string &e : input) {
 			istringstream in(e);
 			while (in >> std::noskipws >> cTemp) {
@@ -93,7 +95,7 @@ namespace files {
 
 					temp.append(color.get(colorTemp));
 
-					if(cTemp != '&') temp.push_back(cTemp);
+					if (cTemp != '&') temp.push_back(cTemp);
 				}
 				else temp.push_back(cTemp);
 			}
@@ -222,12 +224,11 @@ namespace files {
 		in.close();
 		for (const json &e : loaded["tab"]) {
 			mLineTexts[e["key"]] = utf8_to_ansi(files::loadGfx(e["text"].get<vector<string>>()), vUtf, vAnsi);
-		}	
+		}
 	}
 
 	const bool exists(const string &path) {
-		if (filesystem::exists(path)) return true;
-		else return false;
+		return std::filesystem::exists(path);
 	}
 	void deleteAllSaves() {
 		if (exists("Saves")) {

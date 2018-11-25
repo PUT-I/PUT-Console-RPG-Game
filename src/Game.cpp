@@ -1,4 +1,8 @@
 #include "Game.hpp"
+#include "Interface.hpp"
+#include "Sounds.hpp"
+#include "Files.hpp"
+#include "CManip.hpp"
 
 using namespace std;
 
@@ -16,7 +20,7 @@ Game::Game() noexcept {
 	}
 	adaptLocationFontSize();
 	loadScenario();
-	
+
 	playing = true;
 	inSession = false;
 
@@ -28,27 +32,30 @@ Game::Game() noexcept {
 
 /*------------------------------ Functions ------------------------------*/
 //Safeguards and initialization ----------
-const bool Game::nameUsed(const string &name) {
+const bool Game::nameUsed(const string &name) const
+{
 	string temp;
 
 	//Checking if Used -----------------------
-	for (auto &p : filesystem::directory_iterator("Saves\\"+currentScenario)) {
+	for (auto &p : filesystem::directory_iterator("Saves\\" + currentScenario)) {
 		if (name + ".json" == p.path().filename().string()) {
 			return true;
 		}
 	}
 	return false;
 }
-const unsigned int Game::countSaves() {
+const unsigned int Game::countSaves() const
+{
 	unsigned int counter = 0;
-		if (filesystem::is_empty("Saves\\" + currentScenario) != true) {
-			for (auto &p : filesystem::directory_iterator("Saves\\" + currentScenario)) {
-				counter++;
-			}
+	if (filesystem::is_empty("Saves\\" + currentScenario) != true) {
+		for (auto &p : filesystem::directory_iterator("Saves\\" + currentScenario)) {
+			counter++;
 		}
+	}
 	return counter;
 }
-void Game::loadResourceMaps() {
+void Game::loadResourceMaps() const
+{
 	//Object Maps loading --------------------
 	{
 		itms::weapons.clear();
@@ -85,12 +92,12 @@ void Game::initialize() {
 
 	do {
 		//Name Setting ---------------------------
-		ClearConsole();	
+		ClearConsole();
 		PrintBox(0, 0, 54, 17);
 		PrintText(3, 2, sLineTexts["Initialize1"]);
-	
+
 		InputString(name, 15);	//Input with letter limit
-		
+
 		if (nameUsed(name)) {
 			PrintText(3, 4, sLineTexts["Initialize2"]);
 			CursorPos(27 + sLineTexts["Initialize2"].size() / 6, 5);
@@ -98,12 +105,12 @@ void Game::initialize() {
 			ClearConsole();
 			continue;
 		}
-		
+
 		ClearConsole();
 		PrintBox(0, 0, 54, 17);
 		CursorPos(3, 2);
 	} while (nameUsed(name) || !confirmationMenu(sLineTexts["Initialize3-1"] + name + sLineTexts["Initialize3-2"]));
-	
+
 	//Hero Initializing ---------------------
 	this->hero.initialize(name);
 
@@ -119,9 +126,9 @@ void Game::load(const string &heroName) {
 }
 void Game::deleteSavesMenu() {
 	do {
-	vector<string> usedNames;
-	string temp;
-	unsigned int choice = 0;
+		vector<string> usedNames;
+		string temp;
+		unsigned int choice = 0;
 		if (countSaves() > 0) {
 			for (auto &p : filesystem::directory_iterator("Saves\\" + currentScenario)) {
 				temp = p.path().filename().string();
@@ -148,7 +155,7 @@ void Game::deleteSavesMenu() {
 void Game::heroToTempHero() {
 	tempHero = hero;
 	vector<shared_ptr<Item>> tempInv;
-	
+
 	/*
 	This part is needed in order to prevent reducing number
 	of items after copying hero to tempHero, which may
@@ -178,7 +185,7 @@ const bool Game::spellsExecution(const unsigned int & choice, const shared_ptr<I
 	CursorPosBegin();
 
 	//if (choice > 0) audio.setVolume("enter", 0);
-	
+
 	if (hero.getMp() < item->getMana()) {
 		result = false;
 	}
@@ -203,11 +210,11 @@ void Game::displayFightStats(const Enemy& enemy) {
 		CursorPos(1, 1);
 		cout << hero.getName();
 		CursorPos(1, 2);
-		cout << color.get("red")	<< mLineTexts["FightStats"][0] << hero.getHp() << "/" << hero.getHpMax() << color.get("normal") << "  ";
+		cout << color.get("red") << mLineTexts["FightStats"][0] << hero.getHp() << "/" << hero.getHpMax() << color.get("normal") << "  ";
 		CursorPos(1, 3);
-		cout << color.get("green")	<< mLineTexts["FightStats"][1] << hero.getSp() << "/" << hero.getSpMax() << color.get("normal") << "  ";
+		cout << color.get("green") << mLineTexts["FightStats"][1] << hero.getSp() << "/" << hero.getSpMax() << color.get("normal") << "  ";
 		CursorPos(1, 4);
-		cout << color.get("blue")	<< mLineTexts["FightStats"][2] << hero.getMp() << "/" << hero.getMpMax() << color.get("normal") << "  ";
+		cout << color.get("blue") << mLineTexts["FightStats"][2] << hero.getMp() << "/" << hero.getMpMax() << color.get("normal") << "  ";
 		CursorPos(1, 5);
 		cout << mLineTexts["FightStats"][3] << hero.getDefence() << "  ";
 		CursorPos(1, 6);
@@ -247,7 +254,7 @@ void Game::fightExecution(Enemy &enemy) {
 				damage = enemy.getDmgMin();
 			}
 
-			if (damage - hero.getDefence()> 0) {
+			if (damage - hero.getDefence() > 0) {
 				hero.getDamaged(damage);
 				audio.creature(enemy.getSfxDir(), "hit");
 			}
@@ -276,10 +283,10 @@ const bool Game::fightExecution(const unsigned int& choice, Enemy &enemy) {
 		int chance = hero.getHitC() - enemy.getEvasionC();
 		if (chance < 1) chance = 1;
 
-		if ( randInt(1, 100) <=  chance) {
-			int damage = randInt( (hero.getSp() / hero.getSpMax())*hero.getDmgMax(), hero.getDmgMax() );
+		if (randInt(1, 100) <= chance) {
+			int damage = randInt((hero.getSp() / hero.getSpMax())*hero.getDmgMax(), hero.getDmgMax());
 
-			if ( damage < hero.getDmgMin() ) {
+			if (damage < hero.getDmgMin()) {
 				damage = hero.getDmgMin();
 			}
 
@@ -305,7 +312,7 @@ const bool Game::fightExecution(const unsigned int& choice, Enemy &enemy) {
 	}
 
 	case 1: {
-		hero.increaseDef( randInt(1, enemy.getDmgMin()-hero.getDefence()) );
+		hero.increaseDef(randInt(1, enemy.getDmgMin() - hero.getDefence()));
 
 		int dec = hero.getArmor().getRequirements() * 5 - 2 * hero.getAgility();
 		if (dec < 1) {
@@ -318,7 +325,7 @@ const bool Game::fightExecution(const unsigned int& choice, Enemy &enemy) {
 	}
 
 	case 2: {
-		hero.increaseEv( randInt(1, 2*hero.getAgility()) );
+		hero.increaseEv(randInt(1, 2 * hero.getAgility()));
 
 		int dec = hero.getArmor().getRequirements() * 10 - 2 * hero.getAgility();
 		if (dec < 1) {
@@ -343,7 +350,7 @@ const bool Game::fightExecution(const unsigned int& choice, Enemy &enemy) {
 		PrintBox(0, 0, 22, 11);
 		PrintBox(0, 12, 22, 5);
 
-		if (temp == false) {
+		if (!temp) {
 			return false;
 		}
 
@@ -367,7 +374,7 @@ const bool Game::fightExecution(const unsigned int& choice, Enemy &enemy) {
 	return true;
 }
 
-void Game::fight(Enemy enemy){
+void Game::fight(Enemy enemy) {
 	unsigned int choice = 0;
 
 	ClearConsole();
@@ -389,7 +396,7 @@ void Game::fight(Enemy enemy){
 				}
 			} while (!upDownControls(choice, 5));
 
-		} while(!fightExecution(choice, enemy));
+		} while (!fightExecution(choice, enemy));
 
 		enemy.activeSpellsRefresh();
 		hero.activeSpellsRefresh();
@@ -401,9 +408,9 @@ void Game::fight(Enemy enemy){
 		Sleep(500);
 		fightExecution(enemy);
 
-		hero.addSp(int{ hero.getSpMax()/100 });
+		hero.addSp(int{ hero.getSpMax() / 100 });
 
-	} while ( hero.getHp() > 0 && enemy.getHp() > 0);
+	} while (hero.getHp() > 0 && enemy.getHp() > 0);
 
 	enemy.clearActiveSpells();
 	hero.clearActiveSpells();
@@ -411,7 +418,7 @@ void Game::fight(Enemy enemy){
 	if (hero.getHp() == 0) {
 		ClearConsole();
 		PrintBox(0, 0, 54, 17);
-		CursorPos(8 , 4);
+		CursorPos(8, 4);
 		cout << sLineTexts["MsgDead"];
 		audio.creature("Character", "death");
 		CursorPos(8, 6);
@@ -459,9 +466,9 @@ void Game::locationMenu(unsigned int &choice, const vector<string> &description,
 			pauseMenu();
 			if (!inSession) {
 				return;
-			}		
-		audio.ambience(true);
-		printMenuGFX(description, gfx);
+			}
+			audio.ambience(true);
+			printMenuGFX(description, gfx);
 		}
 	} while (tempControlsResult != 1);
 }
@@ -486,7 +493,7 @@ void Game::jsonToStory() {
 	auto parseAction = [this, &choice, &action, &description, &options]() {
 		unsigned int statementTrueSize;
 		for (unsigned int i = 0; i < action.size() && inSession; i++) {
-				 if (action[i] == "sleep") { i++; Sleep(stoi(action[i])); }
+			if (action[i] == "sleep") { i++; Sleep(stoi(action[i])); }
 			else if (action[i] == "break") { return true; }
 			else if (action[i] == "clear") { ClearConsole(); }
 			else if (action[i] == "sessionEnd") { inSession = false; }
@@ -499,7 +506,7 @@ void Game::jsonToStory() {
 				CursorPos(xPos, yPos);
 				SpacePause();
 			}
-			else if (action[i] == "frame") { 
+			else if (action[i] == "frame") {
 				i++;
 				if (action[i] == "small") { setFontSize(globalFontSize + 32); PrintBox(0, 0, 54, 17); }
 				else if (action[i] == "big") { setFontSize(globalFontSize + storyFontInc); PrintBox(0, 0, 81, 26); }
@@ -517,8 +524,9 @@ void Game::jsonToStory() {
 				i++;
 				unsigned int index = stoi(action[i]);
 				i++;
-				if (action[i] == "true") { 
-					this->plotSwitches[index] = true;}
+				if (action[i] == "true") {
+					this->plotSwitches[index] = true;
+				}
 				else if (action[i] == "false") { this->plotSwitches[index] = false; }
 			}
 			else if (action[i] == "audio") {
@@ -541,7 +549,7 @@ void Game::jsonToStory() {
 				}
 				else if (action[i] == "ambience") {
 					bool onOff;
-					if (action[i+2] == "true") { onOff = true; }
+					if (action[i + 2] == "true") { onOff = true; }
 					else { onOff = false; }
 					audio.ambience(action[i + 1], onOff);
 					i += 2;
@@ -561,11 +569,11 @@ void Game::jsonToStory() {
 					else if (action[i] == "spell") { i++; hero.addToInventory(itms::spells[action[i]]); }
 					else if (action[i] == "consumable") { hero.addToInventory(itms::consumables[action[i + 1]], stoi(action[i + 2])); i += 2; }
 				}
-				else if (action[i] == "hp")		{ i++; hero.addHp(stoi(action[i]));		}
-				else if (action[i] == "sp")		{ i++; hero.addSp(stoi(action[i]));		}
-				else if (action[i] == "mp")		{ i++; hero.addMp(stoi(action[i]));		}
-				else if (action[i] == "exp")	{ i++; hero.addExp(stoi(action[i]));	}
-				else if (action[i] == "money")	{ i++; hero.addMoney(stoi(action[i]));	}
+				else if (action[i] == "hp") { i++; hero.addHp(stoi(action[i])); }
+				else if (action[i] == "sp") { i++; hero.addSp(stoi(action[i])); }
+				else if (action[i] == "mp") { i++; hero.addMp(stoi(action[i])); }
+				else if (action[i] == "exp") { i++; hero.addExp(stoi(action[i])); }
+				else if (action[i] == "money") { i++; hero.addMoney(stoi(action[i])); }
 			}
 			else if (action[i] == "setSubLocation") { i++; hero.setSubLocation(stoi(action[i])); }
 			else if (action[i] == "setLocation") { i++; hero.setLocation(stoi(action[i])); }
@@ -580,11 +588,11 @@ void Game::jsonToStory() {
 				description = mLineTexts[action[i]];
 			}
 			else if (action[i] == "optionsPopBack") { options.pop_back(); choice--; }
-			else if (action[i] == "merchant") { 
+			else if (action[i] == "merchant") {
 				i++;
 				shoppingChoiceMenu(files::load("GameFiles\\Scenarios\\" + currentScenario + "\\Resources\\merchants.json", action[i]));
 			}
-			else if (action[i] == "if") {		
+			else if (action[i] == "if") {
 				i++;
 				if (action[i] == "plotSwitch") {
 					i++;
@@ -609,46 +617,46 @@ void Game::jsonToStory() {
 	};
 
 	while (inSession) {
-			choice = 0;
-			subLocation = scenario["location" + to_string(hero.getLocation())][hero.getSubLocation() - 1];
+		choice = 0;
+		subLocation = scenario["location" + to_string(hero.getLocation())][hero.getSubLocation() - 1];
 
-			if(subLocation["description"] != "NONE") description = mLineTexts[subLocation["description"]];
-			options = mLineTexts[subLocation["options"]];
+		if (subLocation["description"] != "NONE") description = mLineTexts[subLocation["description"]];
+		options = mLineTexts[subLocation["options"]];
 
-			if (subLocation["save"] == true)heroToTempHero();
-			DisplayGfx(31, 1, locationTextBlank);
-			DisplayGfx(1, 22, locationOptionsBlank);
-				
-			action = subLocation["preOptions"].get<vector<string>>();
-			parseAction();
+		if (subLocation["save"] == true)heroToTempHero();
+		DisplayGfx(31, 1, locationTextBlank);
+		DisplayGfx(1, 22, locationOptionsBlank);
 
-			while (true) {			
-				if (subLocation["ambience"][0].get<string>() != "NONE") {
-					audio.ambience(100.0f);
-					audio.ambience(subLocation["ambience"][0].get<string>(), subLocation["ambience"][1].get<bool>());
-				}
-				else if (subLocation["ambience"][0].get<string>() == "NONE") {
-					audio.ambience(0.0f);
-					audio.ambience(subLocation["ambience"][1].get<bool>());
-				}
+		action = subLocation["preOptions"].get<vector<string>>();
+		parseAction();
 
-				locationMenu(choice, description, options, graphics[subLocation["graphics"]]);
-				if (inSession == false) {
-					break;
-				}
-
-				action = subLocation["preChoice"].get<vector<string>>();
-				parseAction();
-
-				action = subLocation["choice"][choice]["action"].get<vector<string>>();
-				if (parseAction())break;
-				if (!inSession) {
-					break;
-				}
+		while (true) {
+			if (subLocation["ambience"][0].get<string>() != "NONE") {
+				audio.ambience(100.0f);
+				audio.ambience(subLocation["ambience"][0].get<string>(), subLocation["ambience"][1].get<bool>());
 			}
-			action = subLocation["afterChoice"].get<vector<string>>();
+			else if (subLocation["ambience"][0].get<string>() == "NONE") {
+				audio.ambience(0.0f);
+				audio.ambience(subLocation["ambience"][1].get<bool>());
+			}
+
+			locationMenu(choice, description, options, graphics[subLocation["graphics"]]);
+			if (!inSession) {
+				break;
+			}
+
+			action = subLocation["preChoice"].get<vector<string>>();
 			parseAction();
+
+			action = subLocation["choice"][choice]["action"].get<vector<string>>();
+			if (parseAction())break;
+			if (!inSession) {
+				break;
+			}
 		}
+		action = subLocation["afterChoice"].get<vector<string>>();
+		parseAction();
+	}
 
 	audio.ambience(false);
 	audio.mainMenu(true);

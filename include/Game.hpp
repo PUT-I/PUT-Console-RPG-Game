@@ -1,9 +1,6 @@
 #pragma once
 #include "FrequentHeaders.h"
 #include "Character.hpp"
-#include "Interface.hpp"
-#include "Sounds.hpp"
-#include "Files.hpp"
 #include "Items.hpp"
 
 class Game
@@ -12,8 +9,8 @@ class Game
 private:
 	bool playing;	//If false the game is closed
 	bool inSession; //It indicates if player is actually playing
-	bool plotSwitches[10];
-	json scenario;
+	bool plotSwitches[10]{};
+	json scenario{};
 
 	//Character ------------------------------
 	Character hero;
@@ -22,14 +19,14 @@ private:
 	//Constructors and a destructor ----------
 public:
 	Game() noexcept;
-	virtual ~Game(){}
+	virtual ~Game() = default;
 
 private:
 	/*------------------------------ Functions ------------------------------*/
 	//Safeguards and initialization ----------
-	const bool nameUsed(const std::string & name);
-	const unsigned int countSaves();
-	void loadResourceMaps();
+	const bool nameUsed(const std::string & name) const;
+	const unsigned int countSaves() const;
+	void loadResourceMaps() const;
 	void initialize();
 
 	//Saving and Loading ---------------------
@@ -40,9 +37,9 @@ private:
 
 	/*------------------------------ Inventory ------------------------------*/
 	const bool inventoryMenusExecution(const unsigned int& choice, const std::shared_ptr<Item> &item);
-	
+
 	void displayInvGfx(const std::shared_ptr<Item> &item);
-	
+
 	void armorsMenu();
 	void weaponsMenu();
 	void consumablesMenu();

@@ -134,14 +134,8 @@
     </PostBuildEvent>
     <Xdcmake />
     <PreBuildEvent>
-      <Command>move "$(SolutionDir)\Debug\Game\Saves" "$(SolutionDir)\Debug"
-rd /s /q "$(TargetDir)" 
-robocopy "$(SolutionDir)\Debug\Saves" "$(SolutionDir)\Debug\Game\Saves" /MOV
-rd /s /q "$(SolutionDir)\Debug\Saves" 
-xcopy "$(SolutionDir)\GameFiles" "$(TargetDir)GameFiles\" /E /Y
-xcopy "$(SolutionDir)\SFML 32bit\bin\openal32.dll" "$(TargetDir)" /E /Y
-xcopy "$(SolutionDir)\SFML 32bit\bin\sfml-system-d-2.dll" "$(TargetDir)" /E /Y
-xcopy "$(SolutionDir)\SFML 32bit\bin\sfml-audio-d-2.dll" "$(TargetDir)" /E /Y</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -192,14 +186,8 @@ xcopy "$(SolutionDir)\SFML 32bit\bin\sfml-audio-d-2.dll" "$(TargetDir)" /E /Y</C
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>move "$(SolutionDir)\Release\Game\Saves" "$(SolutionDir)\Release"
-rd /s /q "$(TargetDir)" 
-robocopy "$(SolutionDir)\Release\Saves" "$(SolutionDir)\Release\Game\Saves" /MOV
-rd /s /q "$(SolutionDir)\Release\Saves" 
-xcopy "$(SolutionDir)\GameFiles" "$(TargetDir)GameFiles\" /E /Y
-xcopy "$(SolutionDir)\SFML 32bit\bin\openal32.dll" "$(TargetDir)" /E /Y
-xcopy "$(SolutionDir)\SFML 32bit\bin\sfml-system-2.dll" "$(TargetDir)" /E /Y
-xcopy "$(SolutionDir)\SFML 32bit\bin\sfml-audio-2.dll" "$(TargetDir)" /E /Y</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

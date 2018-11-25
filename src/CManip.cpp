@@ -1,5 +1,7 @@
 #include "CManip.hpp"
 #include <conio.h>
+#include "Sounds.hpp"
+#include "Character.hpp"
 
 using namespace std;
 
@@ -47,7 +49,7 @@ void setFontSize(const int &FontSize) noexcept {
 	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), NULL, &info);
 }
 void ClearConsoleInputBuffer() {
-	PINPUT_RECORD ClearingVar1 = new INPUT_RECORD[256];
+	const auto ClearingVar1 = new INPUT_RECORD[256];
 	DWORD ClearingVar2;
 	ReadConsoleInput(GetStdHandle(STD_INPUT_HANDLE), ClearingVar1, 256, &ClearingVar2);
 	delete[] ClearingVar1;
@@ -62,7 +64,7 @@ void ShowConsoleCursor(const bool &showFlag) noexcept {
 	SetConsoleCursorInfo(out, &cursorInfo);
 }
 void ClearConsole() noexcept {
-	COORD topLeft = { 0, 0 };
+	const COORD topLeft = { 0, 0 };
 	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_SCREEN_BUFFER_INFO screen;
 	DWORD written;
@@ -79,14 +81,13 @@ void ClearConsole() noexcept {
 }
 
 void InputString(string &str, const unsigned int &limit) {
-	COORD prevCursorPos = GetCursorPos();
-	char c;
+	const COORD prevCursorPos = GetCursorPos();
 	do {
 		CursorPos(prevCursorPos);
 		cout << str << ' ';
 		CursorMove(-1, 0);
 		ShowConsoleCursor(true);
-		c = _getch();
+		const char c = _getch();
 		ShowConsoleCursor(false);
 
 		if (c != 0x00) {
@@ -112,7 +113,6 @@ void InputString(string &str, const unsigned int &limit) {
 				}
 			}
 		}
-		else continue;
 	} while (true);
 }
 const pair<int, int> GetDesktopResolution() noexcept {
@@ -124,11 +124,11 @@ const pair<int, int> GetDesktopResolution() noexcept {
 	return resolution;
 }
 void Fullscreeen(const bool &yesNo) noexcept {
-	if (yesNo == true) {
-		SetConsoleDisplayMode(GetStdHandle(STD_OUTPUT_HANDLE), CONSOLE_FULLSCREEN_MODE, 0);
+	if (yesNo) {
+		SetConsoleDisplayMode(GetStdHandle(STD_OUTPUT_HANDLE), CONSOLE_FULLSCREEN_MODE, nullptr);
 	}
 	else {
-		SetConsoleDisplayMode(GetStdHandle(STD_OUTPUT_HANDLE), CONSOLE_WINDOWED_MODE, 0);
+		SetConsoleDisplayMode(GetStdHandle(STD_OUTPUT_HANDLE), CONSOLE_WINDOWED_MODE, nullptr);
 	}
 }
 
@@ -165,7 +165,7 @@ void SpacePause() {
 }
 
 void adaptLocationFontSize() noexcept {
-	pair<int, int> resolution = GetDesktopResolution();
+	const pair<int, int> resolution = GetDesktopResolution();
 
 	if (resolution.first <= 1280) storyFontInc = 20;
 	else if (resolution.first <= 1440) storyFontInc = 19;
@@ -175,16 +175,16 @@ void adaptLocationFontSize() noexcept {
 	else if (resolution.first <= 2103) storyFontInc = 12;
 	else if (resolution.first <= 2351) storyFontInc = 9;
 	else if (resolution.first <= 2560) storyFontInc = 7;
-	else if (resolution.first >  2560) storyFontInc = 1;
+	else if (resolution.first > 2560) storyFontInc = 1;
 }
 void adaptFontSize() {
-	pair<int, int> resolution = GetDesktopResolution();
+	const pair<int, int> resolution = GetDesktopResolution();
 
 	if (resolution.first == 1680) globalFontSize = 16;
 	else if (resolution.first >= 3840) globalFontSize = 60;
 	else {
-		float temp = float((-3.0f / 500000.0f)*pow(resolution.first, 2) + 0.0511*resolution.first - 51.634f);
-		globalFontSize = int( round(temp) );
+		const float temp = float((-3.0f / 500000.0f)*pow(resolution.first, 2) + 0.0511*resolution.first - 51.634f);
+		globalFontSize = int(round(temp));
 	}
 	//else if (resolution.first <= 1280) globalFontSize = 5;
 	//else if (resolution.first >= 1360 && resolution.first <= 1368) globalFontSize = 8;
@@ -199,7 +199,7 @@ void adaptFontSize() {
 }
 
 //GFX -----------------------------------
-void PrintBox (const unsigned int &xPos, const unsigned int &yPos, const unsigned int &width, const unsigned int &height) {
+void PrintBox(const unsigned int &xPos, const unsigned int &yPos, const unsigned int &width, const unsigned int &height) {
 	COORD coordinates1;
 	coordinates1.X = xPos;
 	coordinates1.Y = yPos;
@@ -227,11 +227,11 @@ void PrintBox (const unsigned int &xPos, const unsigned int &yPos, const unsigne
 
 	const string equalSigns{ string(width, '=') };
 
-		CursorPos(coordinates1);
-		cout << equalSigns;
+	CursorPos(coordinates1);
+	cout << equalSigns;
 
-		CursorPos(coordinates2);
-		cout << equalSigns;
+	CursorPos(coordinates2);
+	cout << equalSigns;
 }
 void PrintText(const unsigned int &xPos, const unsigned int &yPos, const string &text) {
 	CursorPos(xPos, yPos);
@@ -245,7 +245,7 @@ void PrintText(const unsigned int &xPos, const unsigned int &yPos, const string 
 	CursorPos(xPos, yPos);
 	cout << text1 << text2;
 }
-void DisplayGfx (const unsigned int &xPos, const unsigned int &yPos, const vector<string> &gfx) {
+void DisplayGfx(const unsigned int &xPos, const unsigned int &yPos, const vector<string> &gfx) {
 	for (unsigned int i = 0; i < gfx.size(); i++) {
 		CursorPos(xPos, yPos + i);
 		cout << gfx[i];

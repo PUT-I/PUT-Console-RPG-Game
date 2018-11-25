@@ -1,4 +1,6 @@
 #include "Sounds.hpp"
+#include <random>
+#include "Character.hpp"
 
 using namespace std;
 using namespace sf;
@@ -83,6 +85,7 @@ void Audio::ui(const string &selection) {
 						tempBuffer.loadFromFile("GameFiles\\Sounds\\UI\\Change4.ogg");
 						break;
 					}
+			default: {}
 			}
 	}
 

@@ -3,9 +3,9 @@
 #include "FrequentHeaders.h"
 #include "Interface.hpp"
 
-class Character{
+class Character {
 protected:
-	std::string type;
+	std::string type{};
 
 	//Location -------------------------------
 	int location;
@@ -16,7 +16,7 @@ protected:
 	int exp;
 	int expNext;
 
-	std::string name;
+	std::string name{};
 
 	//Stats1 ---------------------------------
 	int hp;			//Health
@@ -50,14 +50,14 @@ protected:
 	Weapon weapon;
 	Armor  armor;
 
-	std::vector<Spell> activeSpells;
+	std::vector<Spell> activeSpells{};
 
 	int money = 0;
 
 	//Construnctor and a destructor ----------
 public:
 	Character() noexcept;
-	virtual ~Character() {}
+	virtual ~Character();
 
 	//Functions ------------------------------
 	void clear();
@@ -75,8 +75,8 @@ public:
 	void levelUp();
 
 	//Modifiers ------------------------------
-	void setLocation(const int &var)	noexcept { this->location = var; }
-	void setSubLocation(const int &var) noexcept { this->subLocation = var; }
+	void setLocation(const int& var) noexcept;
+	void setSubLocation(const int& var) noexcept;
 	void addToInventory(const std::shared_ptr<Item> &item);
 	void addToInventory(const Weapon &item);
 	void addToInventory(const Armor &item);
@@ -97,7 +97,7 @@ public:
 
 	void sortInventory();
 
-	void addToActiveSpells(Spell spell);
+	void addToActiveSpells(const Spell& spell);
 	void activeSpellsRefresh();
 	void castSpell(const Spell &spell, const std::shared_ptr<Character> &enemy);
 private:
@@ -107,51 +107,51 @@ public:
 	void clearActiveSpells() noexcept;
 
 	/*------------------------------ Accessors ------------------------------*/
-	const std::string& getType() const noexcept { return type; }
+	const std::string& getType() const noexcept;
 
 	//Location Accessors ---------------------
-	const int& getLocation()	 const noexcept { return this->location;	}
-	const int& getSubLocation()	 const noexcept { return this->subLocation;	}
+	const int& getLocation() const noexcept;
+	const int& getSubLocation() const noexcept;
 
-	const std::string& getName() const noexcept { return this->name; }
+	const std::string& getName() const noexcept;
 
 	//Levelling Accessors---------------------
-	const int& getLevel()	const noexcept { return this->level;	}
-	const int& getExp()		const noexcept { return this->exp;		}
-	const int& getExpNext() const noexcept { return this->expNext;	}
+	const int& getLevel() const noexcept;
+	const int& getExp() const noexcept;
+	const int& getExpNext() const noexcept;
 
 	//Stats1 Accessors -----------------------
-	const int& getHp()		const noexcept { return this->hp;	 }
-	const int& getHpMax()	const noexcept { return this->hpMax; }
-	const int& getSp()		const noexcept { return this->sp;	 }
-	const int& getSpMax()	const noexcept { return this->spMax; }
-	const int& getMp()		const noexcept { return this->mp;	 }
-	const int& getMpMax()	const noexcept { return this->mpMax; }
+	const int& getHp() const noexcept;
+	const int& getHpMax() const noexcept;
+	const int& getSp() const noexcept;
+	const int& getSpMax() const noexcept;
+	const int& getMp() const noexcept;
+	const int& getMpMax() const noexcept;
 
 	//Dependent stats Accessors --------------
-	const int& getBaseDmgMin()	const noexcept { return this->baseDmgMin;	}
-	const int& getBaseDmgMax()	const noexcept { return this->baseDmgMax;	}
-	const int& getDmgMin()		const noexcept { return this->dmgMin;		}
-	const int& getDmgMax()		const noexcept { return this->dmgMax;		}
-	const int& getDefence()		const noexcept { return this->defence;		}
-	const int& getHitC()		const noexcept { return this->hitChance;	}
-	const int& getEvasionC()	const noexcept { return this->evasionChance;}
-	
+	const int& getBaseDmgMin() const noexcept;
+	const int& getBaseDmgMax() const noexcept;
+	const int& getDmgMin() const noexcept;
+	const int& getDmgMax() const noexcept;
+	const int& getDefence() const noexcept;
+	const int& getHitC() const noexcept;
+	const int& getEvasionC() const noexcept;
+
 	//Stats2 Accessors -----------------------
-	const int& getStrength()	const noexcept { return this->strength;		}
-	const int& getEndurance()	const noexcept { return this->endurance;	}
-	const int& getWillpower()	const noexcept { return this->willpower;	}
-	const int& getAgility()		const noexcept { return this->agility;		}
-	const int& getStat1Points() const noexcept { return this->stat1Points;	}
-	const int& getStat2Points() const noexcept { return this->stat2Points;	}
+	const int& getStrength() const noexcept;
+	const int& getEndurance() const noexcept;
+	const int& getWillpower() const noexcept;
+	const int& getAgility() const noexcept;
+	const int& getStat1Points() const noexcept;
+	const int& getStat2Points() const noexcept;
 
 	//Equipment Accessors --------------------
-	const std::vector<std::shared_ptr<Item>>& getInventory() const noexcept { return this->inventory; }
-	std::vector<std::shared_ptr<Item>>& getInventory() noexcept { return this->inventory; }
-	const Weapon& getWeapon() const noexcept { return this->weapon; }
-	const Armor&  getArmor()  const noexcept { return this->armor; }
-	Armor&  getArmor()  noexcept { return this->armor; }
-	const int& getMoney() const noexcept { return money; }
+	const std::vector<std::shared_ptr<Item>>& getInventory() const noexcept;
+	std::vector<std::shared_ptr<Item>>& getInventory() noexcept;
+	const Weapon& getWeapon() const noexcept;
+	const Armor& getArmor() const noexcept;
+	Armor& getArmor() noexcept;
+	const int& getMoney() const noexcept;
 	/*-----------------------------------------------------------------------*/
 
 
@@ -169,9 +169,9 @@ public:
 	void increaseDef(const int &inc) noexcept;
 	void increaseEv(const int &inc) noexcept;
 	void addMoney(const int &inc) noexcept;
-	void replaceInventory(const std::vector<std::shared_ptr<Item>> &items) { inventory = items; }
+	void replaceInventory(const std::vector<std::shared_ptr<Item>>& items);
 
-	const std::vector<Spell>& getActiveSpells() noexcept { return activeSpells; }
+	const std::vector<Spell>& getActiveSpells() const noexcept;
 };
 
 class Enemy : public Character {
@@ -179,32 +179,24 @@ private:
 	//Additional Dependent stats -------------
 	int baseEvasionChance;
 	int baseHitChance;
-	std::string gfxDir;
-	std::string sfxDir;
+	std::string gfxDir{};
+	std::string sfxDir{};
 
 
 	//Construnctors and a destructor ---------
 public:
-	Enemy() noexcept {
-		baseEvasionChance = 0;
-		baseHitChance = 0;
-		name = "NONE";
-		type = "enemy";
-		gfxDir = "NONE";
-	}
-	~Enemy(){}
+	Enemy() noexcept;
+	~Enemy();
 
 	//Functions ------------------------------
 	void refreshStatDependent() noexcept override;
-	const std::vector<std::string> loadGfx() const {
-		return files::loadGfx("GameFiles\\Scenarios\\" + currentScenario + "\\Resources\\Graphics\\Creatures\\" + gfxDir + ".txt");
-	}
+	const std::vector<std::string> loadGfx() const;
 	void load(const json &enemyInfo);
 
 	//Accessors ------------------------------
-	const std::string& getGfxDir() const noexcept { return gfxDir; }
-	const std::string& getSfxDir() const noexcept { return sfxDir; }
-	const std::string  loadName()  const { return enemyNames[name]; }
+	const std::string& getGfxDir() const noexcept;
+	const std::string& getSfxDir() const noexcept;
+	const std::string loadName() const;
 };
 
 //----------------------- Enemies -----------------------//
