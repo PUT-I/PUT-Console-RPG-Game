@@ -8,7 +8,7 @@ Enemy noneEnemy;
 shared_ptr<Character> noneEnemyPtr = make_shared<Enemy>(noneEnemy);
 
 //Inventory ------------------------------
-const bool Game::inventoryMenusExecution(const unsigned int &choice, const shared_ptr<Item> &item) {
+const bool Game::inventoryMenusExecution(const shared_ptr<Item> &item) {
 	bool result;
 
 	if (hero.getMp() < item->getMana()) {
@@ -43,7 +43,8 @@ const bool Game::inventoryMenusExecution(const unsigned int &choice, const share
 	return result;
 }
 
-void Game::displayInvGfx(const shared_ptr<Item> &item) {
+void Game::displayInvGfx(const shared_ptr<Item> &item) const
+{
 	PrintText(1, 1, color.get("yellow") + sLineTexts["ShoppingYourMoney"] + to_string(hero.getMoney()) + color.get("normal") + "   ");
 
 	if (item != nullptr) {
@@ -199,7 +200,7 @@ void Game::armorsMenu() {
 
 		if (choice == 0) return;
 
-		actionExe = inventoryMenusExecution(choice, armors[choice - 1]);
+		actionExe = inventoryMenusExecution(armors[choice - 1]);
 
 	} while (!actionExe);
 }
@@ -261,7 +262,7 @@ void Game::weaponsMenu() {
 
 		if (choice == 0) return;
 
-		actionExe = inventoryMenusExecution(choice, weapons[choice - 1]);
+		actionExe = inventoryMenusExecution(weapons[choice - 1]);
 	} while (!actionExe);
 }
 void Game::consumablesMenu() {
@@ -272,8 +273,8 @@ void Game::consumablesMenu() {
 	vector<shared_ptr<Item>> consumables = itemTypeFind(hero.getInventory(), "consumable");
 	ClearConsole();
 
-	vector<string> blank1(5, string(20, ' '));
-	vector<string> blank2(2, string(20, ' '));
+	const vector<string> blank1(5, string(20, ' '));
+	const vector<string> blank2(2, string(20, ' '));
 
 	unsigned int greatestSize;
 	if (sLineTexts["MsgHpFull"].size() > sLineTexts["MsgSpFull"].size()) greatestSize = sLineTexts["MsgHpFull"].size();
@@ -348,7 +349,7 @@ void Game::consumablesMenu() {
 		}
 		if (choice == 0) return;
 
-		actionExe = inventoryMenusExecution(choice, consumables[choice - 1]);
+		actionExe = inventoryMenusExecution(consumables[choice - 1]);
 	} while (!actionExe);
 }
 const bool Game::spellsMenu(Enemy &enemy) {
@@ -360,8 +361,8 @@ const bool Game::spellsMenu(Enemy &enemy) {
 	vector<shared_ptr<Item>> spells = itemTypeFind(hero.getInventory(), "spell");
 	ClearConsole();
 
-	vector<string> blank1(6, string(20, ' '));
-	vector<string> blank2(4, string(20, ' '));
+	const vector<string> blank1(6, string(20, ' '));
+	const vector<string> blank2(4, string(20, ' '));
 
 	unsigned int greatestSize;
 	if (sLineTexts["MsgHpFull"].size() > sLineTexts["MsgSpFull"].size()) greatestSize = sLineTexts["MsgHpFull"].size();
@@ -446,7 +447,7 @@ const bool Game::spellsMenu(Enemy &enemy) {
 		if (choice == 0) return false;
 
 		if (enemy.getName() == "NONE") {
-			actionExe = inventoryMenusExecution(choice, spells[choice - 1]);
+			actionExe = inventoryMenusExecution(spells[choice - 1]);
 		}
 		else {
 			actionExe = spellsExecution(choice, spells[choice - 1], enemy);
@@ -514,7 +515,7 @@ void Game::shoppingBuyMenu(vector<shared_ptr<Item>> items) {
 	unsigned int choice = 0;
 	int action = 0;
 
-	vector<string> blank(15, string(21, ' '));
+	const vector<string> blank(15, string(21, ' '));
 
 	unsigned int greatestSize;
 	if (sLineTexts["MsgHaveSpell"].size() > sLineTexts["MsgMoney"].size()) greatestSize = sLineTexts["MsgMoney"].size();
@@ -567,7 +568,7 @@ void Game::shoppingBuyMenu(vector<shared_ptr<Item>> items) {
 		} while (action == 0);
 
 		if (action == 1 && choice > 0) {
-			if (items[choice - 1]->getType() == "spell" && find(hero.getInventory().begin(), hero.getInventory().end(), items[choice - 1]) != hero.getInventory().end());
+			if (items[choice - 1]->getType() == "spell" && find(hero.getInventory().begin(), hero.getInventory().end(), items[choice - 1]) != hero.getInventory().end()){}
 			else if (hero.getMoney() >= items[choice - 1]->getPrice()) {
 				hero.decreaseMoney(items[choice - 1]->getPrice());
 				hero.addToInventory(items[choice - 1]);
@@ -587,7 +588,7 @@ void Game::shoppingSellMenu() {
 	unsigned int choice = 0;
 	int action = 0;
 
-	vector<string> blank(15, string(21, ' '));
+	const vector<string> blank(15, string(21, ' '));
 
 	vector<shared_ptr<Item>> items = hero.getInventory();
 	vector<shared_ptr<Item>> spells;
@@ -673,7 +674,7 @@ void Game::shoppingChoiceMenu(const vector<shared_ptr<Item>> &items) {
 		} while (action == 0);
 
 		if (action == 1 && choice != 0) {
-			int choiceTemp = choice;
+			const int choiceTemp = choice;
 
 			if (choice == 1) shoppingBuyMenu(items);
 			else if (choice == 2) shoppingSellMenu();

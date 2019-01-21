@@ -23,11 +23,11 @@ private:
 
 	//Music ----------------------------------
 	std::string currentAmbience{};
-	sf::Music ambience_;
-	sf::Music mainMenu_;
+	sf::Music ambience_{};
+	sf::Music mainMenu_{};
 
-	std::mutex mutex_;
-	std::thread queueMng;
+	std::mutex mutex_{};
+	std::thread queueMng{};
 
 public:
 	//Constructor and a Destructor -----------

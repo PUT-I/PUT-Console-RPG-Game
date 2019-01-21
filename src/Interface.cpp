@@ -192,7 +192,7 @@ void displayOptionsNoNum(unsigned const int &choice, const vector<string> &optio
 	}
 }
 void displayOptionsNoNum(unsigned const int &choice, const string &option, const vector<shared_ptr<Item>> &variables, const bool &quantity) {
-	int PrevCursorX = GetCursorPos().X;
+	const int PrevCursorX = GetCursorPos().X;
 	//Displaying Option ----------------------
 	CursorPos(PrevCursorX, GetCursorPos().Y + 1);
 	cout << ((choice == 0) ? "> " : "  ") << option << '\n';
@@ -262,8 +262,8 @@ void optionsMenu(unsigned int &choice, const string &title, const string &option
 				cout << ((choice == i + 1) ? "> " : "  ") << i + 1 << ". " << list[i];
 			}
 		}
-		choiceLimit(choice, (int)list.size()+1);
-		action = upDownEscControls(choice, (int)list.size() + 1);
+		choiceLimit(choice, static_cast<int>(list.size())+1);
+		action = upDownEscControls(choice, static_cast<int>(list.size()) + 1);
 		if (action == -1 && !escEnabled) {
 			action = 0;
 		}
@@ -288,8 +288,8 @@ void optionsMenu(unsigned int &choice, const string &title, const vector<string>
 				cout << ((choice == i) ? "> " : "  ") << i + 1 << ". " << options[i];
 			}
 		}
-		choiceLimit(choice, (int)options.size());
-		action = upDownEscControls(choice, (int)options.size());
+		choiceLimit(choice, static_cast<int>(options.size()));
+		action = upDownEscControls(choice, static_cast<int>(options.size()));
 		if (action == -1 && !escEnabled) {
 			action = 0;
 		}
@@ -301,7 +301,7 @@ void optionsMenu(unsigned int &choice, const string &title, const vector<string>
 }
 const bool confirmationMenu(const string &question) {
 	bool yesNo = false;
-	COORD prevCursorPos = GetCursorPos();
+	const COORD prevCursorPos = GetCursorPos();
 
 	do {
 		

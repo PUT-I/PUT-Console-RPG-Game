@@ -89,8 +89,7 @@ Character::Character() noexcept {
 	this->armor;
 }
 
-Character::~Character()
-= default;
+Character::~Character() = default;
 
 void Character::setLocation(const int& var) noexcept
 {
@@ -859,7 +858,7 @@ void Character::save() const {
 	out.close();
 }
 void Character::load(const string &name_) {
-	ifstream in("Saves\\" + name_ + ".json");
+	ifstream in("Saves\\" + currentScenario + "\\" + name_ + ".json");
 
 	//Character info -------------------------
 	json characterInfo;
@@ -956,8 +955,9 @@ Enemy::Enemy() noexcept
 	type = "enemy";
 	gfxDir = "NONE";
 } /*-------------------------------- Enemy --------------------------------*/
-Enemy::~Enemy()
-= default; //Functions ------------------------------
+Enemy::~Enemy() = default;
+
+//Functions ------------------------------
 const std::vector<std::string> Enemy::loadGfx() const
 {
 	return files::loadGfx(

@@ -192,10 +192,10 @@ namespace files {
 			in >> loaded;
 			in.close();
 			for (const json &e : loaded["sLine"]["tab"]) {
-				sLineTexts[e["key"]] = files::proccessTxtLine(utf8_to_ansi(e["text"].get<string>(), vUtf, vAnsi));
+				sLineTexts.insert(std::pair(e["key"], files::proccessTxtLine(utf8_to_ansi(e["text"].get<string>(), vUtf, vAnsi))));
 			}
 			for (const json &e : loaded["mLine"]["tab"]) {
-				mLineTexts[e["key"]] = utf8_to_ansi(e["text"].get<vector<string>>(), vUtf, vAnsi);
+				mLineTexts.insert(std::pair(e["key"], utf8_to_ansi(e["text"].get<vector<string>>(), vUtf, vAnsi)));
 			}
 		}
 
@@ -205,7 +205,7 @@ namespace files {
 		in.close();
 		for (const string &name : itemTabNames) {
 			for (const json &e : loaded[name]["tab"]) {
-				itemNames[e["key"]] = utf8_to_ansi(e["name"].get<string>(), vUtf, vAnsi);
+				itemNames.insert(std::pair(e["key"], utf8_to_ansi(e["name"].get<string>(), vUtf, vAnsi)));
 			}
 		}
 
@@ -214,7 +214,7 @@ namespace files {
 		in >> loaded;
 		in.close();
 		for (const json &e : loaded["tab"]) {
-			enemyNames[e["key"]] = utf8_to_ansi(e["name"].get<string>(), vUtf, vAnsi);
+			enemyNames.insert(std::pair(e["key"], utf8_to_ansi(e["name"].get<string>(), vUtf, vAnsi)));
 		}
 		in.close();
 
@@ -223,7 +223,7 @@ namespace files {
 		in >> loaded;
 		in.close();
 		for (const json &e : loaded["tab"]) {
-			mLineTexts[e["key"]] = utf8_to_ansi(files::loadGfx(e["text"].get<vector<string>>()), vUtf, vAnsi);
+			mLineTexts.insert(std::pair(e["key"], utf8_to_ansi(files::loadGfx(e["text"].get<vector<string>>()), vUtf, vAnsi)));
 		}
 	}
 

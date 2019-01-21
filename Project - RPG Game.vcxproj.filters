@@ -42,10 +42,10 @@
     <ClCompile Include="src\Global.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game_Menus.cpp">
+    <ClCompile Include="src\Game_Inventory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game_Inventory.cpp">
+    <ClCompile Include="src\Game_Menus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

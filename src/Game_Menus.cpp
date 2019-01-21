@@ -370,7 +370,8 @@ void Game::mainMenuExecution(unsigned int &choice) {
 		break;
 	}
 }
-void Game::logo() {
+void Game::logo() const
+{
 	sf::SoundBuffer tempBuffer;
 	sf::Sound tempSound;
 	tempSound.setBuffer(tempBuffer);
@@ -643,12 +644,11 @@ void Game::mainMenu() {
 //Saving and Loading ---------------------
 void Game::loadMenu() {
 	vector<string> usedNames;
-	string temp;
 	unsigned int choice = 0;
 
 	if (countSaves() > 0) {
 		for (auto &p : filesystem::directory_iterator("Saves\\" + currentScenario)) {
-			temp = p.path().filename().string();
+			string temp = p.path().filename().string();
 			temp.erase(temp.size() - 5, 5);
 			usedNames.push_back(temp);
 		}

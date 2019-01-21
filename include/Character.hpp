@@ -47,8 +47,8 @@ protected:
 
 	//Equipment -----------------------------
 	std::vector<std::shared_ptr<Item>> inventory;
-	Weapon weapon;
-	Armor  armor;
+	Weapon weapon{};
+	Armor  armor{};
 
 	std::vector<Spell> activeSpells{};
 

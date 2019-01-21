@@ -32,7 +32,7 @@ Game::Game() noexcept {
 
 /*------------------------------ Functions ------------------------------*/
 //Safeguards and initialization ----------
-const bool Game::nameUsed(const string &name) const
+const bool Game::nameUsed(const string &name)
 {
 	string temp;
 
@@ -48,13 +48,14 @@ const unsigned int Game::countSaves() const
 {
 	unsigned int counter = 0;
 	if (filesystem::is_empty("Saves\\" + currentScenario) != true) {
-		for (auto &p : filesystem::directory_iterator("Saves\\" + currentScenario)) {
+		for (auto &dummy : filesystem::directory_iterator("Saves\\" + currentScenario)) {
+			(void)dummy;
 			counter++;
 		}
 	}
 	return counter;
 }
-void Game::loadResourceMaps() const
+void Game::loadResourceMaps()
 {
 	//Object Maps loading --------------------
 	{
@@ -83,7 +84,7 @@ void Game::loadResourceMaps() const
 		in.close();
 		for (const json &e : enemyTab["tab"]) {
 			enemTemp.load(e["enemyInfo"]);
-			enemies[e["key"]] = enemTemp;
+			enemies.insert(std::pair(e["key"], enemTemp));
 		}
 	}
 }
@@ -124,7 +125,8 @@ void Game::initialize() {
 void Game::load(const string &heroName) {
 	hero.load(heroName);
 }
-void Game::deleteSavesMenu() {
+void Game::deleteSavesMenu() const
+{
 	do {
 		vector<string> usedNames;
 		string temp;
@@ -179,7 +181,7 @@ void Game::heroToTempHero() {
 
 //Battle System --------------------------
 const bool Game::spellsExecution(const unsigned int & choice, const shared_ptr<Item> &item, Enemy &enemy) {
-	bool result = false;
+	bool result;
 	shared_ptr<Character> enemyPtr = make_shared<Enemy>(enemy);
 
 	CursorPosBegin();
@@ -204,7 +206,8 @@ const bool Game::spellsExecution(const unsigned int & choice, const shared_ptr<I
 
 	return result;
 }
-void Game::displayFightStats(const Enemy& enemy) {
+void Game::displayFightStats(const Enemy& enemy) const
+{
 	//Stats Hero ----------------------------
 	{
 		CursorPos(1, 1);
@@ -271,7 +274,7 @@ void Game::fightExecution(Enemy &enemy) {
 		audio.defend();
 		break;
 	}
-
+	default: break;
 	}
 }
 const bool Game::fightExecution(const unsigned int& choice, Enemy &enemy) {
@@ -369,6 +372,7 @@ const bool Game::fightExecution(const unsigned int& choice, Enemy &enemy) {
 
 		return false;
 	}
+	default: break;
 	}
 
 	return true;
@@ -442,7 +446,8 @@ void Game::fight(Enemy enemy) {
 }
 
 //Story ----------------------------------
-void Game::printMenuGFX(const vector<string> &description, const vector<string> &gfx) {
+void Game::printMenuGFX(const vector<string> &description, const vector<string> &gfx) const
+{
 	DisplayGfx(31, 1, description);
 	DisplayGfx(1, 1, vector<string>(20, string(29, ' ')));
 	DisplayGfx(1, 1, gfx);
@@ -453,7 +458,7 @@ void Game::printMenuGFX(const vector<string> &description, const vector<string> 
 };
 
 void Game::locationMenu(unsigned int &choice, const vector<string> &description, const vector<string> &options, const vector<string> &gfx) {
-	int tempControlsResult = NULL;
+	int tempControlsResult;
 	printMenuGFX(description, gfx);
 
 	do {
@@ -472,7 +477,8 @@ void Game::locationMenu(unsigned int &choice, const vector<string> &description,
 		}
 	} while (tempControlsResult != 1);
 }
-void Game::locationActionGfx(const vector<string> &description) {
+void Game::locationActionGfx(const vector<string> &description) const
+{
 	DisplayGfx(31, 1, locationTextBlank);
 	DisplayGfx(1, 22, locationOptionsBlank);
 	DisplayGfx(31, 1, description);
@@ -486,12 +492,9 @@ void Game::jsonToStory() {
 	ClearConsole();
 	setFontSize(globalFontSize + storyFontInc);
 
-	json subLocation;
-
 	unsigned int choice;
 	vector<string>action, description, options;
 	auto parseAction = [this, &choice, &action, &description, &options]() {
-		unsigned int statementTrueSize;
 		for (unsigned int i = 0; i < action.size() && inSession; i++) {
 			if (action[i] == "sleep") { i++; Sleep(stoi(action[i])); }
 			else if (action[i] == "break") { return true; }
@@ -522,7 +525,7 @@ void Game::jsonToStory() {
 			}
 			else if (action[i] == "plotSwitch") {
 				i++;
-				unsigned int index = stoi(action[i]);
+				const unsigned int index = stoi(action[i]);
 				i++;
 				if (action[i] == "true") {
 					this->plotSwitches[index] = true;
@@ -598,7 +601,7 @@ void Game::jsonToStory() {
 					i++;
 					unsigned int index = stoi(action[i]);
 					i++;
-					statementTrueSize = stoi(action[i]);
+					unsigned int statementTrueSize = stoi(action[i]);
 					if (plotSwitches[index] == true) {
 						continue;
 					}
@@ -618,10 +621,10 @@ void Game::jsonToStory() {
 
 	while (inSession) {
 		choice = 0;
-		subLocation = scenario["location" + to_string(hero.getLocation())][hero.getSubLocation() - 1];
+		json subLocation = scenario["location" + to_string(hero.getLocation())][hero.getSubLocation() - 1];
 
-		if (subLocation["description"] != "NONE") description = mLineTexts[subLocation["description"]];
-		options = mLineTexts[subLocation["options"]];
+		if (subLocation["description"] != "NONE") description = mLineTexts.at(subLocation["description"]);
+		options = mLineTexts.at(subLocation["options"]);
 
 		if (subLocation["save"] == true)heroToTempHero();
 		DisplayGfx(31, 1, locationTextBlank);
@@ -640,7 +643,7 @@ void Game::jsonToStory() {
 				audio.ambience(subLocation["ambience"][1].get<bool>());
 			}
 
-			locationMenu(choice, description, options, graphics[subLocation["graphics"]]);
+			locationMenu(choice, description, options, graphics.at(subLocation["graphics"]));
 			if (!inSession) {
 				break;
 			}

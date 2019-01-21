@@ -23,7 +23,7 @@ Audio::Audio() {
 
 //Functions ------------------------------
 void Audio::manageQueues() {
-	chrono::milliseconds timespan(1000);
+	const chrono::milliseconds timespan(1000);
 	while (true) {
 		this_thread::sleep_for(timespan);
 		if (ui_.size() != 0){
@@ -127,7 +127,7 @@ void Audio::otherClear() {
 }
 void Audio::other(const string &selection, const string &type) {
 	SoundBuffer tempBuffer;
-	String scenarioDir = "GameFiles\\Scenarios\\" + currentScenario + "\\Resources\\";
+	const String scenarioDir = "GameFiles\\Scenarios\\" + currentScenario + "\\Resources\\";
 
 	if (selection == "enviroment")		{ tempBuffer.loadFromFile(scenarioDir + "Sounds\\Enviroment\\" + type + ".ogg"); }
 	else if (selection == "character")	{ tempBuffer.loadFromFile(scenarioDir + "Sounds\\Characters\\" + type + ".ogg"); }
@@ -178,7 +178,7 @@ void Audio::character(const string &selection) {
 //Inventory ------------------------------
 void Audio::inventory(const string &selection, const string &type) {
 	SoundBuffer tempBuffer;
-	String scenarioDir = "GameFiles\\Scenarios\\" + currentScenario + "\\Resources\\";
+	const String scenarioDir = "GameFiles\\Scenarios\\" + currentScenario + "\\Resources\\";
 
 	if (selection == "consumable") { tempBuffer.loadFromFile(scenarioDir + "Sounds\\Items\\Consumables\\" + type+ ".ogg"); }
 	else if (selection == "armor") { tempBuffer.loadFromFile(scenarioDir + "Sounds\\Items\\Armors\\" + type + ".ogg"); }
