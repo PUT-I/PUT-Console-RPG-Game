@@ -11,8 +11,8 @@ I used SFML to manage audio and json files for saving
 settings, items, npcs, scenarios, save, etc.
 
 It is recommended to use this project with visual studio
-because it is already configured to copy gamefiles and
-sfml dll's to output exe location.
+because it is already configured it. Please check
+Windows SDK in the project first when problems occur.
 
 # Credits	
 Many thanks to everyone who created these and published without demanding any money for it.
