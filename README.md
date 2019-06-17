@@ -14,7 +14,7 @@ It is recommended to use this project with visual studio
 because it is already configured it. Please check
 Windows SDK in the project first when problems occur.
 
-# Credits	
+# Contributions
 Many thanks to everyone who created these and published without demanding any money for it.
 These sources were sometimes modified or used to create new media.
 
@@ -48,3 +48,6 @@ b) ASCII ART:
  c) Libraries:
  - [JSON for Modern C++](https://github.com/nlohmann/json) by nlohmann (Niels Lohmann)
  - [Simple and Fast Multimedia Library (SFML)](https://github.com/SFML/SFML)
+ 
+# Credits
+[Tomasz Kiljańczyk (Gunock)](https://github.com/Gunock)
