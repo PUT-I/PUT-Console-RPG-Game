@@ -11,7 +11,7 @@
 			"graphics" : "Location1-1",
 			"save" : true,
 			"preChoice" : [
-				"audio", "enviroment", "Leaves2",
+				"audio", "environment", "Leaves2",
 				"sleep", "2500"
 			],
 			"choice" : [
@@ -70,7 +70,7 @@
 			"graphics" : "Location2-1",
 			"save" : true,
 			"preChoice" : [
-				"audio", "enviroment", "Leaves2",
+				"audio", "environment", "Leaves2",
 				"sleep", "2500"
 			],
 			"choice" : [{"action" : ["break"]}],
@@ -92,7 +92,7 @@
 				"break"
 			]}],
 			"afterChoice" : [
-			"audio", "enviroment", "Leaves2",
+			"audio", "environment", "Leaves2",
 			"setLocation", "3",
 			"setSubLocation", "1"
 			]
@@ -107,7 +107,7 @@
 			"graphics" : "Location3-1",
 			"save" : true,
 			"preChoice" : [
-				"audio", "enviroment", "Leaves2",
+				"audio", "environment", "Leaves2",
 				"sleep", "2500"
 			],
 			"choice" : [{"action" : ["break"]}],
@@ -123,14 +123,14 @@
 			"preChoice" : [],
 			"choice" : [
 				{"action" : [
-					"audio", "enviroment", "Leaves2",
+					"audio", "environment", "Leaves2",
 					"sleep", "2500",
 					"setSubLocation", "3",
 					"break"
 				]
 				},
 				{"action" : [
-					"audio", "enviroment", "Water1",
+					"audio", "environment", "Water1",
 					"sleep", "1500",
 					"actionText", "Action3-2_1",
 					"add", "item", "consumable", "Water", "3",
@@ -155,7 +155,7 @@
 			"preChoice" : [],
 			"choice" : [
 				{"action" : [
-					"audio", "enviroment", "Leaves2",
+					"audio", "environment", "Leaves2",
 					"sleep", "2500",
 					"setLocation", "5",
 					"setSubLocation", "1",
@@ -163,7 +163,7 @@
 				]
 				},
 				{"action" : [
-					"audio", "enviroment", "Stone1",
+					"audio", "environment", "Stone1",
 					"sleep", "1000",
 					"setLocation", "4",
 					"setSubLocation", "1",
@@ -200,7 +200,7 @@
 				},
 				{
 					"action" : [
-					"audio", "enviroment", "Stone1",
+					"audio", "environment", "Stone1",
 					"sleep", "1000",
 					"break"
 					]
@@ -236,7 +236,7 @@
 				]},
 				{"action" : [
 					"setSubLocation", "2",
-					"audio", "enviroment", "Leaves2",
+					"audio", "environment", "Leaves2",
 					"sleep", "2500",
 					"break"
 				]},
@@ -271,7 +271,7 @@
 					"break"
 				]},
 				{"action" : [
-					"audio", "enviroment", "Leaves2",
+					"audio", "environment", "Leaves2",
 					"setSubLocation", "1",
 					"sleep", "2500",
 					"break"

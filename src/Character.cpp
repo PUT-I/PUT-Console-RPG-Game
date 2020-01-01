@@ -1,442 +1,438 @@
-#include "Character.hpp"
-#include "Global.hpp"
-#include "CManip.hpp"
-#include "Sounds.hpp"
+#include "character.hpp"
+
+#include "color_util.hpp"
+#include "console_util.hpp"
+#include "files_util.hpp"
+#include "global_variables.hpp"
+#include "interface_util.hpp"
+#include "sound_manager.hpp"
 
 using namespace std;
 
-map<string, Enemy> enemies;
+character::character()
+{
+	type_ = "character";
 
-namespace files {
-	void loadGraphics() {
-		graphics.clear();
+	// Location -------------------------------
+	this->location_ = 0;
+	this->sub_location_ = 0;
 
-		for (auto it = enemies.begin(); it != enemies.end(); ++it) {
-			graphics[it->second.getGfxDir()] = it->second.loadGfx();
-		}
-		for (auto it = itms::weapons.begin(); it != itms::weapons.end(); ++it) {
-			graphics[it->second.getGfxDir()] = it->second.loadGfx();
-		}
-		for (auto it = itms::armors.begin(); it != itms::armors.end(); ++it) {
-			graphics[it->second.getGfxDir()] = it->second.loadGfx();
-		}
-		for (auto it = itms::spells.begin(); it != itms::spells.end(); ++it) {
-			graphics[it->second.getGfxDir()] = it->second.loadGfx();
-		}
-		for (auto it = itms::consumables.begin(); it != itms::consumables.end(); ++it) {
-			graphics[it->second.getGfxDir()] = it->second.loadGfx();
-		}
-		for (auto &p : filesystem::directory_iterator("GameFiles\\Scenarios\\" + currentScenario + "\\Resources\\Graphics\\Locations")) {
-			std::ifstream in(p);
-			string temp = p.path().filename().string();
-			temp.erase(temp.size() - 4, 4);
-			graphics[temp] = loadGfx("GameFiles\\Scenarios\\" + currentScenario + "\\Resources\\Graphics\\Locations\\" + p.path().filename().string());
-			in.close();
-		}
-	}
-}
-
-Character::Character() noexcept {
-	type = "character";
-
-	//Location -------------------------------
-	this->location = 0;
-	this->subLocation = 0;
-
-	//Levelling ------------------------------
+	// Leveling -------------------------------
 	{
-		this->level = 0;
-		this->exp = 0;
-		this->expNext = 0;
+		this->level_ = 0;
+		this->exp_ = 0;
+		this->exp_next_ = 0;
 	}
 
-	this->name = "NONE";
-	//Stats1 ---------------------------------
+	this->name_ = "NONE";
+	// Stats1 ---------------------------------
 	{
-		this->hp = 0;
-		this->sp = 0;
-		this->mp = 0;
-		this->hpMax = 0;
-		this->spMax = 0;
-		this->mpMax = 0;
+		this->hp_ = 0;
+		this->sp_ = 0;
+		this->mp_ = 0;
+		this->hp_max_ = 0;
+		this->sp_max_ = 0;
+		this->mp_max_ = 0;
 	}
 
-	//Dependent stats ------------------------
+	// Dependent stats ------------------------
 	{
-		this->baseDmgMin = 0;
-		this->baseDmgMax = 0;
-		this->dmgMin = 0;
-		this->dmgMax = 0;
-		this->baseDefence = 0;
-		this->evasionChance = 0;
-		this->hitChance = 0;
-		this->baseDefence = 0;
-		this->defence = 0;
+		this->base_dmg_min_ = 0;
+		this->base_dmg_max_ = 0;
+		this->dmg_min_ = 0;
+		this->dmg_max_ = 0;
+		this->base_defence_ = 0;
+		this->evasion_chance_ = 0;
+		this->hit_chance_ = 0;
+		this->base_defence_ = 0;
+		this->defence_ = 0;
 	}
 
-	//Stats2 ---------------------------------
+	// Stats2 ---------------------------------
 	{
-		this->strength = 0;
-		this->endurance = 0;
-		this->willpower = 0;
-		this->agility = 0;
+		this->strength_ = 0;
+		this->endurance_ = 0;
+		this->willpower_ = 0;
+		this->agility_ = 0;
 	}
 
-	this->stat1Points = 0;
-	this->stat2Points = 0;
+	this->stat1_points_ = 0;
+	this->stat2_points_ = 0;
 
-	this->weapon;
-	this->armor;
+	this->weapon_;
+	this->armor_;
 }
 
-Character::~Character() = default;
+character::~character() = default;
 
-void Character::setLocation(const int& var) noexcept
+void character::set_location(const int& var) noexcept
 {
-	this->location = var;
+	this->location_ = var;
 }
 
-void Character::setSubLocation(const int& var) noexcept
+void character::set_sub_location(const int& var) noexcept
 {
-	this->subLocation = var;
+	this->sub_location_ = var;
 }
 
-const std::string& Character::getType() const noexcept
+const string& character::get_type() const noexcept
 {
-	return type;
+	return type_;
 }
 
-const int& Character::getLocation() const noexcept
+const int& character::get_location() const noexcept
 {
-	return this->location;
+	return this->location_;
 }
 
-const int& Character::getSubLocation() const noexcept
+const int& character::get_sub_location() const noexcept
 {
-	return this->subLocation;
+	return this->sub_location_;
 }
 
-const std::string& Character::getName() const noexcept
+const string& character::get_name() const noexcept
 {
-	return this->name;
+	return this->name_;
 }
 
-const int& Character::getLevel() const noexcept
+const int& character::get_level() const noexcept
 {
-	return this->level;
+	return this->level_;
 }
 
-const int& Character::getExp() const noexcept
+const int& character::get_exp() const noexcept
 {
-	return this->exp;
+	return this->exp_;
 }
 
-const int& Character::getExpNext() const noexcept
+const int& character::get_exp_next() const noexcept
 {
-	return this->expNext;
+	return this->exp_next_;
 }
 
-const int& Character::getHp() const noexcept
+const int& character::get_hp() const noexcept
 {
-	return this->hp;
+	return this->hp_;
 }
 
-const int& Character::getHpMax() const noexcept
+const int& character::get_hp_max() const noexcept
 {
-	return this->hpMax;
+	return this->hp_max_;
 }
 
-const int& Character::getSp() const noexcept
+const int& character::get_sp() const noexcept
 {
-	return this->sp;
+	return this->sp_;
 }
 
-const int& Character::getSpMax() const noexcept
+const int& character::get_sp_max() const noexcept
 {
-	return this->spMax;
+	return this->sp_max_;
 }
 
-const int& Character::getMp() const noexcept
+const int& character::get_mp() const noexcept
 {
-	return this->mp;
+	return this->mp_;
 }
 
-const int& Character::getMpMax() const noexcept
+const int& character::get_mp_max() const noexcept
 {
-	return this->mpMax;
+	return this->mp_max_;
 }
 
-const int& Character::getBaseDmgMin() const noexcept
+const int& character::get_base_dmg_min() const noexcept
 {
-	return this->baseDmgMin;
+	return this->base_dmg_min_;
 }
 
-const int& Character::getBaseDmgMax() const noexcept
+const int& character::get_base_dmg_max() const noexcept
 {
-	return this->baseDmgMax;
+	return this->base_dmg_max_;
 }
 
-const int& Character::getDmgMin() const noexcept
+const int& character::get_dmg_min() const noexcept
 {
-	return this->dmgMin;
+	return this->dmg_min_;
 }
 
-const int& Character::getDmgMax() const noexcept
+const int& character::get_dmg_max() const noexcept
 {
-	return this->dmgMax;
+	return this->dmg_max_;
 }
 
-const int& Character::getDefence() const noexcept
+const int& character::get_defence() const noexcept
 {
-	return this->defence;
+	return this->defence_;
 }
 
-const int& Character::getHitC() const noexcept
+const int& character::get_hit_c() const noexcept
 {
-	return this->hitChance;
+	return this->hit_chance_;
 }
 
-const int& Character::getEvasionC() const noexcept
+const int& character::get_evasion_c() const noexcept
 {
-	return this->evasionChance;
+	return this->evasion_chance_;
 }
 
-const int& Character::getStrength() const noexcept
+const int& character::get_strength() const noexcept
 {
-	return this->strength;
+	return this->strength_;
 }
 
-const int& Character::getEndurance() const noexcept
+const int& character::get_endurance() const noexcept
 {
-	return this->endurance;
+	return this->endurance_;
 }
 
-const int& Character::getWillpower() const noexcept
+const int& character::get_willpower() const noexcept
 {
-	return this->willpower;
+	return this->willpower_;
 }
 
-const int& Character::getAgility() const noexcept
+const int& character::get_agility() const noexcept
 {
-	return this->agility;
+	return this->agility_;
 }
 
-const int& Character::getStat1Points() const noexcept
+const int& character::get_stat1_points() const noexcept
 {
-	return this->stat1Points;
+	return this->stat1_points_;
 }
 
-const int& Character::getStat2Points() const noexcept
+const int& character::get_stat2_points() const noexcept
 {
-	return this->stat2Points;
+	return this->stat2_points_;
 }
 
-const std::vector<std::shared_ptr<Item>>& Character::getInventory() const noexcept
+const vector<shared_ptr<item>>& character::get_inventory() const noexcept
 {
-	return this->inventory;
+	return this->inventory_;
 }
 
-std::vector<std::shared_ptr<Item>>& Character::getInventory() noexcept
+vector<shared_ptr<item>>& character::get_inventory() noexcept
 {
-	return this->inventory;
+	return this->inventory_;
 }
 
-const Weapon& Character::getWeapon() const noexcept
+const weapon& character::get_weapon() const noexcept
 {
-	return this->weapon;
+	return this->weapon_;
 }
 
-const Armor& Character::getArmor() const noexcept
+const armor& character::get_armor() const noexcept
 {
-	return this->armor;
+	return this->armor_;
 }
 
-Armor& Character::getArmor() noexcept
+armor& character::get_armor() noexcept
 {
-	return this->armor;
+	return this->armor_;
 }
 
-const int& Character::getMoney() const noexcept
+const int& character::get_money() const noexcept
 {
-	return money;
+	return money_;
 }
 
-void Character::replaceInventory(const std::vector<std::shared_ptr<Item>>& items)
+void character::replace_inventory(const vector<shared_ptr<item>>& items)
 {
-	inventory = items;
+	inventory_ = items;
 }
 
-const std::vector<Spell>& Character::getActiveSpells() const noexcept
+const vector<spell>& character::get_active_spells() const noexcept
 {
-	return activeSpells;
+	return active_spells_;
 }
 
-//Functions ------------------------------
-void Character::clear() {
-	inventory.clear();
-	activeSpells.clear();
-	weapon = Weapon();
-	armor = Armor();
-}
-void Character::refreshItemDependent() noexcept {
-	this->dmgMin = baseDmgMin + weapon.getDmgMin();
-	this->dmgMax = baseDmgMax + weapon.getDmgMax();
-	this->defence = baseDefence + armor.getDmgProtection();
-}
-void Character::refreshStatDependent() noexcept {
-	this->baseDmgMin = strength;
-	this->baseDmgMax = strength * 2;
-	this->hitChance = 48 + agility * 2;
-	this->evasionChance = agility;
-	this->baseDefence = endurance * 2;
+// Functions ------------------------------
+void character::clear()
+{
+	inventory_.clear();
+	active_spells_.clear();
+	weapon_ = weapon();
+	armor_ = armor();
 }
 
-void Character::stats1Setup() {
-	//Declarations ----------------------------
+void character::refresh_item_dependent() noexcept
+{
+	this->dmg_min_ = base_dmg_min_ + weapon_.get_dmg_min();
+	this->dmg_max_ = base_dmg_max_ + weapon_.get_dmg_max();
+	this->defence_ = base_defence_ + armor_.get_dmg_protection();
+}
+
+void character::refresh_stat_dependent() noexcept
+{
+	this->base_dmg_min_ = strength_;
+	this->base_dmg_max_ = strength_ * 2;
+	this->hit_chance_ = 48 + agility_ * 2;
+	this->evasion_chance_ = agility_;
+	this->base_defence_ = endurance_ * 2;
+}
+
+void character::stats1_setup()
+{
+	// Declarations ----------------------------
 	unsigned int choice = 0;
-	const int stat1PointsPrev = stat1Points;
+	const int stat1_points_prev = stat1_points_;
 	int result;
 
-	const vector<int*> stats{ &hpMax, &spMax, &mpMax };
-	const vector<int> statsPrev{ hpMax, spMax, mpMax };	//Used to prevent decreasing stat below its prev number
+	const vector<int*> stats{&hp_max_, &sp_max_, &mp_max_};
+	const vector<int> stats_prev{hp_max_, sp_max_, mp_max_}; // Used to prevent decreasing stat below its prev number
 
-	//Stat Names and Setting Colors -----------
-	string Health{ color.get("red") };
-	string Stamina{ color.get("green") };
-	string Mana{ color.get("blue") };
+	// Stat Names and Setting Colors -----------
+	string health{color.get("red")};
+	string stamina{color.get("green")};
+	string mana{color.get("blue")};
 
-	//Adding Option Names ---------------------
+	// Adding Option Names ---------------------
 	{
-		Health += mLineTexts["Stats1Names"][0];
-		Stamina += mLineTexts["Stats1Names"][1];
-		Mana += mLineTexts["Stats1Names"][2];
+		health += m_line_texts["Stats1Names"][0];
+		stamina += m_line_texts["Stats1Names"][1];
+		mana += m_line_texts["Stats1Names"][2];
 	}
 
-	const vector<string> options{ Health, Stamina, Mana, sLineTexts["Continue"] };
+	const vector<string> options{health, stamina, mana, s_line_texts["Continue"]};
 
-	//Interface ------------------------------
-	ClearConsole();
-	PrintBox(0, 0, 54, 17);
-	PrintText(27 - sLineTexts["StatsTitle"].size() / 2, 0, sLineTexts["StatsTitle"]);
-	do {
-		if (choice >= 0 && choice < options.size()) {
-			refreshStatDependent();
+	// Interface ------------------------------
+	clear_console();
+	print_box(0, 0, 54, 17);
+	print_text(27 - s_line_texts["StatsTitle"].size() / 2, 0, s_line_texts["StatsTitle"]);
+	do
+	{
+		if (choice >= 0 && choice < options.size())
+		{
+			refresh_stat_dependent();
 
-			CursorPos(8, 2);
-			cout << sLineTexts["AvailablePoints"] << stat1Points << "    ";
-			CursorPos(0, 4);
-			displayOptionsNoNum(choice, options, stats);
+			cursor_pos(8, 2);
+			cout << s_line_texts["AvailablePoints"] << stat1_points_ << "    ";
+			cursor_pos(0, 4);
+			display_options_no_num(choice, options, stats);
 		}
-		choiceLimit(choice, options.size());
-		result = upDownLeftRightControls(choice, options.size(), stat1Points, stat1PointsPrev, stats, statsPrev, 10);
-		if (result == -1) {
-			ClearConsole();
-			PrintBox(0, 0, 54, 17);
-			PrintText(8, 4, sLineTexts["SpendAllPoints"]);
+		choice_limit(choice, options.size());
+		result = up_down_left_right_controls(choice, options.size(), stat1_points_, stat1_points_prev, stats,
+		                                     stats_prev, 10);
+		if (result == -1)
+		{
+			clear_console();
+			print_box(0, 0, 54, 17);
+			print_text(8, 4, s_line_texts["SpendAllPoints"]);
 
-			CursorPos(8, 6);
-			SpacePause();
-			ClearConsole();
-			PrintBox(0, 0, 54, 17);
-			PrintText(27 - sLineTexts["StatsTitle"].size() / 2, 0, sLineTexts["StatsTitle"]);
+			cursor_pos(8, 6);
+			space_pause();
+			clear_console();
+			print_box(0, 0, 54, 17);
+			print_text(27 - s_line_texts["StatsTitle"].size() / 2, 0, s_line_texts["StatsTitle"]);
 		}
-	} while (result != 1);
-	audio.enter();
+	}
+	while (result != 1);
+	sounds.play_sound(sound_manager::enter);
 
-	this->hp = this->hpMax;
-	this->sp = this->spMax;
-	this->mp = this->mpMax;
+	this->hp_ = this->hp_max_;
+	this->sp_ = this->sp_max_;
+	this->mp_ = this->mp_max_;
 }
-void Character::stats2Setup() {
-	//Declarations ----------------------------
+
+void character::stats2_setup()
+{
+	// Declarations ----------------------------
 	unsigned int choice = 0;
 	int result;
-	const int stat2PointsPrev = stat2Points;
-	const vector<int*> stats{ &strength, &endurance, &willpower, &agility };
-	const vector<int> statsPrev{ strength, endurance, willpower, agility };	//Used to prevent decreasing stat below its prev number
+	const int stat2_points_prev = stat2_points_;
+	const vector<int*> stats{&strength_, &endurance_, &willpower_, &agility_};
+	const vector<int> stats_prev{strength_, endurance_, willpower_, agility_};
+	// Used to prevent decreasing stat below its prev number
 
-	vector<string> options = mLineTexts["Stats2Names"];
-	options.push_back(sLineTexts["Continue"]);
+	vector<string> options = m_line_texts["Stats2Names"];
+	options.push_back(s_line_texts["Continue"]);
 
-	//Interface ------------------------------
-	ClearConsole();
-	PrintBox(0, 0, 54, 17);
-	PrintText(27 - sLineTexts["StatsTitle"].size() / 2, 0, sLineTexts["StatsTitle"]);
-	do {
-
-		if (choice >= 0 && choice < options.size()) {
-			refreshStatDependent();
-			CursorPos(8, 2);
-			cout << sLineTexts["AvailablePoints"] << stat2Points << "    ";
-			CursorPos(0, 4);
-			displayDependent();
-			CursorMove(0, 2);
-			displayOptionsNoNum(choice, options, stats);
+	// Interface ------------------------------
+	clear_console();
+	print_box(0, 0, 54, 17);
+	print_text(27 - s_line_texts["StatsTitle"].size() / 2, 0, s_line_texts["StatsTitle"]);
+	do
+	{
+		if (choice >= 0 && choice < options.size())
+		{
+			refresh_stat_dependent();
+			cursor_pos(8, 2);
+			cout << s_line_texts["AvailablePoints"] << stat2_points_ << "    ";
+			cursor_pos(0, 4);
+			display_dependent();
+			cursor_move(0, 2);
+			display_options_no_num(choice, options, stats);
 		}
 
-		choiceLimit(choice, options.size());
-		result = upDownLeftRightControls(choice, options.size(), stat2Points, stat2PointsPrev, stats, statsPrev, 1);
-		if (result == -1) {
-			ClearConsole();
-			PrintBox(0, 0, 54, 17);
-			PrintText(8, 4, sLineTexts["SpendAllPoints"]);
+		choice_limit(choice, options.size());
+		result = up_down_left_right_controls(choice, options.size(), stat2_points_, stat2_points_prev, stats,
+		                                     stats_prev,
+		                                     1);
+		if (result == -1)
+		{
+			clear_console();
+			print_box(0, 0, 54, 17);
+			print_text(8, 4, s_line_texts["SpendAllPoints"]);
 
-			CursorPos(8, 6);
-			SpacePause();
-			ClearConsole();
-			PrintBox(0, 0, 54, 17);
-			PrintText(27 - sLineTexts["StatsTitle"].size() / 2, 0, sLineTexts["StatsTitle"]);
+			cursor_pos(8, 6);
+			space_pause();
+			clear_console();
+			print_box(0, 0, 54, 17);
+			print_text(27 - s_line_texts["StatsTitle"].size() / 2, 0, s_line_texts["StatsTitle"]);
 		}
-	} while (result != 1);
-}
-void Character::initialize(const string &name_) {
-	type = "character";
-
-	//Location -------------------------------
-	this->location = 1;
-	this->subLocation = 1;
-
-	//Levelling ------------------------------
-	{
-		this->level = 1;
-		this->exp = 0;
-		this->expNext = 100;
 	}
-
-	this->name = name_;
-	//Stats1 ---------------------------------
-	{
-		this->hpMax = 100;
-		this->spMax = 100;
-		this->mpMax = 100;
-	}
-
-	//Stats2 ---------------------------------
-	{
-		this->strength = 1;
-		this->endurance = 1;
-		this->willpower = 1;
-		this->agility = 1;
-	}
-
-	this->stat1Points = 3;
-	this->stat2Points = 10;
-
-	stats1Setup();
-	stats2Setup();
-
-	this->weapon = itms::weapons["NONE"];
-	this->armor = itms::armors["Clothes"];
-	this->armor.decreaseNumber();
-
-	//Refreshing -----------------------------
-	{
-		refreshStatDependent();
-		refreshItemDependent();
-	}
+	while (result != 1);
 }
 
-void Character::display() const {
+void character::initialize(const string& name)
+{
+	type_ = "character";
+
+	// Location -------------------------------
+	this->location_ = 1;
+	this->sub_location_ = 1;
+
+	// Leveling -------------------------------
+	{
+		this->level_ = 1;
+		this->exp_ = 0;
+		this->exp_next_ = 100;
+	}
+
+	this->name_ = name;
+	// Stats1 ---------------------------------
+	{
+		this->hp_max_ = 100;
+		this->sp_max_ = 100;
+		this->mp_max_ = 100;
+	}
+
+	// Stats2 ---------------------------------
+	{
+		this->strength_ = 1;
+		this->endurance_ = 1;
+		this->willpower_ = 1;
+		this->agility_ = 1;
+	}
+
+	this->stat1_points_ = 3;
+	this->stat2_points_ = 10;
+
+	stats1_setup();
+	stats2_setup();
+
+	this->weapon_ = items::weapons["NONE"];
+	this->armor_ = items::armors["Clothes"];
+	this->armor_.decrease_number();
+
+	// Refreshing -----------------------------
+	{
+		refresh_stat_dependent();
+		refresh_item_dependent();
+	}
+}
+
+void character::display() const
+{
 	const unsigned int y1 = 0;
 	const unsigned int x1 = 1;
 	const unsigned int x2 = 31;
@@ -445,561 +441,624 @@ void Character::display() const {
 		y1 + 6, y1 + 3, y1 + 11, y1 + 6, y1 + 12
 	};
 
-	//Name and Levelling ---------------------
+	// Name and Leveling ----------------------
 	{
-		CursorPos(x1, y[0]);
-		cout << mLineTexts["SheetNandL"][0] << name;
-		CursorPos(x1, y[0] + 1);
-		cout << mLineTexts["SheetNandL"][1] << level;
-		CursorPos(x1, y[0] + 2);
-		cout << mLineTexts["SheetNandL"][2] << exp << "/" << expNext;
-		CursorPos(x1, y[0] + 3);
-		cout << color.get("yellow") << mLineTexts["SheetNandL"][3] << money << color.get("normal");
+		cursor_pos(x1, y[0]);
+		cout << m_line_texts["SheetNandL"][0] << name_;
+		cursor_pos(x1, y[0] + 1);
+		cout << m_line_texts["SheetNandL"][1] << level_;
+		cursor_pos(x1, y[0] + 2);
+		cout << m_line_texts["SheetNandL"][2] << exp_ << "/" << exp_next_;
+		cursor_pos(x1, y[0] + 3);
+		cout << color.get("yellow") << m_line_texts["SheetNandL"][3] << money_ << color.get("normal");
 
-		PrintBox(x1 - 1, y[0] - 1, 29, 4);
+		print_box(x1 - 1, y[0] - 1, 29, 4);
 	}
 
-	//Equipment ------------------------------
+	// Equipment ------------------------------
 	{
-		CursorPos(x1, y[1]);
-		cout << mLineTexts["SheetEquipement"][0] << weapon.getName();
-		CursorPos(x1, y[1] + 1);
-		cout << mLineTexts["SheetEquipement"][1] << armor.getName();
+		cursor_pos(x1, y[1]);
+		cout << m_line_texts["SheetEquipment"][0] << weapon_.get_name_localization();
+		cursor_pos(x1, y[1] + 1);
+		cout << m_line_texts["SheetEquipment"][1] << armor_.get_name_localization();
 
-		PrintBox(x1 - 1, y[1] - 1, 59, 2);
+		print_box(x1 - 1, y[1] - 1, 59, 2);
 	}
 
-	//Stats1 ---------------------------------
+	// Stats1 ---------------------------------
 	{
-		CursorPos(x1, y[2]);
-		cout << color.get("red") << mLineTexts["Stats1Names"][0] << hp << "/" << hpMax << color.get("normal");
-		CursorPos(x1, y[2] + 1);
-		cout << color.get("green") << mLineTexts["Stats1Names"][1] << sp << "/" << spMax << color.get("normal");
-		CursorPos(x1, y[2] + 2);
-		cout << color.get("blue") << mLineTexts["Stats1Names"][2] << mp << "/" << mpMax << color.get("normal");
+		cursor_pos(x1, y[2]);
+		cout << color.get("red") << m_line_texts["Stats1Names"][0] << hp_ << "/" << hp_max_ << color.get("normal");
+		cursor_pos(x1, y[2] + 1);
+		cout << color.get("green") << m_line_texts["Stats1Names"][1] << sp_ << "/" << sp_max_ << color.get("normal");
+		cursor_pos(x1, y[2] + 2);
+		cout << color.get("blue") << m_line_texts["Stats1Names"][2] << mp_ << "/" << mp_max_ << color.get("normal");
 
-		PrintBox(x1 - 1, y[2] - 1, 29, 3);
+		print_box(x1 - 1, y[2] - 1, 29, 3);
 	}
 
-	//Dependent Stats ------------------------
+	// Dependent Stats ------------------------
 	{
-		CursorPos(x2, y[3]);
-		cout << mLineTexts["StatsDepNames"][0] << dmgMin;
-		CursorPos(x2, y[3] + 1);
-		cout << mLineTexts["StatsDepNames"][1] << dmgMax;
-		CursorPos(x2, y[3] + 2);
-		cout << mLineTexts["StatsDepNames"][2] << defence;
-		CursorPos(x2, y[3] + 3);
-		cout << mLineTexts["StatsDepNames"][3] << hitChance;
-		CursorPos(x2, y[3] + 4);
-		cout << mLineTexts["StatsDepNames"][4] << evasionChance;
+		cursor_pos(x2, y[3]);
+		cout << m_line_texts["StatsDepNames"][0] << dmg_min_;
+		cursor_pos(x2, y[3] + 1);
+		cout << m_line_texts["StatsDepNames"][1] << dmg_max_;
+		cursor_pos(x2, y[3] + 2);
+		cout << m_line_texts["StatsDepNames"][2] << defence_;
+		cursor_pos(x2, y[3] + 3);
+		cout << m_line_texts["StatsDepNames"][3] << hit_chance_;
+		cursor_pos(x2, y[3] + 4);
+		cout << m_line_texts["StatsDepNames"][4] << evasion_chance_;
 
-		PrintBox(x2 - 1, y[3] - 1, 29, 5);
+		print_box(x2 - 1, y[3] - 1, 29, 5);
 	}
 
-	//Stats2 ---------------------------------
+	// Stats2 ---------------------------------
 	{
-		CursorPos(x2, y[4]);
-		cout << mLineTexts["Stats2Names"][0] << strength;
-		CursorPos(x2, y[4] + 1);
-		cout << mLineTexts["Stats2Names"][1] << endurance;
-		CursorPos(x2, y[4] + 2);
-		cout << mLineTexts["Stats2Names"][2] << willpower;
-		CursorPos(x2, y[4] + 3);
-		cout << mLineTexts["Stats2Names"][3] << agility;
+		cursor_pos(x2, y[4]);
+		cout << m_line_texts["Stats2Names"][0] << strength_;
+		cursor_pos(x2, y[4] + 1);
+		cout << m_line_texts["Stats2Names"][1] << endurance_;
+		cursor_pos(x2, y[4] + 2);
+		cout << m_line_texts["Stats2Names"][2] << willpower_;
+		cursor_pos(x2, y[4] + 3);
+		cout << m_line_texts["Stats2Names"][3] << agility_;
 
-		PrintBox(x2 - 1, y[4] - 1, 29, 4);
+		print_box(x2 - 1, y[4] - 1, 29, 4);
 	}
 
-	//Title ----------------------------------
+	// Title ----------------------------------
 	{
-		PrintText(30 - sLineTexts["SheetTitle"].size() / 2, y[1] - 1, sLineTexts["SheetTitle"]);
+		print_text(30 - s_line_texts["SheetTitle"].size() / 2, y[1] - 1, s_line_texts["SheetTitle"]);
 	}
 
-	//Space Pause Position -------------------
-	CursorPos(1, y[2] + 4);
-}
-void Character::displayDependent() const {
-	const int cursorPrevY = GetCursorPos().Y;
-
-	CursorPos(8, cursorPrevY);
-	cout << mLineTexts["StatsDepNames"][0] << baseDmgMin << "  ";
-	CursorPos(8, cursorPrevY + 1);
-	cout << mLineTexts["StatsDepNames"][1] << baseDmgMax << "  ";
-	CursorPos(8, cursorPrevY + 2);
-	cout << mLineTexts["StatsDepNames"][2] << baseDefence << "  ";
-	CursorPos(8, cursorPrevY + 3);
-	cout << mLineTexts["StatsDepNames"][3] << hitChance << "  ";
-	CursorPos(8, cursorPrevY + 4);
-	cout << mLineTexts["StatsDepNames"][4] << evasionChance << "  ";
+	// Space Pause Position -------------------
+	cursor_pos(1, y[2] + 4);
 }
 
-void Character::addExp(const int& exp_) {
-	const string fullMsg{ name + mLineTexts["MsgGain"][0] + color.get("yellow") + to_string(exp_) + mLineTexts["MsgGain"][1] + color.get("normal") };
+void character::display_dependent() const
+{
+	const int cursor_prev_y = get_cursor_pos().Y;
 
-	ClearConsole();
-	PrintBox(0, 0, 54, 17);
-	CursorPos(8, 4);
-	cout << fullMsg;
-	exp += exp_;
-	if (exp >= expNext) {
-		audio.misc("LevelUp");
-		levelUp();
-	}
-	else {
-		CursorPos(8, 6);
-		SpacePause();
-	}
-	ClearConsole();
+	cursor_pos(8, cursor_prev_y);
+	cout << m_line_texts["StatsDepNames"][0] << base_dmg_min_ << "  ";
+	cursor_pos(8, cursor_prev_y + 1);
+	cout << m_line_texts["StatsDepNames"][1] << base_dmg_max_ << "  ";
+	cursor_pos(8, cursor_prev_y + 2);
+	cout << m_line_texts["StatsDepNames"][2] << base_defence_ << "  ";
+	cursor_pos(8, cursor_prev_y + 3);
+	cout << m_line_texts["StatsDepNames"][3] << hit_chance_ << "  ";
+	cursor_pos(8, cursor_prev_y + 4);
+	cout << m_line_texts["StatsDepNames"][4] << evasion_chance_ << "  ";
 }
-void Character::levelUp() {
-	//Text -----------------------------------
+
+void character::add_exp(const int& exp)
+{
+	const string full_msg{
+		name_ + m_line_texts["MsgGain"][0] + color.get("yellow") + to_string(exp)
+		+ m_line_texts["MsgGain"][1] + color.get("normal")
+	};
+
+	clear_console();
+	print_box(0, 0, 54, 17);
+	cursor_pos(8, 4);
+	cout << full_msg;
+	exp_ += exp;
+	if (exp_ >= exp_next_)
 	{
-		CursorPos(8, 6);
-		cout << sLineTexts["MsgLevelUp"];
-		CursorPos(8, 8);
-		SpacePause();
+		sounds.play_sound(sound_manager::misc, "LevelUp");
+		level_up();
+	}
+	else
+	{
+		cursor_pos(8, 6);
+		space_pause();
+	}
+	clear_console();
+}
+
+void character::level_up()
+{
+	// Text -----------------------------------
+	{
+		cursor_pos(8, 6);
+		cout << s_line_texts["MsgLevelUp"];
+		cursor_pos(8, 8);
+		space_pause();
 	}
 
-	while (exp >= expNext) {
-		this->level++;
+	while (exp_ >= exp_next_)
+	{
+		this->level_++;
 
-		//Points increasing ----------------------
+		// Points increasing ----------------------
 		{
-			if (level < 10) {
-				this->stat1Points += 3;
-				this->stat2Points += 2;
+			if (level_ < 10)
+			{
+				this->stat1_points_ += 3;
+				this->stat2_points_ += 2;
 			}
-			else if (10 <= level && level < 20) {
-				this->stat1Points += 5;
-				this->stat2Points += 3;
+			else if (10 <= level_ && level_ < 20)
+			{
+				this->stat1_points_ += 5;
+				this->stat2_points_ += 3;
 			}
-			else {
-				this->stat1Points += 10;
-				this->stat2Points += 5;
+			else
+			{
+				this->stat1_points_ += 10;
+				this->stat2_points_ += 5;
 			}
 		}
 
-		this->exp -= expNext;
-		this->expNext += 100;
+		this->exp_ -= exp_next_;
+		this->exp_next_ += 100;
 	}
-	stats1Setup();
-	stats2Setup();
+	stats1_setup();
+	stats2_setup();
 }
 
-//Modifiers ------------------------------
-void Character::addToInventory(const shared_ptr<Item> &item) {
-	if (!item) return;
+// Modifiers ------------------------------
+void character::add_to_inventory(const shared_ptr<item>& item1)
+{
+	if (!item1) return;
 
-	if (inventory.size() != 0) {
-		for (const shared_ptr<Item> &e : inventory) {
-			if (e->getName() == item->getName()) {
-				e->increaseNumber();
+	if (inventory_.size() != 0)
+	{
+		for (const shared_ptr<item>& e : inventory_)
+		{
+			if (e->get_name_localization() == item1->get_name_localization())
+			{
+				e->increase_number();
 				return;
 			}
 		}
 	}
 
-	this->inventory.push_back(item);
-	sortInventory();
+	this->inventory_.push_back(item1);
+	sort_inventory();
 }
-void Character::addToInventory(const Weapon &item) {
-	if (inventory.size() != 0) {
-		for (const shared_ptr<Item> &e : inventory) {
-			if (e->getName() == item.getName()) {
-				e->increaseNumber();
+
+void character::add_to_inventory(const weapon& weapon1)
+{
+	if (inventory_.size() != 0)
+	{
+		for (const shared_ptr<item>& e : inventory_)
+		{
+			if (e->get_name_localization() == weapon1.get_name_localization())
+			{
+				e->increase_number();
 				return;
 			}
 		}
 	}
-	this->inventory.push_back(make_shared<Weapon>(item));
-	sortInventory();
+	this->inventory_.push_back(make_shared<weapon>(weapon1));
+	sort_inventory();
 }
-void Character::addToInventory(const Armor &item) {
-	if (this->inventory.size() != 0) {
-		for (const shared_ptr<Item> &e : inventory) {
-			if (e->getName() == item.getName()) {
-				e->increaseNumber();
+
+void character::add_to_inventory(const armor& armor1)
+{
+	if (this->inventory_.size() != 0)
+	{
+		for (const shared_ptr<item>& e : inventory_)
+		{
+			if (e->get_name_localization() == armor1.get_name_localization())
+			{
+				e->increase_number();
 				return;
 			}
 		}
 	}
-	this->inventory.push_back(make_shared<Armor>(item));
-	sortInventory();
+	this->inventory_.push_back(make_shared<armor>(armor1));
+	sort_inventory();
 }
-void Character::addToInventory(const Consumable &item) {
-	if (this->inventory.size() != 0) {
-		for (const shared_ptr<Item> &e : inventory) {
-			if (e->getName() == item.getName()) {
-				e->increaseNumber();
+
+void character::add_to_inventory(const consumable& consumable1)
+{
+	if (this->inventory_.size() != 0)
+	{
+		for (const shared_ptr<item>& e : inventory_)
+		{
+			if (e->get_name_localization() == consumable1.get_name_localization())
+			{
+				e->increase_number();
 			}
 		}
 	}
-	this->inventory.push_back(make_shared<Consumable>(item));
-	sortInventory();
+	this->inventory_.push_back(make_shared<consumable>(consumable1));
+	sort_inventory();
 }
-void Character::addToInventory(const Consumable &item, const unsigned int &num) {
+
+void character::add_to_inventory(const consumable& consumable1, const unsigned int& num)
+{
 	unsigned int counter = 0;
-	bool inEquipment = false;
-	do {
-		if (this->inventory.size() != 0) {
-			for (const shared_ptr<Item> &e : inventory) {
-				if (e->getName() == item.getName()) {
-					e->increaseNumber(item.getNumber());
-					inEquipment = true;
+	bool in_equipment = false;
+	do
+	{
+		if (this->inventory_.size() != 0)
+		{
+			for (const shared_ptr<item>& e : inventory_)
+			{
+				if (e->get_name_localization() == consumable1.get_name_localization())
+				{
+					e->increase_number(consumable1.get_number());
+					in_equipment = true;
 					break;
 				}
 			}
 		}
-		if (!inEquipment) this->inventory.push_back(make_shared<Consumable>(item));
+		if (!in_equipment) this->inventory_.push_back(make_shared<consumable>(consumable1));
 		counter++;
-	} while (counter != num);
-	sortInventory();
+	}
+	while (counter != num);
+	sort_inventory();
 }
-void Character::addToInventory(const Spell &item) {
-	this->inventory.push_back(make_shared<Spell>(item));
-	sortInventory();
+
+void character::add_to_inventory(const spell& item)
+{
+	this->inventory_.push_back(make_shared<spell>(item));
+	sort_inventory();
 }
-void Character::removeFromInventory() {
-	if (inventory.size() >= 0) {
+
+void character::remove_from_inventory()
+{
+	if (inventory_.size() >= 0)
+	{
 		bool erased;
-		do {
+		do
+		{
 			erased = false;
-			for (auto it = inventory.begin(); it != inventory.end(); ++it) {
-				if (it->get()->getNumber() == 0) {
-					inventory.erase(it);
+			for (auto it = inventory_.begin(); it != inventory_.end(); ++it)
+			{
+				if (it->get()->get_number() == 0)
+				{
+					inventory_.erase(it);
 					erased = true;
 					break;
 				}
 			}
-		} while (erased);
+		}
+		while (erased);
 	}
-	sortInventory();
+	sort_inventory();
 }
 
-void Character::equip(const shared_ptr<Item> &item) {
+void character::equip(const shared_ptr<item>& item)
+{
 	if (!item) return;
 
-	//Weapon ---------------------------------
-	if (item->getType() == "weapon") {
-		item->decreaseNumber();
-		this->equip(*dynamic_pointer_cast<Weapon>(item));
+	// weapon ---------------------------------
+	if (item->get_type() == item::weapon)
+	{
+		item->decrease_number();
+		this->equip(*dynamic_pointer_cast<weapon>(item));
 	}
 
-	//Armor ----------------------------------
-	else if (item->getType() == "armor") {
-		item->decreaseNumber();
-		this->equip(*dynamic_pointer_cast<Armor>(item));
+		// Armor ----------------------------------
+	else if (item->get_type() == item::armor)
+	{
+		item->decrease_number();
+		this->equip(*dynamic_pointer_cast<armor>(item));
 	}
 }
-void Character::equip(const Weapon &item) {
-	audio.weapon("Equip");
 
-	if (this->weapon.getNameRaw() != "WepNONE") {
-		weapon.increaseNumber();
-		this->addToInventory(weapon);
+void character::equip(const weapon& item)
+{
+	sounds.play_sound(sound_manager::weapon, "Equip");
+
+	if (this->weapon_.get_name() != "WepNONE")
+	{
+		weapon_.increase_number();
+		this->add_to_inventory(weapon_);
 	}
 
-	this->weapon = item;
-	refreshItemDependent();
-	removeFromInventory();
+	this->weapon_ = item;
+	refresh_item_dependent();
+	remove_from_inventory();
 }
-void Character::equip(const Armor &item) {
-	audio.armor(item.getSfxDir());
 
-	if (this->armor.getNameRaw() != "ArmorNONE") {
-		armor.increaseNumber();
-		;		this->addToInventory(armor);
+void character::equip(const armor& item)
+{
+	sounds.play_sound(sound_manager::armor, item.get_sfx_dir());
+
+	if (this->armor_.get_name() != "ArmorNONE")
+	{
+		armor_.increase_number();;
+		this->add_to_inventory(armor_);
 	}
 
-	this->armor = item;
-	refreshItemDependent();
-	removeFromInventory();
+	this->armor_ = item;
+	refresh_item_dependent();
+	remove_from_inventory();
 }
 
-void Character::consume(const shared_ptr<Item> &item) {
+void character::consume(const shared_ptr<item>& item)
+{
 	if (!item) return;
 
-	if (item->getType() == "consumable") {
-		item->decreaseNumber();
-		this->consume(*dynamic_pointer_cast<Consumable>(item));
+	if (item->get_type() == item::consumable)
+	{
+		item->decrease_number();
+		this->consume(*dynamic_pointer_cast<consumable>(item));
 	}
-}
-void Character::consume(const Consumable &item) {
-	audio.consumable(item.getSfxDir());
-	if (item.getEffect() == "heal") {
-		hp += item.getPower();
-		if (hp > hpMax) hp = hpMax;
-	}
-	else if (item.getEffect() == "stamina") {
-		sp += item.getPower();
-		if (sp > spMax) sp = spMax;
-	}
-	else if (item.getEffect() == "mana") {
-		mp += item.getPower();
-		if (mp > mpMax) mp = mpMax;
-	}
-	removeFromInventory();
 }
 
-void Character::sortInventory() {
+void character::consume(const consumable& item)
+{
+	sounds.play_sound(sound_manager::consumable, item.get_sfx_dir());
+	if (item.get_effect() == "heal")
+	{
+		hp_ += item.get_power();
+		if (hp_ > hp_max_) hp_ = hp_max_;
+	}
+	else if (item.get_effect() == "stamina")
+	{
+		sp_ += item.get_power();
+		if (sp_ > sp_max_) sp_ = sp_max_;
+	}
+	else if (item.get_effect() == "mana")
+	{
+		mp_ += item.get_power();
+		if (mp_ > mp_max_) mp_ = mp_max_;
+	}
+	remove_from_inventory();
+}
+
+void character::sort_inventory()
+{
 	struct less_than_name
 	{
-		inline bool operator() (const shared_ptr<Item> &item1, const shared_ptr<Item> &item2) const
+		inline bool operator()(const shared_ptr<item>& item1, const shared_ptr<item>& item2) const
 		{
-			return (item1->getName() < item2->getName());
+			return (item1->get_name_localization() < item2->get_name_localization());
 		}
 	};
 
-	sort(inventory.begin(), inventory.end(), less_than_name());
+	sort(inventory_.begin(), inventory_.end(), less_than_name());
 }
 
-void Character::addToActiveSpells(const Spell& spell) {
-	for (Spell& e : activeSpells) {
-		if (e.getName() == spell.getName()) {
-			e = spell;
+void character::add_to_active_spells(const spell& spell1)
+{
+	for (spell& e : active_spells_)
+	{
+		if (e.get_name_localization() == spell1.get_name_localization())
+		{
+			e = spell1;
 			return;
 		}
 	}
 
-	activeSpells.push_back(spell);
+	active_spells_.push_back(spell1);
 }
-void Character::activeSpellsRefresh() {
-	for (Spell &e : activeSpells) {
-		if (e.getSpan() > 0) {
-			e.decreaseSpan();
-			this->castSpell(e);
+
+void character::active_spells_refresh()
+{
+	for (spell& e : active_spells_)
+	{
+		if (e.get_span() > 0)
+		{
+			e.decrease_span();
+			this->cast_spell(e);
 		}
 	}
 }
-void Character::castSpell(const Spell &spell, const shared_ptr<Character> &enemy) {
-	if (spell.getEffect() == "heal" || spell.getEffect() == "stamina") {
-		this->addToActiveSpells(spell);
+
+void character::cast_spell(const spell& spell, const shared_ptr<character>& enemy)
+{
+	if (spell.get_effect() == "heal" || spell.get_effect() == "stamina")
+	{
+		this->add_to_active_spells(spell);
 	}
-	else {
-		enemy->addToActiveSpells(spell);
+	else
+	{
+		enemy->add_to_active_spells(spell);
 	}
 
-	int cost = int(spell.getMana() * ((100.0f + spell.getRequirements() - willpower) / 100.0f));
+	int cost = int(spell.get_mana() * ((100.0f + spell.get_requirements() - willpower_) / 100.0f));
 
-	if (cost > spell.getMana()) cost = spell.getMana();
-	if (cost < spell.getRequirements()) cost = spell.getRequirements();
-	mp -= cost;
+	if (cost > spell.get_mana()) cost = spell.get_mana();
+	if (cost < spell.get_requirements()) cost = spell.get_requirements();
+	mp_ -= cost;
 
-	if (mp < 0) {
-		mp = 0;
+	if (mp_ < 0)
+	{
+		mp_ = 0;
 	}
 
-	audio.spell(spell.getSfxDir());
-}
-void Character::castSpell(const Spell &spell) {
-	if (spell.getEffect() == "heal") {
-		hp += spell.getPower();
-		if (hp > hpMax) hp = hpMax;
-	}
-	else if (spell.getEffect() == "stamina") {
-		sp += spell.getPower();
-		if (sp > spMax) sp = spMax;
-	}
-	else if (spell.getEffect() == "fire") {
-		hp -= spell.getPower();
-		if (hp < 0) hp = 0;
-	}
-}
-void Character::getSpell(const Spell &spell) {
-	if (spell.getEffect() == "fire") {
-		hp -= spell.getPower();
-		if (hp < 0) hp = 0;
-	}
-}
-void Character::clearActiveSpells() noexcept {
-	activeSpells.clear();
+	sounds.play_sound(sound_manager::spell, spell.get_sfx_dir());
 }
 
-//Saving|Loading -------------------------
-void Character::save() const {
-	ofstream out("Saves\\" + currentScenario + "\\" + name + ".json");
+void character::cast_spell(const spell& spell)
+{
+	if (spell.get_effect() == "heal")
+	{
+		hp_ += spell.get_power();
+		if (hp_ > hp_max_) hp_ = hp_max_;
+	}
+	else if (spell.get_effect() == "stamina")
+	{
+		sp_ += spell.get_power();
+		if (sp_ > sp_max_) sp_ = sp_max_;
+	}
+	else if (spell.get_effect() == "fire")
+	{
+		hp_ -= spell.get_power();
+		if (hp_ < 0) hp_ = 0;
+	}
+}
 
-	//Character info -------------------------
-	const json characterInfo{
-		{"location", location},
-		{"subLocation", subLocation},
-		{"level", level},
-		{"exp", exp},
-		{"expNext", expNext},
-		{"name", name},
-		{"stats1", {
-			{"hp", hp},
-			{"sp", sp},
-			{"mp", mp},
-			{ "hpMax", hpMax },
-			{ "spMax", spMax },
-			{ "mpMax", mpMax },
-		}},
-		{ "stats2", {
-			{ "strength", strength },
-			{ "endurance", endurance },
-			{ "willpower", willpower },
-			{ "agility", agility }
-		}},
-		{"money", money}
+void character::get_spell(const spell& spell)
+{
+	if (spell.get_effect() == "fire")
+	{
+		hp_ -= spell.get_power();
+		if (hp_ < 0) hp_ = 0;
+	}
+}
+
+void character::clear_active_spells() noexcept
+{
+	active_spells_.clear();
+}
+
+// Saving|Loading -------------------------
+void character::save() const
+{
+	ofstream out("Saves\\" + current_scenario + "\\" + name_ + ".json");
+
+	// Character info -------------------------
+	const json character_info{
+		{"location", location_},
+		{"subLocation", sub_location_},
+		{"level", level_},
+		{"exp", exp_},
+		{"expNext", exp_next_},
+		{"name", name_},
+		{
+			"stats1", {
+				{"hp", hp_},
+				{"sp", sp_},
+				{"mp", mp_},
+				{"hpMax", hp_max_},
+				{"spMax", sp_max_},
+				{"mpMax", mp_max_},
+			}
+		},
+		{
+			"stats2", {
+				{"strength", strength_},
+				{"endurance", endurance_},
+				{"willpower", willpower_},
+				{"agility", agility_}
+			}
+		},
+		{"money", money_}
 	};
-	out << setw(2) << characterInfo;
+	out << setw(2) << character_info;
 
-	//Inventory info -------------------------
+	// Inventory info -------------------------
 	{
 		out << '\n';
-		weapon.save(out);
+		weapon_.save(out);
 		out << '\n';
-		armor.save(out);
-		files::save(out, inventory);
+		armor_.save(out);
+		files::save(out, inventory_);
 	}
 
 	out.close();
 }
-void Character::load(const string &name_) {
-	ifstream in("Saves\\" + currentScenario + "\\" + name_ + ".json");
 
-	//Character info -------------------------
-	json characterInfo;
-	in >> characterInfo;
+void character::load(const string& name)
+{
+	ifstream in("Saves\\" + current_scenario + "\\" + name + ".json");
+
+	// Character info -------------------------
+	json character_info;
+	in >> character_info;
 	{
-		location = characterInfo["location"];
-		subLocation = characterInfo["subLocation"];
-		level = characterInfo["level"];
-		exp = characterInfo["exp"];
-		expNext = characterInfo["expNext"];
-		name = characterInfo["name"].get<string>();
-		hp = characterInfo["stats1"]["hp"];
-		sp = characterInfo["stats1"]["sp"];
-		mp = characterInfo["stats1"]["mp"];
-		hpMax = characterInfo["stats1"]["hpMax"];
-		spMax = characterInfo["stats1"]["spMax"];
-		mpMax = characterInfo["stats1"]["mpMax"];
-		strength = characterInfo["stats2"]["strength"];
-		endurance = characterInfo["stats2"]["endurance"];
-		willpower = characterInfo["stats2"]["willpower"];
-		agility = characterInfo["stats2"]["agility"];
-		money = characterInfo["money"];
+		location_ = character_info["location"];
+		sub_location_ = character_info["subLocation"];
+		level_ = character_info["level"];
+		exp_ = character_info["exp"];
+		exp_next_ = character_info["expNext"];
+		name_ = character_info["name"].get<string>();
+		hp_ = character_info["stats1"]["hp"];
+		sp_ = character_info["stats1"]["sp"];
+		mp_ = character_info["stats1"]["mp"];
+		hp_max_ = character_info["stats1"]["hpMax"];
+		sp_max_ = character_info["stats1"]["spMax"];
+		mp_max_ = character_info["stats1"]["mpMax"];
+		strength_ = character_info["stats2"]["strength"];
+		endurance_ = character_info["stats2"]["endurance"];
+		willpower_ = character_info["stats2"]["willpower"];
+		agility_ = character_info["stats2"]["agility"];
+		money_ = character_info["money"];
 	}
 
-	//Inventory info -------------------------
+	// Inventory info -------------------------
 	{
-		weapon.load(in);
-		armor.load(in);
-		inventory = files::load(in);
+		weapon_.load(in);
+		armor_.load(in);
+		inventory_ = files::load(in);
 	}
 
 	in.close();
 
-	refreshStatDependent();
-	refreshItemDependent();
+	refresh_stat_dependent();
+	refresh_item_dependent();
 }
 
-//Fighting -------------------------------
-void Character::addHp(const int &inc) noexcept {
-	if (inc > 0) {
-		hp += inc;
-		if (hp > hpMax) hp = hpMax;
-	}
-}
-void Character::addSp(const int &inc) noexcept {
-	if (inc > 0) {
-		sp += inc;
-		if (sp > spMax) sp = spMax;
-	}
-}
-void Character::addMp(const int &inc) noexcept {
-	if (inc > 0) {
-		mp += inc;
-		if (mp > mpMax) mp = mpMax;
-	}
-}
-void Character::getDamaged(const int &dmg) noexcept {
-	if (dmg - defence > 0) {
-		hp -= (dmg - defence);
-		if (hp < 0) hp = 0;
-	}
-}
-void Character::decreaseSp(const int &dec) noexcept {
-	if (dec > 0) {
-		sp -= dec;
-		if (sp < 0) sp = 0;
-	}
-}
-void Character::decreaseMoney(const int & dec) noexcept {
-	if (dec > 0) {
-		money -= dec;
-		if (money <= 0) money = 0;
-	}
-}
-void Character::increaseDef(const int & inc) noexcept {
-	if (inc > 0) defence += inc;
-}
-void Character::increaseEv(const int & inc) noexcept {
-	if (inc > 0) {
-		evasionChance += inc;
-	}
-}
-void Character::addMoney(const int & inc) noexcept {
-	if (inc > 0) {
-		money += inc;
-	}
-}
-
-Enemy::Enemy() noexcept
+// Fighting -------------------------------
+void character::increase_hp(const int& inc) noexcept
 {
-	baseEvasionChance = 0;
-	baseHitChance = 0;
-	name = "NONE";
-	type = "enemy";
-	gfxDir = "NONE";
-} /*-------------------------------- Enemy --------------------------------*/
-Enemy::~Enemy() = default;
+	if (inc > 0)
+	{
+		hp_ += inc;
+		if (hp_ > hp_max_) hp_ = hp_max_;
+	}
+}
 
-//Functions ------------------------------
-const std::vector<std::string> Enemy::loadGfx() const
+void character::increase_sp(const int& inc) noexcept
 {
-	return files::loadGfx(
-		"GameFiles\\Scenarios\\" + currentScenario + "\\Resources\\Graphics\\Creatures\\" + gfxDir + ".txt");
+	if (inc > 0)
+	{
+		sp_ += inc;
+		if (sp_ > sp_max_) sp_ = sp_max_;
+	}
 }
 
-const std::string& Enemy::getGfxDir() const noexcept
+void character::increase_mp(const int& inc) noexcept
 {
-	return gfxDir;
+	if (inc > 0)
+	{
+		mp_ += inc;
+		if (mp_ > mp_max_) mp_ = mp_max_;
+	}
 }
 
-const std::string& Enemy::getSfxDir() const noexcept
+void character::get_damaged(const int& dmg) noexcept
 {
-	return sfxDir;
+	if (dmg - defence_ > 0)
+	{
+		hp_ -= (dmg - defence_);
+		if (hp_ < 0) hp_ = 0;
+	}
 }
 
-const std::string Enemy::loadName() const
+void character::decrease_sp(const int& dec) noexcept
 {
-	return enemyNames[name];
+	if (dec > 0)
+	{
+		sp_ -= dec;
+		if (sp_ < 0) sp_ = 0;
+	}
 }
 
-void Enemy::refreshStatDependent() noexcept {
-	this->dmgMin = baseDmgMin;
-	this->dmgMax = baseDmgMax;
-	this->defence = baseDefence;
-	this->hitChance = baseHitChance;
-	this->evasionChance = baseEvasionChance;
+void character::decrease_money(const int& dec) noexcept
+{
+	if (dec > 0)
+	{
+		money_ -= dec;
+		if (money_ <= 0) money_ = 0;
+	}
 }
-void Enemy::load(const json &enemyInfo) {
-	type = "enemy";
 
-	name = enemyInfo["name"].get<string>();
-	hpMax = enemyInfo["hpMax"];
-	baseDmgMin = enemyInfo["baseDmgMin"];
-	baseDmgMax = enemyInfo["baseDmgMax"];
-	baseDefence = enemyInfo["baseDefence"];
-	baseEvasionChance = enemyInfo["baseEvasionChance"];
-	baseHitChance = enemyInfo["baseHitChance"];
-	exp = enemyInfo["exp"];
-	gfxDir = enemyInfo["gfxDir"].get<string>();
-	sfxDir = enemyInfo["sfxDir"].get<string>();
+void character::increase_def(const int& inc) noexcept
+{
+	if (inc > 0) defence_ += inc;
+}
 
-	hp = hpMax;
-	refreshStatDependent();
+void character::increase_ev(const int& inc) noexcept
+{
+	if (inc > 0)
+	{
+		evasion_chance_ += inc;
+	}
+}
+
+void character::add_money(const int& inc) noexcept
+{
+	if (inc > 0)
+	{
+		money_ += inc;
+	}
 }

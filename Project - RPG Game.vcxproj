@@ -23,34 +23,34 @@
     <ProjectGuid>{3B29464B-C439-480D-986E-8D8B0BD63548}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ProjectRPGGame</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>Project_RPG_Game</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -116,7 +116,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
@@ -140,13 +140,14 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\aszcz\OneDrive\Dokumenty\Prace studia\Semestr 2\JiPP\Projekt\Project - RPG Game\SFML 64bit\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -168,7 +169,7 @@
       <EnablePREfast>false</EnablePREfast>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <DebugInformationFormat>None</DebugInformationFormat>
     </ClCompile>
@@ -192,7 +193,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -200,6 +201,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -210,17 +212,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Character.cpp" />
-    <ClCompile Include="src\CManip.cpp" />
-    <ClCompile Include="src\Files.cpp" />
-    <ClCompile Include="src\Game.cpp" />
-    <ClCompile Include="src\Game_Inventory.cpp" />
-    <ClCompile Include="src\Game_Menus.cpp" />
-    <ClCompile Include="src\Global.cpp" />
-    <ClCompile Include="src\Interface.cpp" />
-    <ClCompile Include="src\Items.cpp" />
-    <ClCompile Include="src\Project_RPG_Game.cpp" />
-    <ClCompile Include="src\Sounds.cpp" />
+    <ClCompile Include="include\enemy.cpp" />
+    <ClCompile Include="src\armor.cpp" />
+    <ClCompile Include="src\character.cpp" />
+    <ClCompile Include="src\color_util.cpp" />
+    <ClCompile Include="src\console_util.cpp" />
+    <ClCompile Include="src\consumable.cpp" />
+    <ClCompile Include="src\files_util.cpp" />
+    <ClCompile Include="src\game.cpp" />
+    <ClCompile Include="src\game_inventory.cpp" />
+    <ClCompile Include="src\game_menus.cpp" />
+    <ClCompile Include="src\global_functions.cpp" />
+    <ClCompile Include="src\global_variables.cpp" />
+    <ClCompile Include="src\interface_util.cpp" />
+    <ClCompile Include="src\item.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\sound_manager.cpp" />
+    <ClCompile Include="src\spell.cpp" />
+    <ClCompile Include="src\weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Project_RPG_Game.rc" />
@@ -229,16 +238,24 @@
     <Image Include="RPG_game.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Character.hpp" />
-    <ClInclude Include="include\CManip.hpp" />
-    <ClInclude Include="include\Files.hpp" />
-    <ClInclude Include="include\FrequentHeaders.h" />
-    <ClInclude Include="include\Game.hpp" />
-    <ClInclude Include="include\Global.hpp" />
-    <ClInclude Include="include\Interface.hpp" />
-    <ClInclude Include="include\Items.hpp" />
-    <ClInclude Include="include\Sounds.hpp" />
+    <ClInclude Include="include\armor.hpp" />
+    <ClInclude Include="include\character.hpp" />
+    <ClInclude Include="include\color_util.hpp" />
+    <ClInclude Include="include\console_util.hpp" />
+    <ClInclude Include="include\consumable.hpp" />
+    <ClInclude Include="include\enemy.hpp" />
+    <ClInclude Include="include\exceptions.hpp" />
+    <ClInclude Include="include\files_util.hpp" />
+    <ClInclude Include="include\global_headers.h" />
+    <ClInclude Include="include\game.hpp" />
+    <ClInclude Include="include\global_functions.hpp" />
+    <ClInclude Include="include\global_variables.hpp" />
+    <ClInclude Include="include\interface_util.hpp" />
+    <ClInclude Include="include\item.hpp" />
+    <ClInclude Include="include\sound_manager.hpp" />
+    <ClInclude Include="include\spell.hpp" />
     <ClInclude Include="include\targetver.h" />
+    <ClInclude Include="include\weapon.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

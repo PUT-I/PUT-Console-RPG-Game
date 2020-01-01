@@ -1,0 +1,72 @@
+{
+  "exp": 0,
+  "expNext": 100,
+  "level": 1,
+  "location": 1,
+  "money": 0,
+  "name": "as",
+  "stats1": {
+    "hp": 130,
+    "hpMax": 130,
+    "mp": 100,
+    "mpMax": 100,
+    "sp": 100,
+    "spMax": 100
+  },
+  "stats2": {
+    "agility": 1,
+    "endurance": 1,
+    "strength": 11,
+    "willpower": 1
+  },
+  "subLocation": 1
+}
+{
+  "dmgMax": 0,
+  "dmgMin": 0,
+  "gfxDir": "NONE",
+  "name": "WepNONE",
+  "number": 0,
+  "price": 0,
+  "requirements": 1,
+  "sfxDir": "Fists1",
+  "type": "weapon"
+}
+{
+  "dmgProtection": 1,
+  "gfxDir": "Clothes",
+  "name": "ArmorClothes",
+  "number": 0,
+  "price": 3,
+  "requirements": 1,
+  "sfxDir": "Clothes",
+  "type": "armor"
+}
+
+{"inventorySize":2}
+{
+  "effect": "fire",
+  "gfxDir": "fire1",
+  "mana": 25,
+  "name": "SpellFireI",
+  "number": 1,
+  "power": 10,
+  "price": 0,
+  "requirements": 1,
+  "sfxDir": "FireSpell1",
+  "span": 1,
+  "type": "spell"
+}
+{
+  "effect": "heal",
+  "gfxDir": "heal1",
+  "mana": 25,
+  "name": "SpellHealI",
+  "number": 1,
+  "power": 25,
+  "price": 0,
+  "requirements": 1,
+  "sfxDir": "HealSpell1",
+  "span": 1,
+  "type": "spell"
+}

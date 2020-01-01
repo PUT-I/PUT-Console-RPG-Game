@@ -1,10 +1,10 @@
 {
-  "fontSize": 24,
+  "fontSize": 43,
   "greyscale": false,
   "localization": {
     "codePage": "1250",
     "language": "en"
   },
   "scenario": "defaultScenario",
-  "sound": true
+  "sound": false
 }

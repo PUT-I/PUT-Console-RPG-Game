@@ -1,91 +1,95 @@
 #pragma once
-#include "FrequentHeaders.h"
-#include "Character.hpp"
-#include "Items.hpp"
 
-class Game
+#include "character.hpp"
+#include "global_headers.h"
+
+class enemy;
+
+class game final
 {
-	//Fields ---------------------------------
+	// Fields ---------------------------------
 private:
-	bool playing;	//If false the game is closed
-	bool inSession; //It indicates if player is actually playing
-	bool plotSwitches[10]{};
-	json scenario{};
+	bool playing_; // If false the game is closed
+	bool in_session_; // It indicates if player is actually playing
+	bool plot_switches_[10]{};
+	json scenario_{};
 
-	//Character ------------------------------
-	Character hero{};
-	Character tempHero{};
+	// Character ------------------------------
+	character hero_{};
+	character temp_hero_{};
 
-	//Constructors and a destructor ----------
+	// Constructors and destructor ------------
 public:
-	Game() noexcept;
-	virtual ~Game() = default;
+	game() noexcept;
+	~game() = default;
 
 private:
 	/*------------------------------ Functions ------------------------------*/
-	//Safeguards and initialization ----------
-	static const bool nameUsed(const std::string & name);
-	const unsigned int countSaves() const;
-	static void loadResourceMaps();
+	// Safeguards and initialization ----------
+	static const bool name_used(const std::string& name);
+	const unsigned int count_saves() const;
+	static void load_resource_maps();
 	void initialize();
 
-	//Saving and Loading ---------------------
-	void load(const std::string &filename);
-	void deleteSavesMenu() const;
-	void loadMenu();
-	void heroToTempHero(); //In this function the hero is copied to tempHero with additional operations
+	// Saving and Loading ---------------------
+	void load(const std::string& filename);
+	void delete_saves_menu() const;
+	void load_menu();
+	void hero_to_temp_hero(); // In this function the hero is copied to tempHero with additional operations
 
 	/*------------------------------ Inventory ------------------------------*/
-	const bool inventoryMenusExecution(const std::shared_ptr<Item> &item);
+	const bool inventory_menus_execution(const std::shared_ptr<item>& item1);
 
-	void displayInvGfx(const std::shared_ptr<Item> &item) const;
+	void display_inv_gfx(const std::shared_ptr<item>& item1) const;
 
-	void armorsMenu();
-	void weaponsMenu();
-	void consumablesMenu();
-	const bool spellsMenu(Enemy &enemy);
+	void armors_menu();
+	void weapons_menu();
+	void consumables_menu();
+	const bool spells_menu(enemy& enemy);
 
-	const bool inventoryMenuExecution(unsigned int& choice);
-	void inventoryMenu();
+	const bool inventory_menu_execution(unsigned int& choice);
+	void inventory_menu();
 
-	void shoppingBuyMenu(std::vector<std::shared_ptr<Item>> items);
-	void shoppingSellMenu();
-	void shoppingChoiceMenu(const std::vector<std::shared_ptr<Item>> &items);
+	void shopping_buy_menu(std::vector<std::shared_ptr<item>> items);
+	void shopping_sell_menu();
+	void shopping_choice_menu(const std::vector<std::shared_ptr<item>>& items);
 	/*-----------------------------------------------------------------------*/
 
-	//Main and Pause Menus -------------------
-	const bool pauseMenuExecution(const unsigned int &choice);
-	void pauseMenu();
+	// Main and Pause Menus -------------------
+	const bool pause_menu_execution(const unsigned int& choice);
+	void pause_menu();
 
-	static void refreshCodePage();
-	static void saveSettings();
-	static void loadSettings();
-	void settingsMenu();
+	static void refresh_code_page();
+	static void save_settings();
+	static void load_settings();
+	void settings_menu();
 
-	void loadScenario();
-	void scenarioLoadMenu();
+	void load_scenario();
+	void scenario_load_menu();
 
-	void mainMenuExecution(unsigned int &choice);
+	void main_menu_execution(unsigned int& choice);
 	void logo() const;
+
 public:
-	void mainMenu();
+	void main_menu();
 
 private:
-	//Battle System --------------------------
-	const bool spellsExecution(const unsigned int & choice, const std::shared_ptr<Item> &item, Enemy &enemy);
-	void displayFightStats(const Enemy& enemy) const;
-	void fightExecution(Enemy &enemy);
-	const bool fightExecution(const unsigned int& choice, Enemy &enemy);
-	void fight(Enemy enemy);
+	// Battle System --------------------------
+	const bool spells_execution(const unsigned int& choice, const std::shared_ptr<spell>& spell1, enemy& enemy1);
+	void display_fight_stats(const enemy& enemy1) const;
+	void fight_execution(enemy& enemy1);
+	const bool fight_execution(const unsigned int& choice, enemy& enemy1);
+	void fight(enemy enemy1);
 
-	//Story ----------------------------------
-	const unsigned int y1 = 22;
+	// Story ----------------------------------
+	const unsigned int y1_ = 22;
 
-	void printMenuGFX(const std::vector<std::string> &description, const std::vector<std::string> &gfx) const;
-	void locationMenu(unsigned int &choice, const std::vector<std::string> &description, const std::vector<std::string> &options, const std::vector<std::string> &gfx);
-	void locationActionGfx(const std::vector<std::string> &description) const;
-	void jsonToStory();
+	void print_menu_gfx(const std::vector<std::string>& description, const std::vector<std::string>& gfx) const;
+	void location_menu(unsigned int& choice, const std::vector<std::string>& description,
+	                   const std::vector<std::string>& options, const std::vector<std::string>& gfx);
+	void location_action_gfx(const std::vector<std::string>& description) const;
+	void json_to_story();
 
-	//Accessors ------------------------------
-	const bool& getPlaying() const noexcept { return this->playing; }
+	// Accessors ------------------------------
+	const bool& get_playing() const noexcept { return this->playing_; }
 };

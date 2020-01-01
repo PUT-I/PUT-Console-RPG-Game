@@ -1,617 +1,793 @@
-#include "Game.hpp"
-#include "Interface.hpp"
-#include "Sounds.hpp"
-#include "Files.hpp"
-#include "CManip.hpp"
+#include "game.hpp"
+
+#include "color_util.hpp"
+#include "console_util.hpp"
+#include "enemy.hpp"
+#include "files_util.hpp"
+#include "global_variables.hpp"
+#include "interface_util.hpp"
+#include "sound_manager.hpp"
 
 using namespace std;
 
-Game::Game() noexcept {
-	//Settings loading -----------------------
-	if (!files::exists("GameFiles\\settings.json")) {
-		adaptFontSize();
+game::game() noexcept
+{
+	// Settings loading -----------------------
+	if (!files::exists("GameFiles\\settings.json"))
+	{
+		adapt_font_size();
 		language = "en";
-		codePage = "1250";
-		currentScenario = "defaultScenario";
-		saveSettings();
+		code_page = "1250";
+		current_scenario = "defaultScenario";
+		save_settings();
 	}
-	else {
-		loadSettings();
+	else
+	{
+		load_settings();
 	}
-	adaptLocationFontSize();
-	loadScenario();
+	adapt_location_font_size();
+	load_scenario();
 
-	playing = true;
-	inSession = false;
+	playing_ = true;
+	in_session_ = false;
 
-	Fullscreeen(true);
-	refreshCodePage();
-	ShowConsoleCursor(false);
+	full_screen(true);
+	refresh_code_page();
+	show_console_cursor(false);
 	logo();
 }
 
 /*------------------------------ Functions ------------------------------*/
-//Safeguards and initialization ----------
-const bool Game::nameUsed(const string &name)
+// Safeguards and initialization ----------
+const bool game::name_used(const string& name)
 {
 	string temp;
 
-	//Checking if Used -----------------------
-	for (auto &p : filesystem::directory_iterator("Saves\\" + currentScenario)) {
-		if (name + ".json" == p.path().filename().string()) {
+	// Checking if Used -----------------------
+	for (auto& p : filesystem::directory_iterator("Saves\\" + current_scenario))
+	{
+		if (name + ".json" == p.path().filename().string())
+		{
 			return true;
 		}
 	}
 	return false;
 }
-const unsigned int Game::countSaves() const
+
+const unsigned int game::count_saves() const
 {
 	unsigned int counter = 0;
-	if (filesystem::is_empty("Saves\\" + currentScenario) != true) {
-		for (auto &dummy : filesystem::directory_iterator("Saves\\" + currentScenario)) {
+	if (filesystem::is_empty("Saves\\" + current_scenario) != true)
+	{
+		for (auto& dummy : filesystem::directory_iterator("Saves\\" + current_scenario))
+		{
 			(void)dummy;
 			counter++;
 		}
 	}
 	return counter;
 }
-void Game::loadResourceMaps()
+
+void game::load_resource_maps()
 {
-	//Object Maps loading --------------------
+	// Object Maps loading --------------------
 	{
-		itms::weapons.clear();
-		itms::armors.clear();
-		itms::spells.clear();
-		itms::consumables.clear();
+		items::weapons.clear();
+		items::armors.clear();
+		items::spells.clear();
+		items::consumables.clear();
 		enemies.clear();
 
 		json items;
-		std::ifstream in("GameFiles\\Scenarios\\" + currentScenario + "\\Resources\\items.json");
+		std::ifstream in("GameFiles\\Scenarios\\" + current_scenario + "\\Resources\\items.json");
 		in >> items;
 		in.close();
 
-		files::loadMap(items["weapons"], itms::weapons);
-		files::loadMap(items["armors"], itms::armors);
-		files::loadMap(items["spells"], itms::spells);
-		files::loadMap(items["consumables"], itms::consumables);
+		files::load_map(items["weapons"], items::weapons);
+		files::load_map(items["armors"], items::armors);
+		files::load_map(items["spells"], items::spells);
+		files::load_map(items["consumables"], items::consumables);
 
-		//Enemies loading ------------------------
-		json enemyTab;
-		Enemy enemTemp;
+		// Enemies loading ------------------------
+		json enemy_tab;
+		enemy enemy_temp;
 
-		in.open("GameFiles\\Scenarios\\" + currentScenario + "\\Resources\\enemies.json");
-		in >> enemyTab;
+		in.open("GameFiles\\Scenarios\\" + current_scenario + "\\Resources\\enemies.json");
+		in >> enemy_tab;
 		in.close();
-		for (const json &e : enemyTab["tab"]) {
-			enemTemp.load(e["enemyInfo"]);
-			enemies.insert(std::pair(e["key"], enemTemp));
+		for (const json& e : enemy_tab["tab"])
+		{
+			enemy_temp.load(e["enemyInfo"]);
+			enemies.insert(std::pair(e["key"], enemy_temp));
 		}
 	}
 }
-void Game::initialize() {
+
+void game::initialize()
+{
 	string name;
 
-	do {
-		//Name Setting ---------------------------
-		ClearConsole();
-		PrintBox(0, 0, 54, 17);
-		PrintText(3, 2, sLineTexts["Initialize1"]);
+	do
+	{
+		// Name Setting ---------------------------
+		clear_console();
+		print_box(0, 0, 54, 17);
+		print_text(3, 2, s_line_texts["Initialize1"]);
 
-		InputString(name, 15);	//Input with letter limit
+		input_string(name, 15); // Input with letter limit
 
-		if (nameUsed(name)) {
-			PrintText(3, 4, sLineTexts["Initialize2"]);
-			CursorPos(27 + sLineTexts["Initialize2"].size() / 6, 5);
-			SpacePause();
-			ClearConsole();
+		if (name_used(name))
+		{
+			print_text(3, 4, s_line_texts["Initialize2"]);
+			cursor_pos(27 + s_line_texts["Initialize2"].size() / 6, 5);
+			space_pause();
+			clear_console();
 			continue;
 		}
 
-		ClearConsole();
-		PrintBox(0, 0, 54, 17);
-		CursorPos(3, 2);
-	} while (nameUsed(name) || !confirmationMenu(sLineTexts["Initialize3-1"] + name + sLineTexts["Initialize3-2"]));
+		clear_console();
+		print_box(0, 0, 54, 17);
+		cursor_pos(3, 2);
+	}
+	while (name_used(name) || !confirmation_menu(s_line_texts["Initialize3-1"] + name + s_line_texts["Initialize3-2"]));
 
-	//Hero Initializing ---------------------
-	this->hero.initialize(name);
+	// Hero Initializing ---------------------
+	this->hero_.initialize(name);
 
-	hero.addToInventory(itms::spells["Fire I"]);
-	hero.addToInventory(itms::spells["Heal I"]);
+	hero_.add_to_inventory(items::spells["Fire I"]);
+	hero_.add_to_inventory(items::spells["Heal I"]);
 
-	inSession = true;
+	in_session_ = true;
 }
 
-//Saving and Loading ---------------------
-void Game::load(const string &heroName) {
-	hero.load(heroName);
-}
-void Game::deleteSavesMenu() const
+// Saving and Loading ---------------------
+void game::load(const string& heroName)
 {
-	do {
-		vector<string> usedNames;
+	hero_.load(heroName);
+}
+
+void game::delete_saves_menu() const
+{
+	do
+	{
+		vector<string> used_names;
 		string temp;
 		unsigned int choice = 0;
-		if (countSaves() > 0) {
-			for (auto &p : filesystem::directory_iterator("Saves\\" + currentScenario)) {
+		if (count_saves() > 0)
+		{
+			for (auto& p : filesystem::directory_iterator("Saves\\" + current_scenario))
+			{
 				temp = p.path().filename().string();
 				temp.erase(temp.size() - 5, 5);
-				usedNames.push_back(temp);
+				used_names.push_back(temp);
 			}
-			sort(usedNames.begin(), usedNames.end());
+			sort(used_names.begin(), used_names.end());
 		}
-		ClearConsole();
-		PrintBox(0, 0, 54, 17);
-		optionsMenu(choice, sLineTexts["DeleteSavesMenuTitle"], sLineTexts["Return"], usedNames, true);
+		clear_console();
+		print_box(0, 0, 54, 17);
+		options_menu(choice, s_line_texts["DeleteSavesMenuTitle"], s_line_texts["Return"], used_names, true);
 
 		if (choice == 0) return;
-		else {
-			ClearConsole();
-			PrintBox(0, 0, 54, 17);
-			CursorPos(3, 2);
-			if (confirmationMenu(sLineTexts["MainMenuQuestion"])) {
-				filesystem::remove("Saves\\" + usedNames[choice - 1] + ".json");
+		else
+		{
+			clear_console();
+			print_box(0, 0, 54, 17);
+			cursor_pos(3, 2);
+			if (confirmation_menu(s_line_texts["MainMenuQuestion"]))
+			{
+				filesystem::remove("Saves\\" + used_names[choice - 1] + ".json");
 			}
 		}
-	} while (true);
+	}
+	while (true);
 }
-void Game::heroToTempHero() {
-	tempHero = hero;
-	vector<shared_ptr<Item>> tempInv;
+
+void game::hero_to_temp_hero()
+{
+	temp_hero_ = hero_;
+	vector<shared_ptr<item>> temp_inv;
 
 	/*
 	This part is needed in order to prevent reducing number
 	of items after copying hero to tempHero, which may
 	occur beacuse of the smart pointer usage
 	*/
-	for (shared_ptr<Item> &e : hero.getInventory()) {
-		if (e->getType() == "weapon") {
-			tempInv.push_back(make_shared<Weapon>(*dynamic_pointer_cast<Weapon>(e)));
+	for (shared_ptr<item>& e : hero_.get_inventory())
+	{
+		if (e->get_type() == item::weapon)
+		{
+			temp_inv.push_back(make_shared<weapon>(*dynamic_pointer_cast<weapon>(e)));
 		}
-		else if (e->getType() == "armor") {
-			tempInv.push_back(make_shared<Armor>(*dynamic_pointer_cast<Armor>(e)));
+		else if (e->get_type() == item::armor)
+		{
+			temp_inv.push_back(make_shared<armor>(*dynamic_pointer_cast<armor>(e)));
 		}
-		else if (e->getType() == "consumable") {
-			tempInv.push_back(make_shared<Consumable>(*dynamic_pointer_cast<Consumable>(e)));
+		else if (e->get_type() == item::consumable)
+		{
+			temp_inv.push_back(make_shared<consumable>(*dynamic_pointer_cast<consumable>(e)));
 		}
-		else if (e->getType() == "spell") {
-			tempInv.push_back(make_shared<Spell>(*dynamic_pointer_cast<Spell>(e)));
+		else if (e->get_type() == item::spell)
+		{
+			temp_inv.push_back(make_shared<spell>(*dynamic_pointer_cast<spell>(e)));
 		}
 	}
 }
 
-//Battle System --------------------------
-const bool Game::spellsExecution(const unsigned int & choice, const shared_ptr<Item> &item, Enemy &enemy) {
+// Battle System --------------------------
+const bool game::spells_execution(const unsigned int& choice, const shared_ptr<spell>& spell1, enemy& enemy1)
+{
 	bool result;
-	shared_ptr<Character> enemyPtr = make_shared<Enemy>(enemy);
+	const shared_ptr<character> enemy_ptr = make_shared<enemy>(enemy1);
 
-	CursorPosBegin();
+	cursor_pos_begin();
 
-	//if (choice > 0) audio.setVolume("enter", 0);
-
-	if (hero.getMp() < item->getMana()) {
+	if (hero_.get_mp() < spell1->get_mana())
+	{
 		result = false;
 	}
-	else if (item->getEffect() == "heal" && hero.getHp() >= hero.getHpMax()) {
+	else if (spell1->get_effect() == "heal" && hero_.get_hp() >= hero_.get_hp_max())
+	{
 		result = false;
 	}
-	else if (item->getEffect() == "stamina" && hero.getSp() >= hero.getSpMax()) {
+	else if (spell1->get_effect() == "stamina" && hero_.get_sp() >= hero_.get_sp_max())
+	{
 		result = false;
 	}
-	else {
-		hero.castSpell(*dynamic_pointer_cast<Spell>(item), enemyPtr);
+	else
+	{
+		hero_.cast_spell(*dynamic_pointer_cast<spell>(spell1), enemy_ptr);
 		result = true;
 	}
 
-	enemy = *dynamic_pointer_cast<Enemy>(enemyPtr);
+	enemy1 = *dynamic_pointer_cast<enemy>(enemy_ptr);
 
 	return result;
 }
-void Game::displayFightStats(const Enemy& enemy) const
+
+void game::display_fight_stats(const enemy& enemy1) const
 {
-	//Stats Hero ----------------------------
+	// Stats Hero ----------------------------
 	{
-		CursorPos(1, 1);
-		cout << hero.getName();
-		CursorPos(1, 2);
-		cout << color.get("red") << mLineTexts["FightStats"][0] << hero.getHp() << "/" << hero.getHpMax() << color.get("normal") << "  ";
-		CursorPos(1, 3);
-		cout << color.get("green") << mLineTexts["FightStats"][1] << hero.getSp() << "/" << hero.getSpMax() << color.get("normal") << "  ";
-		CursorPos(1, 4);
-		cout << color.get("blue") << mLineTexts["FightStats"][2] << hero.getMp() << "/" << hero.getMpMax() << color.get("normal") << "  ";
-		CursorPos(1, 5);
-		cout << mLineTexts["FightStats"][3] << hero.getDefence() << "  ";
-		CursorPos(1, 6);
-		cout << mLineTexts["FightStats"][4] << hero.getEvasionC() << "  ";
-		CursorPos(1, 7);
-		for (int i = 1; i <= 22; i++) {
+		cursor_pos(1, 1);
+		cout << hero_.get_name();
+		cursor_pos(1, 2);
+		cout << color.get("red") << m_line_texts["FightStats"][0] << hero_.get_hp() << "/" << hero_.get_hp_max() <<
+			color.
+			get("normal") << "  ";
+		cursor_pos(1, 3);
+		cout << color.get("green") << m_line_texts["FightStats"][1] << hero_.get_sp() << "/" << hero_.get_sp_max() <<
+			color.get("normal") << "  ";
+		cursor_pos(1, 4);
+		cout << color.get("blue") << m_line_texts["FightStats"][2] << hero_.get_mp() << "/" << hero_.get_mp_max() <<
+			color
+			.get("normal") << "  ";
+		cursor_pos(1, 5);
+		cout << m_line_texts["FightStats"][3] << hero_.get_defence() << "  ";
+		cursor_pos(1, 6);
+		cout << m_line_texts["FightStats"][4] << hero_.get_evasion_c() << "  ";
+		cursor_pos(1, 7);
+		for (int i = 1; i <= 22; i++)
+		{
 			cout << "=";
 		}
 	}
-	//Stats Enemy ----------------------------
+	// Stats Enemy ----------------------------
 	{
-		CursorPos(1, 8);
-		cout << enemy.loadName();
-		CursorPos(1, 9);
-		cout << color.get("red") << mLineTexts["FightStats"][0] << enemy.getHp() << "/" << enemy.getHpMax() << color.get("normal") << "  ";
-		CursorPos(1, 10);
-		cout << mLineTexts["FightStats"][3] << enemy.getDefence() << "  ";
-		CursorPos(1, 11);
-		cout << mLineTexts["FightStats"][4] << enemy.getEvasionC() << "  ";
+		cursor_pos(1, 8);
+		cout << enemy1.load_name();
+		cursor_pos(1, 9);
+		cout << color.get("red") << m_line_texts["FightStats"][0] << enemy1.get_hp() << "/" << enemy1.get_hp_max() <<
+			color.get("normal") << "  ";
+		cursor_pos(1, 10);
+		cout << m_line_texts["FightStats"][3] << enemy1.get_defence() << "  ";
+		cursor_pos(1, 11);
+		cout << m_line_texts["FightStats"][4] << enemy1.get_evasion_c() << "  ";
 	}
 }
 
-void Game::fightExecution(Enemy &enemy) {
-	enemy.refreshStatDependent();
+void game::fight_execution(enemy& enemy1)
+{
+	enemy1.refresh_stat_dependent();
 
-	const int choice = randInt(0, 1);
+	const int choice = rand_int(0, 1);
 
-	switch (choice) {
-	case 0: {
-		int chance = enemy.getHitC() - hero.getEvasionC();
-		if (chance < 1) chance = 1;
+	switch (choice)
+	{
+	case 0:
+		{
+			int chance = enemy1.get_hit_c() - hero_.get_evasion_c();
+			if (chance < 1) chance = 1;
 
-		if (randInt(1, 100) >= chance) {
-			int damage = randInt(enemy.getDmgMin(), enemy.getDmgMax());
+			if (rand_int(1, 100) >= chance)
+			{
+				int damage = rand_int(enemy1.get_dmg_min(), enemy1.get_dmg_max());
 
-			if (damage < enemy.getDmgMin()) {
-				damage = enemy.getDmgMin();
+				if (damage < enemy1.get_dmg_min())
+				{
+					damage = enemy1.get_dmg_min();
+				}
+
+				if (damage - hero_.get_defence() > 0)
+				{
+					hero_.get_damaged(damage);
+					sounds.play_sound(sound_manager::creature_hit, enemy1.get_sfx_dir());
+				}
+				else sounds.play_sound(sound_manager::miss);
 			}
-
-			if (damage - hero.getDefence() > 0) {
-				hero.getDamaged(damage);
-				audio.creature(enemy.getSfxDir(), "hit");
+			else
+			{
+				sounds.play_sound(sound_manager::miss);
 			}
-			else audio.miss();
+			break;
 		}
-		else {
-			audio.miss();
-		}
-		break;
-	}
 
-	case 1: {
-		enemy.increaseDef(randInt(1, hero.getDmgMin() - enemy.getDefence()));
-		audio.defend();
-		break;
-	}
+	case 1:
+		{
+			enemy1.increase_def(rand_int(1, hero_.get_dmg_min() - enemy1.get_defence()));
+			sounds.play_sound(sound_manager::defend);
+			break;
+		}
 	default: break;
 	}
 }
-const bool Game::fightExecution(const unsigned int& choice, Enemy &enemy) {
-	hero.refreshStatDependent();
-	hero.refreshItemDependent();
 
-	switch (choice) {
-	case 0: {
-		int chance = hero.getHitC() - enemy.getEvasionC();
-		if (chance < 1) chance = 1;
+const bool game::fight_execution(const unsigned int& choice, enemy& enemy1)
+{
+	hero_.refresh_stat_dependent();
+	hero_.refresh_item_dependent();
 
-		if (randInt(1, 100) <= chance) {
-			int damage = randInt((hero.getSp() / hero.getSpMax())*hero.getDmgMax(), hero.getDmgMax());
+	switch (choice)
+	{
+	case 0:
+		{
+			int chance = hero_.get_hit_c() - enemy1.get_evasion_c();
+			if (chance < 1) chance = 1;
 
-			if (damage < hero.getDmgMin()) {
-				damage = hero.getDmgMin();
+			if (rand_int(1, 100) <= chance)
+			{
+				int damage = rand_int((hero_.get_sp() / hero_.get_sp_max()) * hero_.get_dmg_max(), hero_.get_dmg_max());
+
+				if (damage < hero_.get_dmg_min())
+				{
+					damage = hero_.get_dmg_min();
+				}
+
+				if (damage - enemy1.get_defence() > 0)
+				{
+					enemy1.get_damaged(damage);
+					sounds.play_sound(sound_manager::weapon, hero_.get_weapon().get_sfx_dir());
+				}
+				else
+				{
+					sounds.play_sound(sound_manager::miss);
+				}
+			}
+			else
+			{
+				sounds.play_sound(sound_manager::miss);
 			}
 
-			if (damage - enemy.getDefence() > 0) {
-				enemy.getDamaged(damage);
-				audio.weapon(hero.getWeapon().getSfxDir());
+			int dec = hero_.get_weapon().get_requirements() * 10 - 2 * hero_.get_agility();
+			if (dec < 1)
+			{
+				dec = 1;
 			}
-			else {
-				audio.miss();
+
+			hero_.decrease_sp(dec);
+			break;
+		}
+
+	case 1:
+		{
+			hero_.increase_def(rand_int(1, enemy1.get_dmg_min() - hero_.get_defence()));
+
+			int dec = hero_.get_armor().get_requirements() * 5 - 2 * hero_.get_agility();
+			if (dec < 1)
+			{
+				dec = 1;
 			}
-		}
-		else {
-			audio.miss();
-		}
 
-		int dec = hero.getWeapon().getRequirements() * 10 - 2 * hero.getAgility();
-		if (dec < 1) {
-			dec = 1;
+			hero_.decrease_sp(dec);
+			sounds.play_sound(sound_manager::defend);
+			break;
 		}
 
-		hero.decreaseSp(dec);
-		break;
-	}
+	case 2:
+		{
+			hero_.increase_ev(rand_int(1, 2 * hero_.get_agility()));
 
-	case 1: {
-		hero.increaseDef(randInt(1, enemy.getDmgMin() - hero.getDefence()));
+			int dec = hero_.get_armor().get_requirements() * 10 - 2 * hero_.get_agility();
+			if (dec < 1)
+			{
+				dec = 1;
+			}
 
-		int dec = hero.getArmor().getRequirements() * 5 - 2 * hero.getAgility();
-		if (dec < 1) {
-			dec = 1;
+			hero_.decrease_sp(dec);
+			sounds.play_sound(sound_manager::evasion);
+			break;
 		}
 
-		hero.decreaseSp(dec);
-		audio.defend();
-		break;
-	}
+	case 3:
+		{
+			clear_console();
 
-	case 2: {
-		hero.increaseEv(randInt(1, 2 * hero.getAgility()));
+			const bool temp = spells_menu(enemy1);
 
-		int dec = hero.getArmor().getRequirements() * 10 - 2 * hero.getAgility();
-		if (dec < 1) {
-			dec = 1;
+			clear_console();
+
+			display_gfx(25, 1, graphics[enemy1.get_gfx_dir()]);
+			display_options_no_num(choice, m_line_texts["Fight"], 2, 13);
+			print_box(0, 0, 54, 17);
+			print_box(0, 0, 22, 11);
+			print_box(0, 12, 22, 5);
+
+			if (!temp)
+			{
+				return false;
+			}
+
+			break;
 		}
 
-		hero.decreaseSp(dec);
-		audio.evasion();
-		break;
-	}
+	case 4:
+		{
+			clear_console();
+			consumables_menu();
+			clear_console();
 
-	case 3: {
-		ClearConsole();
+			display_gfx(25, 1, graphics[enemy1.get_gfx_dir()]);
+			print_box(0, 0, 54, 17);
+			print_box(0, 0, 22, 11);
+			print_box(0, 12, 22, 5);
 
-		const bool temp = spellsMenu(enemy);
-
-		ClearConsole();
-
-		DisplayGfx(25, 1, graphics[enemy.getGfxDir()]);
-		displayOptionsNoNum(choice, mLineTexts["Fight"], 2, 13);
-		PrintBox(0, 0, 54, 17);
-		PrintBox(0, 0, 22, 11);
-		PrintBox(0, 12, 22, 5);
-
-		if (!temp) {
 			return false;
 		}
-
-		break;
-	}
-
-	case 4: {
-		ClearConsole();
-		consumablesMenu();
-		ClearConsole();
-
-		DisplayGfx(25, 1, graphics[enemy.getGfxDir()]);
-		PrintBox(0, 0, 54, 17);
-		PrintBox(0, 0, 22, 11);
-		PrintBox(0, 12, 22, 5);
-
-		return false;
-	}
 	default: break;
 	}
 
 	return true;
 }
 
-void Game::fight(Enemy enemy) {
+void game::fight(enemy enemy1)
+{
 	unsigned int choice = 0;
 
-	ClearConsole();
-	setFontSize(globalFontSize + 32);
+	clear_console();
+	set_font_size(global_font_size + 32);
 
-	DisplayGfx(25, 1, graphics[enemy.getGfxDir()]);
+	display_gfx(25, 1, graphics[enemy1.get_gfx_dir()]);
 
-	PrintBox(0, 0, 54, 17);
-	PrintBox(0, 0, 22, 11);
-	PrintBox(0, 12, 22, 5);
+	print_box(0, 0, 54, 17);
+	print_box(0, 0, 22, 11);
+	print_box(0, 12, 22, 5);
 
-	do {
-		do {
-			displayFightStats(enemy);
-			do {
-				choiceLimit(choice, 5);
-				if (choice >= 0 && choice <= 5) {
-					displayOptionsNoNum(choice, mLineTexts["Fight"], 2, 13);
+	do
+	{
+		do
+		{
+			display_fight_stats(enemy1);
+			do
+			{
+				choice_limit(choice, 5);
+				if (choice >= 0 && choice <= 5)
+				{
+					display_options_no_num(choice, m_line_texts["Fight"], 2, 13);
 				}
-			} while (!upDownControls(choice, 5));
+			}
+			while (!up_down_controls(choice, 5));
+		}
+		while (!fight_execution(choice, enemy1));
 
-		} while (!fightExecution(choice, enemy));
+		enemy1.active_spells_refresh();
+		hero_.active_spells_refresh();
 
-		enemy.activeSpellsRefresh();
-		hero.activeSpellsRefresh();
+		display_fight_stats(enemy1);
 
-		displayFightStats(enemy);
-
-		if (enemy.getHp() <= 0) break;
+		if (enemy1.get_hp() <= 0) break;
 
 		Sleep(500);
-		fightExecution(enemy);
+		fight_execution(enemy1);
 
-		hero.addSp(int{ hero.getSpMax() / 100 });
-
-	} while (hero.getHp() > 0 && enemy.getHp() > 0);
-
-	enemy.clearActiveSpells();
-	hero.clearActiveSpells();
-
-	if (hero.getHp() == 0) {
-		ClearConsole();
-		PrintBox(0, 0, 54, 17);
-		CursorPos(8, 4);
-		cout << sLineTexts["MsgDead"];
-		audio.creature("Character", "death");
-		CursorPos(8, 6);
-		SpacePause();
-		ClearConsole();
-		inSession = false;
+		hero_.increase_sp(int{hero_.get_sp_max() / 100});
 	}
-	else {
-		ClearConsole();
-		PrintBox(0, 0, 54, 17);
-		CursorPos(8, 4);
-		cout << sLineTexts["MsgWin"];
-		CursorPos(8, 6);
-		SpacePause();
-		ClearConsole();
-		PrintBox(0, 0, 54, 17);
-		hero.addExp(enemy.getExp());
+	while (hero_.get_hp() > 0 && enemy1.get_hp() > 0);
+
+	enemy1.clear_active_spells();
+	hero_.clear_active_spells();
+
+	if (hero_.get_hp() == 0)
+	{
+		clear_console();
+		print_box(0, 0, 54, 17);
+		cursor_pos(8, 4);
+		cout << s_line_texts["MsgDead"];
+		sounds.play_creature_sound("Character", "death");
+		cursor_pos(8, 6);
+		space_pause();
+		clear_console();
+		in_session_ = false;
+	}
+	else
+	{
+		clear_console();
+		print_box(0, 0, 54, 17);
+		cursor_pos(8, 4);
+		cout << s_line_texts["MsgWin"];
+		cursor_pos(8, 6);
+		space_pause();
+		clear_console();
+		print_box(0, 0, 54, 17);
+		hero_.add_exp(enemy1.get_exp());
 	}
 
-	setFontSize(globalFontSize + storyFontInc);
+	set_font_size(global_font_size + story_font_inc);
 }
 
-//Story ----------------------------------
-void Game::printMenuGFX(const vector<string> &description, const vector<string> &gfx) const
+// Story ----------------------------------
+void game::print_menu_gfx(const vector<string>& description, const vector<string>& gfx) const
 {
-	DisplayGfx(31, 1, description);
-	DisplayGfx(1, 1, vector<string>(20, string(29, ' ')));
-	DisplayGfx(1, 1, gfx);
+	display_gfx(31, 1, description);
+	display_gfx(1, 1, vector<string>(20, string(29, ' ')));
+	display_gfx(1, 1, gfx);
 	cout << color.get("normal");
-	DisplayGfx(30, 1, lines);
-	PrintBox(0, 0, 81, 26);
-	PrintText(1, y1 - 1, equalSigns);
+	display_gfx(30, 1, lines);
+	print_box(0, 0, 81, 26);
+	print_text(1, y1_ - 1, equal_signs);
 };
 
-void Game::locationMenu(unsigned int &choice, const vector<string> &description, const vector<string> &options, const vector<string> &gfx) {
-	int tempControlsResult;
-	printMenuGFX(description, gfx);
+void game::location_menu(unsigned int& choice, const vector<string>& description, const vector<string>& options,
+                         const vector<string>& gfx)
+{
+	int temp_controls_result;
+	print_menu_gfx(description, gfx);
 
-	do {
-		CursorPos(0, y1);
-		displayOptionsMenu(choice, options);
-		choiceLimit(choice, options.size());
-		tempControlsResult = upDownEscControls(choice, options.size());
-		if (tempControlsResult == -1) {
-			audio.ambience(false);
-			pauseMenu();
-			if (!inSession) {
+	do
+	{
+		cursor_pos(0, y1_);
+		display_options_menu(choice, options);
+		choice_limit(choice, options.size());
+		temp_controls_result = up_down_esc_controls(choice, options.size());
+		if (temp_controls_result == -1)
+		{
+			sounds.ambience(false);
+			pause_menu();
+			if (!in_session_)
+			{
 				return;
 			}
-			audio.ambience(true);
-			printMenuGFX(description, gfx);
+			sounds.ambience(true);
+			print_menu_gfx(description, gfx);
 		}
-	} while (tempControlsResult != 1);
+	}
+	while (temp_controls_result != 1);
 }
-void Game::locationActionGfx(const vector<string> &description) const
-{
-	DisplayGfx(31, 1, locationTextBlank);
-	DisplayGfx(1, 22, locationOptionsBlank);
-	DisplayGfx(31, 1, description);
 
-	CursorPos(1, 22);
-	SpacePause();
-	DisplayGfx(31, 1, locationTextBlank);
-	DisplayGfx(1, 22, locationOptionsBlank);
+void game::location_action_gfx(const vector<string>& description) const
+{
+	display_gfx(31, 1, location_text_blank);
+	display_gfx(1, 22, location_options_blank);
+	display_gfx(31, 1, description);
+
+	cursor_pos(1, 22);
+	space_pause();
+	display_gfx(31, 1, location_text_blank);
+	display_gfx(1, 22, location_options_blank);
 }
-void Game::jsonToStory() {
-	ClearConsole();
-	setFontSize(globalFontSize + storyFontInc);
+
+void game::json_to_story()
+{
+	clear_console();
+	set_font_size(global_font_size + story_font_inc);
 
 	unsigned int choice;
-	vector<string>action, description, options;
-	auto parseAction = [this, &choice, &action, &description, &options]() {
-		for (unsigned int i = 0; i < action.size() && inSession; i++) {
-			if (action[i] == "sleep") { i++; Sleep(stoi(action[i])); }
+	vector<string> action, description, options;
+	auto parse_action = [this, &choice, &action, &description, &options]()
+	{
+		for (unsigned int i = 0; i < action.size() && in_session_; i++)
+		{
+			if (action[i] == "sleep")
+			{
+				i++;
+				Sleep(stoi(action[i]));
+			}
 			else if (action[i] == "break") { return true; }
-			else if (action[i] == "clear") { ClearConsole(); }
-			else if (action[i] == "sessionEnd") { inSession = false; }
-			else if (action[i] == "pause") {
-				unsigned int xPos, yPos;
+			else if (action[i] == "clear") { clear_console(); }
+			else if (action[i] == "sessionEnd") { in_session_ = false; }
+			else if (action[i] == "pause")
+			{
+				unsigned int x_pos, y_pos;
 				i++;
-				xPos = stoi(action[i]);
+				x_pos = stoi(action[i]);
 				i++;
-				yPos = stoi(action[i]);
-				CursorPos(xPos, yPos);
-				SpacePause();
+				y_pos = stoi(action[i]);
+				cursor_pos(x_pos, y_pos);
+				space_pause();
 			}
-			else if (action[i] == "frame") {
+			else if (action[i] == "frame")
+			{
 				i++;
-				if (action[i] == "small") { setFontSize(globalFontSize + 32); PrintBox(0, 0, 54, 17); }
-				else if (action[i] == "big") { setFontSize(globalFontSize + storyFontInc); PrintBox(0, 0, 81, 26); }
+				if (action[i] == "small")
+				{
+					set_font_size(global_font_size + 32);
+					print_box(0, 0, 54, 17);
+				}
+				else if (action[i] == "big")
+				{
+					set_font_size(global_font_size + story_font_inc);
+					print_box(0, 0, 81, 26);
+				}
 			}
-			else if (action[i] == "text") {
-				unsigned int xPos, yPos;
+			else if (action[i] == "text")
+			{
+				unsigned int x_pos, y_pos;
 				i++;
-				xPos = stoi(action[i]);
+				x_pos = stoi(action[i]);
 				i++;
-				yPos = stoi(action[i]);
+				y_pos = stoi(action[i]);
 				i++;
-				PrintText(xPos, yPos, sLineTexts[action[i]]);
+				print_text(x_pos, y_pos, s_line_texts[action[i]]);
 			}
-			else if (action[i] == "plotSwitch") {
+			else if (action[i] == "plotSwitch")
+			{
 				i++;
 				const unsigned int index = stoi(action[i]);
 				i++;
-				if (action[i] == "true") {
-					this->plotSwitches[index] = true;
+				if (action[i] == "true")
+				{
+					this->plot_switches_[index] = true;
 				}
-				else if (action[i] == "false") { this->plotSwitches[index] = false; }
+				else if (action[i] == "false") { this->plot_switches_[index] = false; }
 			}
-			else if (action[i] == "audio") {
+			else if (action[i] == "audio")
+			{
 				i++;
-				if (action[i] == "creature") {
-					audio.creature(action[i + 1], action[i + 2]);
+				if (action[i] == "creature")
+				{
+					sounds.play_creature_sound(action[i + 1], action[i + 2]);
 					i += 2;
 				}
-				else if (action[i] == "character") {
+				else if (action[i] == "character")
+				{
 					i++;
-					audio.character(action[i]);
+					sounds.play_sound(sound_manager::character, action[i]);
 				}
-				else if (action[i] == "enviroment") {
+				else if (action[i] == "environment")
+				{
 					i++;
-					audio.enviroment(action[i]);
+					sounds.play_sound(sound_manager::environment, action[i]);
 				}
-				else if (action[i] == "misc") {
+				else if (action[i] == "misc")
+				{
 					i++;
-					audio.misc(action[i]);
+					sounds.play_sound(sound_manager::misc, action[i]);
 				}
-				else if (action[i] == "ambience") {
-					bool onOff;
-					if (action[i + 2] == "true") { onOff = true; }
-					else { onOff = false; }
-					audio.ambience(action[i + 1], onOff);
+				else if (action[i] == "ambience")
+				{
+					bool on_off;
+					if (action[i + 2] == "true") { on_off = true; }
+					else { on_off = false; }
+					sounds.ambience(action[i + 1], on_off);
 					i += 2;
 				}
 			}
-			else if (action[i] == "choice") {
+			else if (action[i] == "choice")
+			{
 				i++;
 				if (action[i] == "--") { choice--; }
 				else if (action[i] == "++") { choice++; }
 			}
-			else if (action[i] == "add") {
+			else if (action[i] == "add")
+			{
 				i++;
-				if (action[i] == "item") {
+				if (action[i] == "item")
+				{
 					i++;
-					if (action[i] == "weapon") { i++; hero.addToInventory(itms::weapons[action[i]]); }
-					else if (action[i] == "armor") { i++; hero.addToInventory(itms::armors[action[i]]); }
-					else if (action[i] == "spell") { i++; hero.addToInventory(itms::spells[action[i]]); }
-					else if (action[i] == "consumable") { hero.addToInventory(itms::consumables[action[i + 1]], stoi(action[i + 2])); i += 2; }
-				}
-				else if (action[i] == "hp") { i++; hero.addHp(stoi(action[i])); }
-				else if (action[i] == "sp") { i++; hero.addSp(stoi(action[i])); }
-				else if (action[i] == "mp") { i++; hero.addMp(stoi(action[i])); }
-				else if (action[i] == "exp") { i++; hero.addExp(stoi(action[i])); }
-				else if (action[i] == "money") { i++; hero.addMoney(stoi(action[i])); }
-			}
-			else if (action[i] == "setSubLocation") { i++; hero.setSubLocation(stoi(action[i])); }
-			else if (action[i] == "setLocation") { i++; hero.setLocation(stoi(action[i])); }
-			else if (action[i] == "fight") { i++; fight(enemies[action[i]]); }
-			else if (action[i] == "printMenuGfx") { i++, printMenuGFX(vector<string>{""}, graphics[action[i]]); }
-			else if (action[i] == "actionText") {
-				i++;
-				locationActionGfx(mLineTexts[action[i]]);
-			}
-			else if (action[i] == "description") {
-				i++;
-				description = mLineTexts[action[i]];
-			}
-			else if (action[i] == "optionsPopBack") { options.pop_back(); choice--; }
-			else if (action[i] == "merchant") {
-				i++;
-				shoppingChoiceMenu(files::load("GameFiles\\Scenarios\\" + currentScenario + "\\Resources\\merchants.json", action[i]));
-			}
-			else if (action[i] == "if") {
-				i++;
-				if (action[i] == "plotSwitch") {
-					i++;
-					unsigned int index = stoi(action[i]);
-					i++;
-					unsigned int statementTrueSize = stoi(action[i]);
-					if (plotSwitches[index] == true) {
-						continue;
+					if (action[i] == "weapon")
+					{
+						i++;
+						hero_.add_to_inventory(items::weapons[action[i]]);
 					}
-					else {
-						i += statementTrueSize + 1;	//1 is for the number of commands digit in the file
-						continue;
+					else if (action[i] == "armor")
+					{
+						i++;
+						hero_.add_to_inventory(items::armors[action[i]]);
+					}
+					else if (action[i] == "spell")
+					{
+						i++;
+						hero_.add_to_inventory(items::spells[action[i]]);
+					}
+					else if (action[i] == "consumable")
+					{
+						hero_.add_to_inventory(items::consumables[action[i + 1]], stoi(action[i + 2]));
+						i += 2;
 					}
 				}
+				else if (action[i] == "hp")
+				{
+					i++;
+					hero_.increase_hp(stoi(action[i]));
+				}
+				else if (action[i] == "sp")
+				{
+					i++;
+					hero_.increase_sp(stoi(action[i]));
+				}
+				else if (action[i] == "mp")
+				{
+					i++;
+					hero_.increase_mp(stoi(action[i]));
+				}
+				else if (action[i] == "exp")
+				{
+					i++;
+					hero_.add_exp(stoi(action[i]));
+				}
+				else if (action[i] == "money")
+				{
+					i++;
+					hero_.add_money(stoi(action[i]));
+				}
 			}
-			else if (action[i] == "endTrue") {
+			else if (action[i] == "setSubLocation")
+			{
+				i++;
+				hero_.set_sub_location(stoi(action[i]));
+			}
+			else if (action[i] == "setLocation")
+			{
+				i++;
+				hero_.set_location(stoi(action[i]));
+			}
+			else if (action[i] == "fight")
+			{
+				i++;
+				fight(enemies[action[i]]);
+			}
+			else if (action[i] == "printMenuGfx") { i++, print_menu_gfx(vector<string>{""}, graphics[action[i]]); }
+			else if (action[i] == "actionText")
+			{
+				i++;
+				location_action_gfx(m_line_texts[action[i]]);
+			}
+			else if (action[i] == "description")
+			{
+				i++;
+				description = m_line_texts[action[i]];
+			}
+			else if (action[i] == "optionsPopBack")
+			{
+				options.pop_back();
+				choice--;
+			}
+			else if (action[i] == "merchant")
+			{
+				i++;
+				shopping_choice_menu(files::load(
+					"GameFiles\\Scenarios\\" + current_scenario + "\\Resources\\merchants.json", action[i]));
+			}
+			else if (action[i] == "if")
+			{
+				i++;
+				if (action[i] == "plotSwitch")
+				{
+					i++;
+					const unsigned int index = stoi(action[i]);
+					i++;
+					const unsigned int statement_true_size = stoi(action[i]);
+					if (plot_switches_[index] == true)
+					{
+						continue;
+					}
+					else
+					{
+						i += statement_true_size + 1; // 1 is for the number of commands digit in the file
+						continue;
+					}
+				}
+			}
+			else if (action[i] == "endTrue")
+			{
 				i++;
 				i += stoi(action[i]) + 1;
 			}
@@ -619,50 +795,52 @@ void Game::jsonToStory() {
 		return false;
 	};
 
-	while (inSession) {
+	while (in_session_)
+	{
 		choice = 0;
-		json subLocation = scenario["location" + to_string(hero.getLocation())][hero.getSubLocation() - 1];
+		json sub_location = scenario_["location" + to_string(hero_.get_location())][hero_.get_sub_location() - 1];
 
-		if (subLocation["description"] != "NONE") description = mLineTexts.at(subLocation["description"]);
-		options = mLineTexts.at(subLocation["options"]);
+		if (sub_location["description"] != "NONE") description = m_line_texts.at(sub_location["description"]);
+		options = m_line_texts.at(sub_location["options"]);
 
-		if (subLocation["save"] == true)heroToTempHero();
-		DisplayGfx(31, 1, locationTextBlank);
-		DisplayGfx(1, 22, locationOptionsBlank);
+		if (sub_location["save"] == true)hero_to_temp_hero();
+		display_gfx(31, 1, location_text_blank);
+		display_gfx(1, 22, location_options_blank);
 
-		action = subLocation["preOptions"].get<vector<string>>();
-		parseAction();
+		action = sub_location["preOptions"].get<vector<string>>();
+		parse_action();
 
-		while (true) {
-			if (subLocation["ambience"][0].get<string>() != "NONE") {
-				audio.ambience(100.0f);
-				audio.ambience(subLocation["ambience"][0].get<string>(), subLocation["ambience"][1].get<bool>());
+		while (true)
+		{
+			if (sub_location["ambience"][0].get<string>() != "NONE")
+			{
+				sounds.ambience(100.0f);
+				sounds.ambience(sub_location["ambience"][0].get<string>(), sub_location["ambience"][1].get<bool>());
 			}
-			else if (subLocation["ambience"][0].get<string>() == "NONE") {
-				audio.ambience(0.0f);
-				audio.ambience(subLocation["ambience"][1].get<bool>());
+			else if (sub_location["ambience"][0].get<string>() == "NONE")
+			{
+				sounds.ambience(0.0f);
+				sounds.ambience(sub_location["ambience"][1].get<bool>());
 			}
 
-			locationMenu(choice, description, options, graphics.at(subLocation["graphics"]));
-			if (!inSession) {
+			location_menu(choice, description, options, graphics.at(sub_location["graphics"]));
+			if (!in_session_)
+			{
 				break;
 			}
 
-			action = subLocation["preChoice"].get<vector<string>>();
-			parseAction();
+			action = sub_location["preChoice"].get<vector<string>>();
+			parse_action();
 
-			action = subLocation["choice"][choice]["action"].get<vector<string>>();
-			if (parseAction())break;
-			if (!inSession) {
-				break;
-			}
+			action = sub_location["choice"][choice]["action"].get<vector<string>>();
+			if (parse_action() || !in_session_) { break; }
 		}
-		action = subLocation["afterChoice"].get<vector<string>>();
-		parseAction();
+		action = sub_location["afterChoice"].get<vector<string>>();
+		parse_action();
 	}
 
-	audio.ambience(false);
-	audio.mainMenu(true);
-	audio.otherClear();
-	setFontSize(globalFontSize + 32);
+	sounds.ambience(false);
+	sounds.main_menu(true);
+	sounds.clear_sound_list();
+	set_font_size(global_font_size + 32);
 }
