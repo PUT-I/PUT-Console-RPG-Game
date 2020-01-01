@@ -1,5 +1,7 @@
 #pragma once
 
+#include <nlohmann/json.hpp>
+
 #include "item.hpp"
 
 class armor final : public item
@@ -18,10 +20,10 @@ public:
 
 	void load(std::ifstream& in) override;
 
-	void load(const json& item_info) override;
+	void load(const nlohmann::json& item_info) override;
 
 	const std::vector<std::string> load_gfx() const override;
 
 	// Accessors ------------------------------
-	const int& get_dmg_protection() const noexcept;
+	const int& get_dmg_protection() const;
 };

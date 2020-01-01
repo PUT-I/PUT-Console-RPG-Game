@@ -34,9 +34,9 @@ int story_font_inc;
 string language;
 string code_page;
 
-const vector<string> lines{ 20, "|" };
-const vector<string> location_text_blank{ 20, string(51, ' ') };
-const vector<string> location_options_blank{ 5, string(81, ' ') };
-const string equal_signs{ string(81, '=') };
+const vector<string> lines{20, "|"};
+const vector<string> location_text_blank{20, string(51, ' ')};
+const vector<string> location_options_blank{5, string(81, ' ')};
+const string equal_signs{string(81, '=')};
 
 sound_manager sounds;

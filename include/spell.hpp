@@ -21,16 +21,16 @@ public:
 
 	void load(std::ifstream& in) override;
 
-	void load(const json& item_info) override;
+	void load(const nlohmann::json& item_info) override;
 
 	const std::vector<std::string> load_gfx() const override;
 
 	// Modifiers ------------------------------
-	void decrease_span() noexcept;
+	void decrease_span();
 
 	// Accessors ------------------------------
-	const std::string& get_effect() const noexcept;
-	const int& get_power() const noexcept;
-	const int& get_mana() const noexcept;
-	const int& get_span() const noexcept;
+	const std::string& get_effect() const;
+	const int& get_power() const;
+	const int& get_mana() const;
+	const int& get_span() const;
 };

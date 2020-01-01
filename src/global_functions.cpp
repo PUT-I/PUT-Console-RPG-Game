@@ -1,4 +1,5 @@
 #include "global_functions.hpp"
+
 #include <random>
 
 using namespace std;
@@ -8,7 +9,7 @@ vector<shared_ptr<item>> item_type_find(const vector<shared_ptr<item>>& items, c
 {
 	vector<shared_ptr<item>> type_items;
 
-	if (items.size() == 0) return type_items;
+	if (items.empty()) return type_items;
 
 	for (const shared_ptr<item>& e : items)
 	{

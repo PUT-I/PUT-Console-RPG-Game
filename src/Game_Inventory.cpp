@@ -1,5 +1,7 @@
 #include "game.hpp"
 
+#include <iostream>
+
 #include "color_util.hpp"
 #include "console_util.hpp"
 #include "enemy.hpp"

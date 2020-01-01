@@ -1,10 +1,14 @@
 #include "spell.hpp"
 
+#include <fstream>
+#include <iomanip>
+
 #include "exceptions.hpp"
 #include "files_util.hpp"
 #include "global_variables.hpp"
 
 using namespace std;
+using namespace nlohmann;
 
 spell::spell()
 {
@@ -72,27 +76,27 @@ const vector<string> spell::load_gfx() const
 		"GameFiles\\Scenarios\\" + current_scenario + "\\Resources\\Graphics\\Spells\\" + gfx_dir_ + ".txt");
 }
 
-void spell::decrease_span() noexcept
+void spell::decrease_span()
 {
 	span_--;
 }
 
-const string& spell::get_effect() const noexcept
+const string& spell::get_effect() const
 {
 	return this->effect_;
 }
 
-const int& spell::get_power() const noexcept
+const int& spell::get_power() const
 {
 	return this->power_;
 }
 
-const int& spell::get_mana() const noexcept
+const int& spell::get_mana() const
 {
 	return this->mana_;
 }
 
-const int& spell::get_span() const noexcept
+const int& spell::get_span() const
 {
 	return this->span_;
 }

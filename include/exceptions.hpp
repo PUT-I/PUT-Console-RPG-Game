@@ -5,11 +5,11 @@
 class resource_exception final : public std::exception
 {
 public:
-	resource_exception() noexcept : std::exception()
+	resource_exception() : std::exception()
 	{
 	}
 
-	explicit resource_exception(char const* const message) noexcept : std::exception(message)
+	explicit resource_exception(char const* const message) : std::exception(message)
 	{
 	}
 };

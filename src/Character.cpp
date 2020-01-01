@@ -1,5 +1,9 @@
 #include "character.hpp"
 
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+
 #include "color_util.hpp"
 #include "console_util.hpp"
 #include "files_util.hpp"
@@ -8,6 +12,7 @@
 #include "sound_manager.hpp"
 
 using namespace std;
+using namespace nlohmann;
 
 character::character()
 {
@@ -65,172 +70,172 @@ character::character()
 
 character::~character() = default;
 
-void character::set_location(const int& var) noexcept
+void character::set_location(const int& var)
 {
 	this->location_ = var;
 }
 
-void character::set_sub_location(const int& var) noexcept
+void character::set_sub_location(const int& var)
 {
 	this->sub_location_ = var;
 }
 
-const string& character::get_type() const noexcept
+const string& character::get_type() const
 {
 	return type_;
 }
 
-const int& character::get_location() const noexcept
+const int& character::get_location() const
 {
 	return this->location_;
 }
 
-const int& character::get_sub_location() const noexcept
+const int& character::get_sub_location() const
 {
 	return this->sub_location_;
 }
 
-const string& character::get_name() const noexcept
+const string& character::get_name() const
 {
 	return this->name_;
 }
 
-const int& character::get_level() const noexcept
+const int& character::get_level() const
 {
 	return this->level_;
 }
 
-const int& character::get_exp() const noexcept
+const int& character::get_exp() const
 {
 	return this->exp_;
 }
 
-const int& character::get_exp_next() const noexcept
+const int& character::get_exp_next() const
 {
 	return this->exp_next_;
 }
 
-const int& character::get_hp() const noexcept
+const int& character::get_hp() const
 {
 	return this->hp_;
 }
 
-const int& character::get_hp_max() const noexcept
+const int& character::get_hp_max() const
 {
 	return this->hp_max_;
 }
 
-const int& character::get_sp() const noexcept
+const int& character::get_sp() const
 {
 	return this->sp_;
 }
 
-const int& character::get_sp_max() const noexcept
+const int& character::get_sp_max() const
 {
 	return this->sp_max_;
 }
 
-const int& character::get_mp() const noexcept
+const int& character::get_mp() const
 {
 	return this->mp_;
 }
 
-const int& character::get_mp_max() const noexcept
+const int& character::get_mp_max() const
 {
 	return this->mp_max_;
 }
 
-const int& character::get_base_dmg_min() const noexcept
+const int& character::get_base_dmg_min() const
 {
 	return this->base_dmg_min_;
 }
 
-const int& character::get_base_dmg_max() const noexcept
+const int& character::get_base_dmg_max() const
 {
 	return this->base_dmg_max_;
 }
 
-const int& character::get_dmg_min() const noexcept
+const int& character::get_dmg_min() const
 {
 	return this->dmg_min_;
 }
 
-const int& character::get_dmg_max() const noexcept
+const int& character::get_dmg_max() const
 {
 	return this->dmg_max_;
 }
 
-const int& character::get_defence() const noexcept
+const int& character::get_defence() const
 {
 	return this->defence_;
 }
 
-const int& character::get_hit_c() const noexcept
+const int& character::get_hit_c() const
 {
 	return this->hit_chance_;
 }
 
-const int& character::get_evasion_c() const noexcept
+const int& character::get_evasion_c() const
 {
 	return this->evasion_chance_;
 }
 
-const int& character::get_strength() const noexcept
+const int& character::get_strength() const
 {
 	return this->strength_;
 }
 
-const int& character::get_endurance() const noexcept
+const int& character::get_endurance() const
 {
 	return this->endurance_;
 }
 
-const int& character::get_willpower() const noexcept
+const int& character::get_willpower() const
 {
 	return this->willpower_;
 }
 
-const int& character::get_agility() const noexcept
+const int& character::get_agility() const
 {
 	return this->agility_;
 }
 
-const int& character::get_stat1_points() const noexcept
+const int& character::get_stat1_points() const
 {
 	return this->stat1_points_;
 }
 
-const int& character::get_stat2_points() const noexcept
+const int& character::get_stat2_points() const
 {
 	return this->stat2_points_;
 }
 
-const vector<shared_ptr<item>>& character::get_inventory() const noexcept
+const vector<shared_ptr<item>>& character::get_inventory() const
 {
 	return this->inventory_;
 }
 
-vector<shared_ptr<item>>& character::get_inventory() noexcept
+vector<shared_ptr<item>>& character::get_inventory()
 {
 	return this->inventory_;
 }
 
-const weapon& character::get_weapon() const noexcept
+const weapon& character::get_weapon() const
 {
 	return this->weapon_;
 }
 
-const armor& character::get_armor() const noexcept
+const armor& character::get_armor() const
 {
 	return this->armor_;
 }
 
-armor& character::get_armor() noexcept
+armor& character::get_armor()
 {
 	return this->armor_;
 }
 
-const int& character::get_money() const noexcept
+const int& character::get_money() const
 {
 	return money_;
 }
@@ -240,7 +245,7 @@ void character::replace_inventory(const vector<shared_ptr<item>>& items)
 	inventory_ = items;
 }
 
-const vector<spell>& character::get_active_spells() const noexcept
+const vector<spell>& character::get_active_spells() const
 {
 	return active_spells_;
 }
@@ -254,14 +259,14 @@ void character::clear()
 	armor_ = armor();
 }
 
-void character::refresh_item_dependent() noexcept
+void character::refresh_item_dependent()
 {
 	this->dmg_min_ = base_dmg_min_ + weapon_.get_dmg_min();
 	this->dmg_max_ = base_dmg_max_ + weapon_.get_dmg_max();
 	this->defence_ = base_defence_ + armor_.get_dmg_protection();
 }
 
-void character::refresh_stat_dependent() noexcept
+void character::refresh_stat_dependent()
 {
 	this->base_dmg_min_ = strength_;
 	this->base_dmg_max_ = strength_ * 2;
@@ -895,7 +900,7 @@ void character::get_spell(const spell& spell)
 	}
 }
 
-void character::clear_active_spells() noexcept
+void character::clear_active_spells()
 {
 	active_spells_.clear();
 }
@@ -978,7 +983,7 @@ void character::load(const string& name)
 	{
 		weapon_.load(in);
 		armor_.load(in);
-		inventory_ = files::load(in);
+		inventory_ = files::load_inventory(in);
 	}
 
 	in.close();
@@ -988,7 +993,7 @@ void character::load(const string& name)
 }
 
 // Fighting -------------------------------
-void character::increase_hp(const int& inc) noexcept
+void character::increase_hp(const int& inc)
 {
 	if (inc > 0)
 	{
@@ -997,7 +1002,7 @@ void character::increase_hp(const int& inc) noexcept
 	}
 }
 
-void character::increase_sp(const int& inc) noexcept
+void character::increase_sp(const int& inc)
 {
 	if (inc > 0)
 	{
@@ -1006,7 +1011,7 @@ void character::increase_sp(const int& inc) noexcept
 	}
 }
 
-void character::increase_mp(const int& inc) noexcept
+void character::increase_mp(const int& inc)
 {
 	if (inc > 0)
 	{
@@ -1015,7 +1020,7 @@ void character::increase_mp(const int& inc) noexcept
 	}
 }
 
-void character::get_damaged(const int& dmg) noexcept
+void character::get_damaged(const int& dmg)
 {
 	if (dmg - defence_ > 0)
 	{
@@ -1024,7 +1029,7 @@ void character::get_damaged(const int& dmg) noexcept
 	}
 }
 
-void character::decrease_sp(const int& dec) noexcept
+void character::decrease_sp(const int& dec)
 {
 	if (dec > 0)
 	{
@@ -1033,7 +1038,7 @@ void character::decrease_sp(const int& dec) noexcept
 	}
 }
 
-void character::decrease_money(const int& dec) noexcept
+void character::decrease_money(const int& dec)
 {
 	if (dec > 0)
 	{
@@ -1042,12 +1047,12 @@ void character::decrease_money(const int& dec) noexcept
 	}
 }
 
-void character::increase_def(const int& inc) noexcept
+void character::increase_def(const int& inc)
 {
 	if (inc > 0) defence_ += inc;
 }
 
-void character::increase_ev(const int& inc) noexcept
+void character::increase_ev(const int& inc)
 {
 	if (inc > 0)
 	{
@@ -1055,7 +1060,7 @@ void character::increase_ev(const int& inc) noexcept
 	}
 }
 
-void character::add_money(const int& inc) noexcept
+void character::add_money(const int& inc)
 {
 	if (inc > 0)
 	{

@@ -1,10 +1,14 @@
 #include "consumable.hpp"
 
+#include <fstream>
+#include <iomanip>
+
 #include "exceptions.hpp"
 #include "files_util.hpp"
 #include "global_variables.hpp"
 
 using namespace std;
+using namespace nlohmann;
 
 consumable::consumable()
 {
@@ -64,12 +68,12 @@ const vector<string> consumable::load_gfx() const
 		"GameFiles\\Scenarios\\" + current_scenario + "\\Resources\\Graphics\\Consumables\\" + gfx_dir_ + ".txt");
 }
 
-const string& consumable::get_effect() const noexcept
+const string& consumable::get_effect() const
 {
 	return this->effect_;
 }
 
-const int& consumable::get_power() const noexcept
+const int& consumable::get_power() const
 {
 	return this->power_;
 }

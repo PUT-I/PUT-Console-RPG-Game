@@ -1,6 +1,5 @@
 #pragma once
 
-#include "global_headers.h"
 #include "item.hpp"
 
 std::string utf8_to_ansi(std::string str, const std::vector<std::string>& utf_vector,
@@ -28,20 +27,20 @@ namespace files
 	void save(std::ofstream& out, const std::vector<std::shared_ptr<item>>& inv);
 
 	template <class T>
-	void load_map(const json& item_tab, std::map<std::string, T>& map)
+	void load_map(const nlohmann::json& item_tab, std::map<std::string, T>& map)
 	{
 		std::shared_ptr<item> item = std::make_shared<T>();
 		map.clear();
 
-		for (const json& e : item_tab["tab"])
+		for (const nlohmann::json& e : item_tab["tab"])
 		{
 			item->load(e["itemInfo"]);
 			map[e["key"]] = *std::dynamic_pointer_cast<T>(item);
 		}
 	}
 
-	const std::vector<std::shared_ptr<item>> load(std::ifstream& in);
-	const std::vector<std::shared_ptr<item>> load(const std::string& file_dir, const std::string& which);
+	const std::vector<std::shared_ptr<item>> load_inventory(std::ifstream& in);
+	const std::vector<std::shared_ptr<item>> load_inventory(const std::string& file_dir, const std::string& which);
 
 	void load_graphics();
 }

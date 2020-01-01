@@ -1,10 +1,14 @@
 #include "weapon.hpp"
 
+#include <fstream>
+#include <iomanip>
+
 #include "exceptions.hpp"
 #include "files_util.hpp"
 #include "global_variables.hpp"
 
 using namespace std;
+using namespace nlohmann;
 
 weapon::weapon()
 {
@@ -68,12 +72,12 @@ const vector<string> weapon::load_gfx() const
 	);
 }
 
-const int& weapon::get_dmg_min() const noexcept
+const int& weapon::get_dmg_min() const
 {
 	return this->dmg_min_;
 }
 
-const int& weapon::get_dmg_max() const noexcept
+const int& weapon::get_dmg_max() const
 {
 	return this->dmg_max_;
 }

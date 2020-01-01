@@ -1,5 +1,7 @@
 #pragma once
 
+#include <nlohmann/json.hpp>
+
 #include "character.hpp"
 
 class enemy final : public character
@@ -17,12 +19,12 @@ public:
 	~enemy() = default;
 
 	// Functions ------------------------------
-	void refresh_stat_dependent() noexcept override;
+	void refresh_stat_dependent() override;
 	const std::vector<std::string> load_gfx() const;
-	void load(const json& enemy_info);
+	void load(const nlohmann::json& enemy_info);
 
 	// Accessors ------------------------------
-	const std::string& get_gfx_dir() const noexcept;
-	const std::string& get_sfx_dir() const noexcept;
+	const std::string& get_gfx_dir() const;
+	const std::string& get_sfx_dir() const;
 	const std::string load_name() const;
 };

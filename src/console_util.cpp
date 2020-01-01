@@ -1,6 +1,7 @@
 #include "console_util.hpp"
 
 #include <conio.h>
+#include <iostream>
 
 #include "global_variables.hpp"
 #include "sound_manager.hpp"
@@ -8,53 +9,53 @@
 using namespace std;
 
 // Checking Keyboard Input ---------------
-const bool check_enter() noexcept
+const bool check_enter()
 {
 	return GetAsyncKeyState(VK_RETURN) & 0x8000;
 }
 
-const bool check_space() noexcept
+const bool check_space()
 {
 	return GetAsyncKeyState(VK_SPACE) & 0x8000;
 }
 
-const bool check_escape() noexcept
+const bool check_escape()
 {
 	return GetAsyncKeyState(VK_ESCAPE) & 0x8000;
 }
 
-const bool check_left_arrow() noexcept
+const bool check_left_arrow()
 {
 	return GetAsyncKeyState(VK_LEFT) & 0x8000;
 }
 
-const bool check_right_arrow() noexcept
+const bool check_right_arrow()
 {
 	return GetAsyncKeyState(VK_RIGHT) & 0x8000;
 }
 
-const bool check_up_arrow() noexcept
+const bool check_up_arrow()
 {
 	return GetAsyncKeyState(VK_UP) & 0x8000;
 }
 
-const bool check_down_arrow() noexcept
+const bool check_down_arrow()
 {
 	return GetAsyncKeyState(VK_DOWN) & 0x8000;
 }
 
-const bool check_alt() noexcept
+const bool check_alt()
 {
 	return GetAsyncKeyState(VK_MENU) & 0x8000;
 }
 
-void check_alt_f4() noexcept
+void check_alt_f4()
 {
 	if (check_alt() && GetAsyncKeyState(VK_F4) & 0x8000) exit(0);
 }
 
 // Console Manipulation ------------------
-void set_font_size(const int& font_size) noexcept
+void set_font_size(const int& font_size)
 {
 	CONSOLE_FONT_INFOEX info = {0};
 	info.cbSize = sizeof(info);
@@ -72,7 +73,7 @@ void clear_console_input_buffer()
 	delete[] clearing_var1;
 }
 
-void show_console_cursor(const bool& show_flag) noexcept
+void show_console_cursor(const bool& show_flag)
 {
 	HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -83,7 +84,7 @@ void show_console_cursor(const bool& show_flag) noexcept
 	SetConsoleCursorInfo(out, &cursor_info);
 }
 
-void clear_console() noexcept
+void clear_console()
 {
 	const COORD top_left = {0, 0};
 	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -117,7 +118,7 @@ void input_string(string& str, const unsigned int& limit)
 		{
 			check_alt_f4();
 
-			if (check_enter() && str.size() > 0)
+			if (check_enter() && !str.empty())
 			{
 				sounds.play_sound(sound_manager::enter);
 				break;
@@ -130,7 +131,7 @@ void input_string(string& str, const unsigned int& limit)
 			else if (c == 0x08)
 			{
 				// When backspace pressed
-				if (str.size() > 0)
+				if (!str.empty())
 				{
 					str.pop_back();
 				}
@@ -147,7 +148,7 @@ void input_string(string& str, const unsigned int& limit)
 	while (true);
 }
 
-const pair<int, int> get_desktop_resolution() noexcept
+const pair<int, int> get_desktop_resolution()
 {
 	pair<int, int> resolution;
 
@@ -157,7 +158,7 @@ const pair<int, int> get_desktop_resolution() noexcept
 	return resolution;
 }
 
-void full_screen(const bool& yes_no) noexcept
+void full_screen(const bool& yes_no)
 {
 	if (yes_no)
 	{
@@ -169,19 +170,19 @@ void full_screen(const bool& yes_no) noexcept
 	}
 }
 
-const COORD get_cursor_pos() noexcept
+const COORD get_cursor_pos()
 {
 	CONSOLE_SCREEN_BUFFER_INFO cbsi;
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cbsi);
 	return cbsi.dwCursorPosition;
 }
 
-void cursor_pos(const COORD& c) noexcept
+void cursor_pos(const COORD& c)
 {
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
 }
 
-void cursor_pos(const unsigned int& x, const unsigned int& y) noexcept
+void cursor_pos(const unsigned int& x, const unsigned int& y)
 {
 	COORD c;
 	c.X = x;
@@ -189,12 +190,12 @@ void cursor_pos(const unsigned int& x, const unsigned int& y) noexcept
 	cursor_pos(c);
 }
 
-void cursor_pos_begin() noexcept
+void cursor_pos_begin()
 {
 	cursor_pos(0, 0);
 }
 
-void cursor_move(const int& mov_x, const int& mov_y) noexcept
+void cursor_move(const int& mov_x, const int& mov_y)
 {
 	COORD c = get_cursor_pos();
 	c.X += mov_x;
@@ -212,7 +213,7 @@ void space_pause()
 	clear_console_input_buffer();
 }
 
-void adapt_location_font_size() noexcept
+void adapt_location_font_size()
 {
 	const pair<int, int> resolution = get_desktop_resolution();
 
@@ -238,16 +239,6 @@ void adapt_font_size()
 		const float temp = float((-3.0f / 500000.0f) * pow(resolution.first, 2) + 0.0511 * resolution.first - 51.634f);
 		global_font_size = int(round(temp));
 	}
-	// else if (resolution.first <= 1280) globalFontSize = 5;
-	// else if (resolution.first >= 1360 && resolution.first <= 1368) globalFontSize = 8;
-	// else if (resolution.first == 1440) globalFontSize = 10;
-	// else if (resolution.first == 1600) globalFontSize = 15;
-	// else if (resolution.first == 1768) globalFontSize = 20;
-	// else if (resolution.first == 1920) globalFontSize = 25;
-	// else if (resolution.first == 2103) globalFontSize = 30;
-	// else if (resolution.first == 2351) globalFontSize = 38;
-	// else if (resolution.first >= 2560 && resolution.first < 3840) globalFontSize = 43;
-	// else if (resolution.first >= 3840) globalFontSize = 32;
 }
 
 // GFX -----------------------------------
@@ -279,13 +270,13 @@ void print_box(const unsigned int& x_pos, const unsigned int& y_pos, const unsig
 	coordinates2.X = x_pos + 1;
 	coordinates2.Y = y_pos + height + 1;
 
-	const string equalSigns{string(width, '=')};
+	const string equal_signs{string(width, '=')};
 
 	cursor_pos(coordinates1);
-	cout << equalSigns;
+	cout << equal_signs;
 
 	cursor_pos(coordinates2);
-	cout << equalSigns;
+	cout << equal_signs;
 }
 
 void print_text(const unsigned int& x_pos, const unsigned int& y_pos, const string& text)

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "character.hpp"
-#include "global_headers.h"
 
 class enemy;
 
@@ -12,7 +11,7 @@ private:
 	bool playing_; // If false the game is closed
 	bool in_session_; // It indicates if player is actually playing
 	bool plot_switches_[10]{};
-	json scenario_{};
+	nlohmann::json scenario_{};
 
 	// Character ------------------------------
 	character hero_{};
@@ -20,7 +19,7 @@ private:
 
 	// Constructors and destructor ------------
 public:
-	game() noexcept;
+	game();
 	~game() = default;
 
 private:
@@ -91,5 +90,5 @@ private:
 	void json_to_story();
 
 	// Accessors ------------------------------
-	const bool& get_playing() const noexcept { return this->playing_; }
+	const bool& get_playing() const { return this->playing_; }
 };

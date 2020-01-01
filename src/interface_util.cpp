@@ -1,5 +1,7 @@
 #include "interface_util.hpp"
 
+#include <iostream>
+
 #include "color_util.hpp"
 #include "console_util.hpp"
 #include "global_variables.hpp"
@@ -8,7 +10,7 @@
 using namespace std;
 
 // Controls -------------------------------
-void choice_limit(unsigned int& choice, const unsigned int& ceil) noexcept
+void choice_limit(unsigned int& choice, const unsigned int& ceil)
 {
 	if (choice >= ceil) choice = ceil - 1;
 }

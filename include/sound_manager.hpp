@@ -1,6 +1,10 @@
 #pragma once
 
-#include "global_headers.h"
+#include <list>
+#include <map>
+#include <mutex>
+#include <thread>
+
 #include "SFML/Audio.hpp"
 
 int rand_int(const int& min, const int& max);
@@ -75,8 +79,8 @@ public:
 	void main_menu_reload();
 
 	// Accessors -----------------------------
-	const bool& get_enabled() const noexcept { return enabled_; }
+	const bool& get_enabled() const;
 
 	// Modifiers -----------------------------
-	void set_enabled(const bool& enabled) noexcept;
+	void set_enabled(const bool& enabled);
 };

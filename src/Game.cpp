@@ -1,5 +1,10 @@
 #include "game.hpp"
 
+#include <filesystem>
+#include <fstream>
+#include <iostream>
+#include <nlohmann/json.hpp>
+
 #include "color_util.hpp"
 #include "console_util.hpp"
 #include "enemy.hpp"
@@ -9,8 +14,9 @@
 #include "sound_manager.hpp"
 
 using namespace std;
+using namespace nlohmann;
 
-game::game() noexcept
+game::game()
 {
 	// Settings loading -----------------------
 	if (!files::exists("GameFiles\\settings.json"))
@@ -763,7 +769,7 @@ void game::json_to_story()
 			else if (action[i] == "merchant")
 			{
 				i++;
-				shopping_choice_menu(files::load(
+				shopping_choice_menu(files::load_inventory(
 					"GameFiles\\Scenarios\\" + current_scenario + "\\Resources\\merchants.json", action[i]));
 			}
 			else if (action[i] == "if")

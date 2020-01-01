@@ -246,7 +246,6 @@
     <ClInclude Include="include\enemy.hpp" />
     <ClInclude Include="include\exceptions.hpp" />
     <ClInclude Include="include\files_util.hpp" />
-    <ClInclude Include="include\global_headers.h" />
     <ClInclude Include="include\game.hpp" />
     <ClInclude Include="include\global_functions.hpp" />
     <ClInclude Include="include\global_variables.hpp" />

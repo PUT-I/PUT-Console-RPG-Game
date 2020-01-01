@@ -1,8 +1,11 @@
 #pragma once
 
+#include <memory>
+#include <string>
+#include <vector>
+
 #include "armor.hpp"
 #include "consumable.hpp"
-#include "global_headers.h"
 #include "item.hpp"
 #include "spell.hpp"
 #include "weapon.hpp"
@@ -68,8 +71,8 @@ public:
 
 	// Functions ------------------------------
 	void clear();
-	void refresh_item_dependent() noexcept;
-	virtual void refresh_stat_dependent() noexcept;
+	void refresh_item_dependent();
+	virtual void refresh_stat_dependent();
 
 	void stats1_setup();
 	auto stats2_setup() -> void;
@@ -82,8 +85,8 @@ public:
 	void level_up();
 
 	// Modifiers ------------------------------
-	void set_location(const int& var) noexcept;
-	void set_sub_location(const int& var) noexcept;
+	void set_location(const int& var);
+	void set_sub_location(const int& var);
 	void add_to_inventory(const std::shared_ptr<item>& item1);
 	void add_to_inventory(const weapon& weapon1);
 	void add_to_inventory(const armor& armor1);
@@ -111,54 +114,54 @@ private:
 	void cast_spell(const spell& spell);
 	void get_spell(const spell& spell);
 public:
-	void clear_active_spells() noexcept;
+	void clear_active_spells();
 
 	/*------------------------------ Accessors ------------------------------*/
-	const std::string& get_type() const noexcept;
+	const std::string& get_type() const;
 
 	// Location Accessors ---------------------
-	const int& get_location() const noexcept;
-	const int& get_sub_location() const noexcept;
+	const int& get_location() const;
+	const int& get_sub_location() const;
 
-	const std::string& get_name() const noexcept;
+	const std::string& get_name() const;
 
 	// Levelling Accessors---------------------
-	const int& get_level() const noexcept;
-	const int& get_exp() const noexcept;
-	const int& get_exp_next() const noexcept;
+	const int& get_level() const;
+	const int& get_exp() const;
+	const int& get_exp_next() const;
 
 	// Stats1 Accessors -----------------------
-	const int& get_hp() const noexcept;
-	const int& get_hp_max() const noexcept;
-	const int& get_sp() const noexcept;
-	const int& get_sp_max() const noexcept;
-	const int& get_mp() const noexcept;
-	const int& get_mp_max() const noexcept;
+	const int& get_hp() const;
+	const int& get_hp_max() const;
+	const int& get_sp() const;
+	const int& get_sp_max() const;
+	const int& get_mp() const;
+	const int& get_mp_max() const;
 
 	// Dependent stats Accessors --------------
-	const int& get_base_dmg_min() const noexcept;
-	const int& get_base_dmg_max() const noexcept;
-	const int& get_dmg_min() const noexcept;
-	const int& get_dmg_max() const noexcept;
-	const int& get_defence() const noexcept;
-	const int& get_hit_c() const noexcept;
-	const int& get_evasion_c() const noexcept;
+	const int& get_base_dmg_min() const;
+	const int& get_base_dmg_max() const;
+	const int& get_dmg_min() const;
+	const int& get_dmg_max() const;
+	const int& get_defence() const;
+	const int& get_hit_c() const;
+	const int& get_evasion_c() const;
 
 	// Stats2 Accessors -----------------------
-	const int& get_strength() const noexcept;
-	const int& get_endurance() const noexcept;
-	const int& get_willpower() const noexcept;
-	const int& get_agility() const noexcept;
-	const int& get_stat1_points() const noexcept;
-	const int& get_stat2_points() const noexcept;
+	const int& get_strength() const;
+	const int& get_endurance() const;
+	const int& get_willpower() const;
+	const int& get_agility() const;
+	const int& get_stat1_points() const;
+	const int& get_stat2_points() const;
 
 	// Equipment Accessors --------------------
-	const std::vector<std::shared_ptr<item>>& get_inventory() const noexcept;
-	std::vector<std::shared_ptr<item>>& get_inventory() noexcept;
-	const weapon& get_weapon() const noexcept;
-	const armor& get_armor() const noexcept;
-	armor& get_armor() noexcept;
-	const int& get_money() const noexcept;
+	const std::vector<std::shared_ptr<item>>& get_inventory() const;
+	std::vector<std::shared_ptr<item>>& get_inventory();
+	const weapon& get_weapon() const;
+	const armor& get_armor() const;
+	armor& get_armor();
+	const int& get_money() const;
 	/*-----------------------------------------------------------------------*/
 
 
@@ -167,16 +170,16 @@ public:
 	void load(const std::string& name);
 
 	// Other Modifiers ------------------------
-	void increase_hp(const int& inc) noexcept;
-	void increase_sp(const int& inc) noexcept;
-	void increase_mp(const int& inc) noexcept;
-	void get_damaged(const int& dmg) noexcept;
-	void decrease_sp(const int& dec) noexcept;
-	void decrease_money(const int& dec) noexcept;
-	void increase_def(const int& inc) noexcept;
-	void increase_ev(const int& inc) noexcept;
-	void add_money(const int& inc) noexcept;
+	void increase_hp(const int& inc);
+	void increase_sp(const int& inc);
+	void increase_mp(const int& inc);
+	void get_damaged(const int& dmg);
+	void decrease_sp(const int& dec);
+	void decrease_money(const int& dec);
+	void increase_def(const int& inc);
+	void increase_ev(const int& inc);
+	void add_money(const int& inc);
 	void replace_inventory(const std::vector<std::shared_ptr<item>>& items);
 
-	const std::vector<spell>& get_active_spells() const noexcept;
+	const std::vector<spell>& get_active_spells() const;
 };

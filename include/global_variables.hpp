@@ -4,7 +4,6 @@
 #include "color_util.hpp"
 #include "consumable.hpp"
 #include "enemy.hpp"
-#include "global_headers.h"
 #include "sound_manager.hpp"
 #include "spell.hpp"
 #include "weapon.hpp"

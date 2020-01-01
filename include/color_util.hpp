@@ -1,6 +1,6 @@
 #pragma once
 
-#include "global_headers.h"
+#include <string>
 
 class color_util
 {
@@ -19,10 +19,10 @@ public:
 	~color_util();
 
 	// Modifiers ------------------------------
-	void set_greyscale(const bool& yes_no) noexcept;
+	void set_greyscale(const bool& yes_no);
 
 	// Accessors ------------------------------
-	const std::string& get(const std::string& choice) const noexcept;
+	const std::string& get(const std::string& choice) const;
 
-	const bool& get_greyscale() const noexcept;
+	const bool& get_greyscale() const;
 };

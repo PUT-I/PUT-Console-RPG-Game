@@ -19,11 +19,11 @@ public:
 
 	void load(std::ifstream& in) override;
 
-	void load(const json& item_info) override;
+	void load(const nlohmann::json& item_info) override;
 
 	const std::vector<std::string> load_gfx() const override;
 
 	// Accessors ------------------------------
-	const int& get_dmg_min() const noexcept;
-	const int& get_dmg_max() const noexcept;
+	const int& get_dmg_min() const;
+	const int& get_dmg_max() const;
 };

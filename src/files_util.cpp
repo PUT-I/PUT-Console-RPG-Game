@@ -1,16 +1,20 @@
 #include "files_util.hpp"
 
+#include <filesystem>
+#include <fstream>
+#include <sstream>
+
 #include "character.hpp"
 #include "color_util.hpp"
-#include "console_util.hpp"
 #include "global_variables.hpp"
 
 using namespace std;
+using namespace nlohmann;
 
 // Needed to display regional characters (nlohmann parses in UTF8 and this app uses ANSI)
 string utf8_to_ansi(string str, const vector<string>& utf_vector, const vector<string>& ansi_vector)
 {
-	if (utf_vector.size() > 0 && str.size() > 0)
+	if (!utf_vector.empty() && !str.empty())
 	{
 		bool changed;
 		do
@@ -37,7 +41,7 @@ string utf8_to_ansi(string str, const vector<string>& utf_vector, const vector<s
 vector<string> utf8_to_ansi(vector<string> string_vector, const vector<string>& utf_vector,
                             const vector<string>& ansi_vector)
 {
-	if (utf_vector.size() > 0)
+	if (!utf_vector.empty())
 	{
 		for (const string& e : string_vector)
 		{
@@ -323,7 +327,7 @@ namespace files
 		}
 	}
 
-	const vector<shared_ptr<item>> load(ifstream& in)
+	const vector<shared_ptr<item>> load_inventory(ifstream& in)
 	{
 		json item_info;
 		vector<shared_ptr<item>> inv;
@@ -364,7 +368,7 @@ namespace files
 		return inv;
 	}
 
-	const vector<shared_ptr<item>> load(const string& filedir, const string& which)
+	const vector<shared_ptr<item>> load_inventory(const string& file_dir, const string& which)
 	{
 		json file_inv;
 		vector<shared_ptr<item>> inv;
@@ -374,7 +378,7 @@ namespace files
 		spell spell_temp;
 		string category;
 
-		ifstream in(filedir);
+		ifstream in(file_dir);
 		in >> file_inv;
 		in.close();
 
@@ -431,15 +435,15 @@ namespace files
 			graphics[elem.second.get_gfx_dir()] = elem.second.load_gfx();
 		}
 		for (auto& p : filesystem::directory_iterator(
-			     "GameFiles\\Scenarios\\" + current_scenario + "\\Resources\\Graphics\\Locations"))
+			     "GameFiles\\Scenarios\\" + current_scenario + R"(\Resources\Graphics\Locations)"))
 		{
 			std::ifstream in(p);
 			string temp = p.path().filename().string();
 			temp.erase(temp.size() - 4, 4);
 			graphics[temp] = load_gfx(
-				"GameFiles\\Scenarios\\" + current_scenario + "\\Resources\\Graphics\\Locations\\" + p
-				                                                                                     .path().filename().
-				                                                                                     string());
+				"GameFiles\\Scenarios\\" + current_scenario + R"(\Resources\Graphics\Locations\)" + p
+				                                                                                    .path().filename().
+				                                                                                    string());
 			in.close();
 		}
 	}

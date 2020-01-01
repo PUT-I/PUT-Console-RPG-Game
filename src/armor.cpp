@@ -1,10 +1,14 @@
 #include "armor.hpp"
 
+#include <fstream>
+#include <iomanip>
+
 #include "exceptions.hpp"
 #include "files_util.hpp"
 #include "global_variables.hpp"
 
 using namespace std;
+using namespace nlohmann;
 
 armor::armor()
 {
@@ -63,7 +67,7 @@ const vector<string> armor::load_gfx() const
 		"GameFiles\\Scenarios\\" + current_scenario + "\\Resources\\Graphics\\Armors\\" + gfx_dir_ + ".txt");
 }
 
-const int& armor::get_dmg_protection() const noexcept
+const int& armor::get_dmg_protection() const
 {
 	return this->dmg_protection_;
 }

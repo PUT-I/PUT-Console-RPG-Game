@@ -174,8 +174,13 @@ void sound_manager::main_menu_reload()
 	main_menu_.openFromFile("GameFiles\\Scenarios\\" + current_scenario + "\\Resources\\Sounds\\MainMenu.ogg");
 }
 
+const bool& sound_manager::get_enabled() const
+{
+	return enabled_;
+}
+
 // Modifiers -----------------------------
-void sound_manager::set_enabled(const bool& enabled) noexcept
+void sound_manager::set_enabled(const bool& enabled)
 {
 	enabled_ = enabled;
 }

@@ -1,5 +1,10 @@
 #include "game.hpp"
 
+#include <filesystem>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+
 #include "color_util.hpp"
 #include "console_util.hpp"
 #include "files_util.hpp"
@@ -8,6 +13,7 @@
 #include "sound_manager.hpp"
 
 using namespace std;
+using namespace nlohmann;
 
 // Main and Pause Menus -------------------
 const bool game::pause_menu_execution(const unsigned int& choice)
@@ -127,8 +133,7 @@ void game::settings_menu()
 		while (in >> str_temp)
 		{
 			// Loads language
-			if (find(scenario_["languages"].begin(), scenario_["languages"].end(), str_temp) != scenario_["languages"].
-				end())
+			if (find(scenario_["languages"].begin(), scenario_["languages"].end(), str_temp) != scenario_["languages"].end())
 			{
 				languages.push_back(str_temp);
 				in >> str_temp; // Loads codepage

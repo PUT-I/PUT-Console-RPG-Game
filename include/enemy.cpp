@@ -4,6 +4,7 @@
 #include "global_variables.hpp"
 
 using namespace std;
+using namespace nlohmann;
 
 enemy::enemy()
 {
@@ -22,12 +23,12 @@ const vector<string> enemy::load_gfx() const
 	);
 }
 
-const string& enemy::get_gfx_dir() const noexcept
+const string& enemy::get_gfx_dir() const
 {
 	return gfx_dir_;
 }
 
-const string& enemy::get_sfx_dir() const noexcept
+const string& enemy::get_sfx_dir() const
 {
 	return sfx_dir_;
 }
@@ -37,7 +38,7 @@ const string enemy::load_name() const
 	return enemy_names[name_];
 }
 
-void enemy::refresh_stat_dependent() noexcept
+void enemy::refresh_stat_dependent()
 {
 	this->dmg_min_ = base_dmg_min_;
 	this->dmg_max_ = base_dmg_max_;

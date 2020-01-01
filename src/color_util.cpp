@@ -3,12 +3,12 @@
 color_util::color_util() = default;
 color_util::~color_util() = default;
 
-void color_util::set_greyscale(const bool& yes_no) noexcept
+void color_util::set_greyscale(const bool& yes_no)
 {
 	greyscale_ = yes_no;
 }
 
-const std::string& color_util::get(const std::string& choice) const noexcept
+const std::string& color_util::get(const std::string& choice) const
 {
 	if (choice == "grey" || choice == "5") return grey_;
 	else if (choice == "normal" || choice == "0" || greyscale_ == true) return normal_;
@@ -19,7 +19,7 @@ const std::string& color_util::get(const std::string& choice) const noexcept
 	else return normal_;
 }
 
-const bool& color_util::get_greyscale() const noexcept
+const bool& color_util::get_greyscale() const
 {
 	return greyscale_;
 }

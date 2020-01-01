@@ -1,10 +1,9 @@
 #pragma once
 
-#include "global_headers.h"
 #include "item.hpp"
 
 // Controls -------------------------------
-void choice_limit(unsigned int& choice, const unsigned int& ceil) noexcept;
+void choice_limit(unsigned int& choice, const unsigned int& ceil);
 const bool up_down_controls(unsigned int& choice, const unsigned int& ceil);
 const bool left_right_controls(bool& yes_no);
 const int up_down_esc_controls(unsigned int& choice, const unsigned int& ceil);
